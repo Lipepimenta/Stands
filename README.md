@@ -29,7 +29,7 @@ jm-stands/
 
 ## Portfólio visual
 
-O site prioriza fotos **reais da JM**. Enquanto não houver fotos cadastradas, ele mostra a seção de soluções e oculta logos e galerias vazias. Assim que um projeto com imagem for adicionado em `js/config.js`, a primeira foto aparece na abertura, as capas entram abaixo dela e o portfólio exibe cliente, evento e galeria ampliável.
+O site prioriza fotos **reais da JM**. Enquanto não houver fotos cadastradas em `projects`, ele mostra três imagens de referência claramente marcadas como **Visual conceitual**. Assim que o primeiro projeto real com imagem for adicionado em `js/config.js`, toda a vitrine conceitual é ocultada automaticamente e dá lugar aos trabalhos reais. Logos e galerias sem conteúdo permanecem ocultos.
 
 1. Separe de 3 a 6 projetos executados pela JM. Para cada um, escolha uma foto geral do stand, 2 a 5 detalhes ou outros ângulos, nome do cliente (se autorizado), feira, cidade, metragem e formato.
 2. Salve as fotos em `assets/img/projetos/`, preferencialmente em WebP ou JPG, com nomes simples e sem espaços. Use a foto mais forte como a primeira da lista.
@@ -50,6 +50,8 @@ projects: [
 ```
 
 Também é possível cadastrar uma foto de abertura separada em `images.hero` e fotos da oficina em `images.estrutura`. Os logos autorizados entram em `clients`, no mesmo arquivo. Não use fotos de outras montadoras como se fossem trabalhos da JM.
+
+As imagens temporárias ficam em `assets/img/conceitos/` e os respectivos dados em `projectConcepts`. Elas servem apenas para visualizar o layout antes de receber o acervo real; não atribua nomes de clientes, feiras ou resultados a esses conceitos.
 
 ## Rodar no computador
 

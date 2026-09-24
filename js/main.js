@@ -18,12 +18,20 @@
   const photos = p => (p.images || (p.img ? [{ src: p.img, alt: p.title }] : []))
     .map(item => typeof item === 'string' ? { src: item, alt: p.title } : item)
     .filter(item => item && item.src);
-  const featured = (SITE.projects || []).filter(p => photos(p).length);
+  const realProjects = (SITE.projects || []).filter(p => photos(p).length);
+  const conceptMode = realProjects.length === 0;
+  const featured = (conceptMode ? (SITE.projectConcepts || []) : realProjects)
+    .filter(p => photos(p).length)
+    .map(p => ({ ...p, concept: conceptMode }));
   $('#projectList').hidden = featured.length === 0;
   $('#solutionGrid').hidden = featured.length > 0;
   if (featured.length) {
-    $('#portfolioHeading').textContent = 'Projetos reais. Marcas em destaque.';
-    $('#portfolioIntro').textContent = 'Veja os stands que a JM desenvolveu e entregou. Cada projeto reúne imagens do espaço, da marca e da experiência no evento.';
+    $('#portfolioHeading').textContent = conceptMode
+      ? 'Espaços pensados para receber, apresentar e negociar.'
+      : 'Projetos reais. Marcas em destaque.';
+    $('#portfolioIntro').textContent = conceptMode
+      ? 'Três direções para visualizar possibilidades de layout, presença e experiência. As imagens abaixo são conceituais e não representam obras executadas.'
+      : 'Veja os stands que a JM desenvolveu e entregou. Cada projeto reúne imagens do espaço, da marca e da experiência no evento.';
     $$('a[href="#projetos"]').forEach(link => {
       link.textContent = link.classList.contains('btn') ? 'Ver projetos ↓' : 'Projetos';
     });
@@ -37,6 +45,7 @@
     $('#portfolioPreview').innerHTML = featured.slice(0, 3).map((p, i) => `
       <button type="button" data-gallery="${i}" aria-label="Ver fotos do projeto">
         ${media(photos(p)[0].src, photos(p)[0].alt || p.title)}
+        ${p.concept ? '<small class="concept-label">Visual conceitual</small>' : ''}
         <span>${esc(p.client || p.title)} <i aria-hidden="true">↗</i></span>
       </button>`).join('');
   }
@@ -44,11 +53,12 @@
     <article class="portfolio-card reveal">
       <button class="portfolio-image" type="button" data-gallery="${i}" aria-label="Ver fotos do projeto">
         ${media(photos(p)[0].src, photos(p)[0].alt || p.title)}
+        ${p.concept ? '<span class="concept-label">Visual conceitual</span>' : ''}
         <span class="portfolio-count"><b>${String(photos(p).length).padStart(2, '0')}</b> <span>${photos(p).length === 1 ? 'FOTO' : 'FOTOS'}</span> ↗</span>
       </button>
       <div class="portfolio-caption">
-        <div><span class="portfolio-client">${esc(p.client || p.event || 'JM Stands')}</span><h3>${esc(p.title)}</h3><p>${[p.event, p.city, p.area, p.type].filter(Boolean).map(value => `<span>${esc(value)}</span>`).join(' · ')}</p></div>
-        <a class="project-link" href="#contato" data-open data-project="${esc(p.client ? p.client + ' — ' + p.title : p.title)}">QUERO UM PROJETO ASSIM ↗</a>
+        <div><span class="portfolio-client">${p.concept ? 'Possibilidade de projeto' : esc(p.client || p.event || 'JM Stands')}</span><h3>${esc(p.title)}</h3><p>${[p.event, p.city, p.area, p.type, p.objective].filter(Boolean).map(value => `<span>${esc(value)}</span>`).join(' · ')}</p></div>
+        <a class="project-link" href="#contato" data-open data-project="${esc(p.client ? p.client + ' — ' + p.title : p.title)}">${p.concept ? 'EXPLORAR ESTA DIREÇÃO' : 'QUERO UM PROJETO ASSIM'} ↗</a>
       </div>
     </article>`).join('');
 
@@ -67,7 +77,7 @@
       const img = $('img', gallery);
       img.src = item.src;
       img.alt = item.alt || p.title;
-      $('.gallery-footer p', gallery).textContent = [p.client, p.title, p.event].filter(Boolean).join(' · ');
+      $('.gallery-footer p', gallery).textContent = [p.concept ? 'Visual conceitual' : p.client, p.title, p.event].filter(Boolean).join(' · ');
       $('.gallery-footer span', gallery).textContent = `${imageIndex + 1} / ${items.length}`;
       $('.gallery-prev', gallery).hidden = items.length < 2;
       $('.gallery-next', gallery).hidden = items.length < 2;

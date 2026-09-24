@@ -53,7 +53,40 @@ window.SITE = {
   //   ] },
   projects: [],
 
-  // Logos de clientes (deixe vazio para mostrar os placeholders)
+  // Vitrine temporária: ajuda a visualizar o portfólio antes da entrada das fotos reais.
+  // Estes itens aparecem identificados como "Visual conceitual" e são ocultados
+  // automaticamente assim que houver ao menos um item em `projects`.
+  projectConcepts: [
+    {
+      title: 'Stand ilha para relacionamento',
+      area: '120–180 m²',
+      type: 'Stand ilha',
+      objective: 'Recepção, reuniões e hospitalidade',
+      images: [
+        { src: 'assets/img/conceitos/stand-ilha-conceitual.jpg', alt: 'Visual conceitual de stand ilha com marcenaria clara, lounge e iluminação indireta' }
+      ]
+    },
+    {
+      title: 'Stand de esquina compacto',
+      area: '36–60 m²',
+      type: 'Stand de esquina',
+      objective: 'Exposição de produto e atendimento',
+      images: [
+        { src: 'assets/img/conceitos/stand-esquina-conceitual.jpg', alt: 'Visual conceitual de stand de esquina com expositores, balcão e mesas de atendimento' }
+      ]
+    },
+    {
+      title: 'Experiência de marca e demonstração',
+      area: '80–120 m²',
+      type: 'Stand península',
+      objective: 'Demonstrações e geração de fluxo',
+      images: [
+        { src: 'assets/img/conceitos/stand-experiencia-conceitual.jpg', alt: 'Visual conceitual de stand para experiência de marca com estrutura suspensa e ilha de demonstração' }
+      ]
+    }
+  ],
+
+  // Logos de clientes autorizados (a seção fica oculta enquanto a lista estiver vazia)
   // ex.: { name: 'Nome da marca', logo: 'assets/img/clientes/marca.svg' }
   clients: []
 };
