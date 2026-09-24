@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "title": "Teste robô 2026 (remover)",
+    "images": [
+      "/assets/img/projetos/teste-robo-2026-remover-01.webp",
+      "/assets/img/projetos/teste-robo-2026-remover-02.webp",
+      "/assets/img/projetos/teste-robo-2026-remover-03.webp",
+      "/assets/img/projetos/teste-robo-2026-remover-04.webp"
+    ],
+    "client": "",
+    "event": "",
+    "year": 2026,
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  }
+]
