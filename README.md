@@ -67,7 +67,7 @@ Abrir o `index.html` direto no navegador já funciona. Para simular um servidor 
 - [x] `index.html` → números reais (anos, projetos, estados)
 - [ ] `index.html` → revisar respostas do FAQ e texto da seção Estrutura (marcados com `TROQUE`)
 - [x] `index.html` → e-mail real e cidade (Colombo · PR)
-- [ ] Trocar `https://www.jmstands.com.br` pelo domínio real em `index.html`, `robots.txt` e `sitemap.xml`
+- [x] Domínio definido: `https://www.jmstandspr.com.br` (já aplicado em `index.html`, `links.html`, `privacidade.html`, `robots.txt` e `sitemap.xml`)
 - [ ] Criar `assets/img/og-image.jpg` (1200×630) — imagem que aparece ao compartilhar o link no WhatsApp/LinkedIn
 - [ ] `js/config.js` → links das redes sociais (`social`) — ícone sem link não aparece
 - [ ] `privacidade.html` → razão social e CNPJ reais (procure por `TROQUE`)
@@ -102,7 +102,7 @@ A página `404.html` é reconhecida automaticamente pelo Netlify, Cloudflare Pag
 
 ### Domínio próprio
 
-1. Registre o domínio (ex.: `jmstands.com.br`) em https://registro.br
+1. Registre o domínio (ex.: `jmstandspr.com.br`) em https://registro.br
 2. No painel da hospedagem (Netlify/Cloudflare/Vercel), adicione o domínio personalizado.
 3. No registro.br, aponte o DNS conforme as instruções que a hospedagem mostrar. O HTTPS é ativado automaticamente.
 

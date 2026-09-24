@@ -322,6 +322,58 @@ Informe o WhatsApp com DDD.|Please enter your WhatsApp number with area code.|In
 Os arquivos passaram do limite. Remova os maiores e envie por link (Drive, WeTransfer).|The files are over the limit. Remove the largest ones and send them by link (Drive, WeTransfer).|Los archivos superan el límite. Quita los más grandes y envíalos por enlace (Drive, WeTransfer).
 Não foi possível enviar agora. Verifique a conexão e tente de novo, ou fale com a gente pelo WhatsApp.|We couldn't send it right now. Check your connection and try again, or reach us on WhatsApp.|No fue posible enviarlo ahora. Revisa tu conexión e inténtalo de nuevo, o escríbenos por WhatsApp.
 Arquivos do projeto|Project files|Archivos del proyecto
+Comece pelo essencial. Os campos com * ajudam a equipe a entender o evento; o restante pode ser decidido com você depois.|Start with the essentials. Fields marked * help our team understand the event; we can decide the rest with you later.|Empieza por lo esencial. Los campos con * ayudan al equipo a entender el evento; el resto se puede decidir contigo después.
+Já tenho o projeto pronto|I already have the finished design|Ya tengo el proyecto terminado
+Quero enviar os arquivos para produção e montagem.|I want to send the files for production and installation.|Quiero enviar los archivos para producción y montaje.
+Tenho imagens e ideias, mas preciso desenvolver o projeto.|I have images and ideas, but I need to develop the design.|Tengo imágenes e ideas, pero necesito desarrollar el proyecto.
+Ótimo, vamos direto ao ponto.|Great, let's get straight to it.|Perfecto, vayamos al grano.
+Depois dos dados do evento, você poderá anexar o projeto e seguir para o contato — sem responder perguntas sobre o espaço.|After the event details, you can attach your design and go straight to contact details — without answering questions about the space.|Después de los datos del evento, podrás adjuntar el proyecto e ir directamente al contacto, sin responder preguntas sobre el espacio.
+Feira ou evento *|Trade show or event *|Feria o evento *
+Estado *|State *|Estado *
+Selecione o estado|Select the state|Selecciona el estado
+Cidade *|City *|Ciudad *
+Selecione primeiro o estado|Select the state first|Selecciona primero el estado
+Escolha o estado para ver as cidades.|Choose the state to see its cities.|Elige el estado para ver sus ciudades.
+Início do evento *|Event start *|Inicio del evento *
+Fim previsto|Expected end|Fin previsto
+opcional|optional|opcional
+Vamos desenhar o espaço.|Let's design the space.|Diseñemos el espacio.
+Quanto do stand já está definido? *|How much of the stand is already defined? *|¿Cuánto del stand ya está definido? *
+Totalmente personalizado|Fully customized|Totalmente personalizado
+Quero uma solução criada para a minha marca e objetivo.|I want a solution created for my brand and goal.|Quiero una solución creada para mi marca y objetivo.
+Tenho algumas ideias|I have some ideas|Tengo algunas ideas
+Já sei parte do que preciso e quero desenvolver junto.|I already know some of what I need and want to develop it together.|Ya sé parte de lo que necesito y quiero desarrollarlo juntos.
+A JM me orienta nas escolhas sem complicação.|JM guides me through the choices without making things complicated.|JM me orienta en las decisiones sin complicaciones.
+Qual a metragem? *|What is the floor area? *|¿Cuál es la superficie? *
+Tipo de espaço *|Space type *|Tipo de espacio *
+Outro / prefiro conversar|Other / I'd rather discuss it|Otro / prefiero conversarlo
+Envie o seu projeto.|Send us your design.|Envíanos tu proyecto.
+Anexe o projeto pronto ou cole um link. Depois, pedimos apenas os seus dados de contato.|Attach the finished design or paste a link. Then we only ask for your contact details.|Adjunta el proyecto terminado o pega un enlace. Después solo te pedimos tus datos de contacto.
+PDF, DWG, SKP, imagens, vídeos ou ZIP. Você também pode colar um link abaixo.|PDF, DWG, SKP, images, videos or ZIP. You can also paste a link below.|PDF, DWG, SKP, imágenes, videos o ZIP. También puedes pegar un enlace abajo.
+Para seguir, anexe o projeto ou informe um link.|To continue, attach the design or provide a link.|Para continuar, adjunta el proyecto o proporciona un enlace.
+Assim a equipe recebe o material certo sem fazer você responder um questionário desnecessário.|This gives our team the right material without making you answer an unnecessary questionnaire.|Así el equipo recibe el material correcto sin hacerte responder un cuestionario innecesario.
+Como prefere receber o retorno? *|How would you prefer us to contact you? *|¿Cómo prefieres que te contactemos? *
+Envia o briefing por e-mail e a equipe responde por lá.|Sends the brief by email and our team replies there.|Envía el briefing por correo y el equipo responde por allí.
+WhatsApp e e-mail|WhatsApp and email|WhatsApp y correo
+Você envia pelo WhatsApp e pode receber retorno nos dois canais.|You send it via WhatsApp and can receive a reply through either channel.|Lo envías por WhatsApp y puedes recibir respuesta por ambos canales.
+Contato sem compromisso. Seus dados vão direto para a equipe da JM e são tratados com confidencialidade.|No-obligation contact. Your information goes directly to JM's team and is handled confidentially.|Contacto sin compromiso. Tus datos van directamente al equipo de JM y se tratan de forma confidencial.
+Início do evento|Event start|Inicio del evento
+Fim previsto|Expected end|Fin previsto
+Nível de definição|Level of definition|Nivel de definición
+Preferência de contato|Contact preference|Preferencia de contacto
+Quero um stand totalmente personalizado|I want a fully customized stand|Quiero un stand totalmente personalizado
+Tenho alguns requisitos e referências|I have some requirements and references|Tengo algunos requisitos y referencias
+Ainda não sei e quero orientação|I am not sure yet and want guidance|Aún no lo sé y quiero orientación
+Outro item / prefiro conversar|Other item / I'd rather discuss it|Otro elemento / prefiero conversarlo
+Etapa 2 de 3|Step 2 of 3|Paso 2 de 3
+Etapa 3 de 3|Step 3 of 3|Paso 3 de 3
+Selecionar data de início|Select start date|Seleccionar fecha de inicio
+Selecionar data final|Select end date|Seleccionar fecha final
+Informe uma data válida no formato dd/mm/aaaa.|Enter a valid date in the dd/mm/yyyy format.|Introduce una fecha válida en el formato dd/mm/aaaa.
+A data de início não pode estar no passado.|The start date cannot be in the past.|La fecha de inicio no puede estar en el pasado.
+A data final deve ser igual ou posterior ao início.|The end date must be the same as or later than the start date.|La fecha final debe ser igual o posterior a la fecha de inicio.
+Ativar modo claro|Switch to light mode|Activar modo claro
+Ativar modo escuro|Switch to dark mode|Activar modo oscuro
 `;
   const dictionary = new Map(rows.trim().split('\n').map(row => {
     const [pt, en, es] = row.split('|');
@@ -346,6 +398,7 @@ Arquivos do projeto|Project files|Archivos del proyecto
       if (node.nodeValue !== record.output) node.nodeValue = record.output;
     }
     root.querySelectorAll('[aria-label], [alt], [data-alt], [placeholder], meta[name="description"], meta[property="og:title"], meta[property="og:description"]').forEach(el => {
+      if (el.matches('[data-i18n-dynamic]')) return;
       const saved = attributes.get(el) || {};
       ['aria-label', 'alt', 'data-alt', 'placeholder', 'content'].forEach(attr => {
         if (!el.hasAttribute(attr)) return;
@@ -381,6 +434,7 @@ Arquivos do projeto|Project files|Archivos del proyecto
     language = select.value;
     try { localStorage.setItem('jm-language', language); } catch (_) {}
     apply();
+    dispatchEvent(new CustomEvent('jm:languagechange', { detail: { language } }));
   });
   window.JM_I18N = { t };
   apply();

@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.jmstands.com.br/sitemap.xml
+Sitemap: https://www.jmstandspr.com.br/sitemap.xml
