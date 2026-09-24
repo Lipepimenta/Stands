@@ -56,7 +56,7 @@ collections:
             required: false
             add_to_top: true
             collapsed: true
-            summary: '{{fields.title}} · {{fields.event}} {{fields.year}}'
+            summary: '{{fields.title}}'
             fields:
               - name: title
                 label: Nome do projeto

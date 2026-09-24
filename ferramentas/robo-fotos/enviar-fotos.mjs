@@ -27,7 +27,9 @@ const publish = !process.argv.includes('--sem-publicar');
 const say = (...a) => console.log(...a);
 const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 const slug = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
-const byName = (a, b) => a.localeCompare(b, 'pt-BR', { numeric: true, sensitivity: 'base' });
+// Ordena pelo nome sem a extensão: "foto.jpg" vem antes de "foto (1).jpg" (padrão do WhatsApp)
+const bare = f => f.replace(/.[^.]+$/, '');
+const byName = (a, b) => bare(a).localeCompare(bare(b), 'pt-BR', { numeric: true, sensitivity: 'base' });
 const pad = n => String(n).padStart(2, '0');
 const kb = n => `${Math.round(n / 1024)} KB`;
 
