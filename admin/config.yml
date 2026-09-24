@@ -25,14 +25,16 @@ public_folder: /assets/img/projetos
 
 # As fotos são reduzidas e convertidas para WebP no navegador, antes de enviar.
 # Pode mandar a foto original do celular (inclusive HEIC do iPhone).
+# 1600 px / qualidade 78 ≈ 140 KB por foto: o GitHub corta salvamentos que demoram
+# mais de ~5 s para subir, então fotos leves permitem mais fotos por salvamento.
 media_libraries:
   all:
     transformations:
       raster_image:
         format: webp
-        quality: 82
-        width: 2000
-        height: 2000
+        quality: 78
+        width: 1600
+        height: 1600
       svg:
         optimize: true
 
@@ -51,6 +53,7 @@ collections:
             label_singular: Projeto
             widget: list
             root: true
+            required: false
             add_to_top: true
             collapsed: true
             summary: '{{fields.title}} · {{fields.event}} {{fields.year}}'
@@ -64,7 +67,7 @@ collections:
                 widget: image
                 multiple: true
                 min: 1
-                hint: 'Arraste várias fotos de uma vez. A primeira é a capa (dá para reordenar). Não precisa reduzir nem converter: o painel faz isso sozinho.'
+                hint: 'Arraste as fotos (a primeira é a capa; dá para reordenar). Não precisa reduzir nem converter. Se der erro ao salvar, salve de 3 em 3 fotos ou use o robô para muitas fotos.'
               - name: client
                 label: Cliente
                 widget: string
@@ -134,6 +137,7 @@ collections:
             label_singular: Marca
             widget: list
             root: true
+            required: false
             summary: '{{fields.name}}'
             fields:
               - name: name
