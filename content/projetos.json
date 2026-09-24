@@ -1,1 +1,249 @@
-[]
+[
+  {
+    "title": "Stand Vet Solutions",
+    "images": [
+      "/assets/img/projetos/stand-vet-solutions-01.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand Unifique - Expoinovação",
+    "images": [
+      "/assets/img/projetos/stand-unifique-expoinovacao-01.webp",
+      "/assets/img/projetos/stand-unifique-expoinovacao-02.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand Steelvet",
+    "images": [
+      "/assets/img/projetos/stand-steelvet-01.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand Senac Fecomércio Sesc - Expoinovação",
+    "images": [
+      "/assets/img/projetos/stand-senac-fecomercio-sesc-expoinovacao-01.webp",
+      "/assets/img/projetos/stand-senac-fecomercio-sesc-expoinovacao-02.webp",
+      "/assets/img/projetos/stand-senac-fecomercio-sesc-expoinovacao-03.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand Realfix",
+    "images": [
+      "/assets/img/projetos/stand-realfix-01.webp",
+      "/assets/img/projetos/stand-realfix-02.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand Qualys Diagnósticos",
+    "images": [
+      "/assets/img/projetos/stand-qualys-diagnosticos-01.webp",
+      "/assets/img/projetos/stand-qualys-diagnosticos-02.webp",
+      "/assets/img/projetos/stand-qualys-diagnosticos-03.webp",
+      "/assets/img/projetos/stand-qualys-diagnosticos-04.webp",
+      "/assets/img/projetos/stand-qualys-diagnosticos-05.webp",
+      "/assets/img/projetos/stand-qualys-diagnosticos-06.webp",
+      "/assets/img/projetos/stand-qualys-diagnosticos-07.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand Prefeitura de Joinville - Expoinovação",
+    "images": [
+      "/assets/img/projetos/stand-prefeitura-de-joinville-expoinovacao-01.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand Play na Inovação - Expoinovação",
+    "images": [
+      "/assets/img/projetos/stand-play-na-inovacao-expoinovacao-01.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand Greiner Bio-One",
+    "images": [
+      "/assets/img/projetos/stand-greiner-bio-one-01.webp",
+      "/assets/img/projetos/stand-greiner-bio-one-02.webp",
+      "/assets/img/projetos/stand-greiner-bio-one-03.webp",
+      "/assets/img/projetos/stand-greiner-bio-one-04.webp",
+      "/assets/img/projetos/stand-greiner-bio-one-05.webp",
+      "/assets/img/projetos/stand-greiner-bio-one-06.webp",
+      "/assets/img/projetos/stand-greiner-bio-one-07.webp",
+      "/assets/img/projetos/stand-greiner-bio-one-08.webp",
+      "/assets/img/projetos/stand-greiner-bio-one-09.webp",
+      "/assets/img/projetos/stand-greiner-bio-one-10.webp",
+      "/assets/img/projetos/stand-greiner-bio-one-11.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand Bitrix24 - Expoinovação",
+    "images": [
+      "/assets/img/projetos/stand-bitrix24-expoinovacao-01.webp",
+      "/assets/img/projetos/stand-bitrix24-expoinovacao-02.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand Autolac",
+    "images": [
+      "/assets/img/projetos/stand-autolac-01.webp",
+      "/assets/img/projetos/stand-autolac-02.webp",
+      "/assets/img/projetos/stand-autolac-03.webp",
+      "/assets/img/projetos/stand-autolac-04.webp",
+      "/assets/img/projetos/stand-autolac-05.webp",
+      "/assets/img/projetos/stand-autolac-06.webp",
+      "/assets/img/projetos/stand-autolac-07.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand Armac",
+    "images": [
+      "/assets/img/projetos/stand-armac-01.webp",
+      "/assets/img/projetos/stand-armac-02.webp",
+      "/assets/img/projetos/stand-armac-03.webp",
+      "/assets/img/projetos/stand-armac-04.webp",
+      "/assets/img/projetos/stand-armac-05.webp",
+      "/assets/img/projetos/stand-armac-06.webp",
+      "/assets/img/projetos/stand-armac-07.webp",
+      "/assets/img/projetos/stand-armac-08.webp",
+      "/assets/img/projetos/stand-armac-09.webp",
+      "/assets/img/projetos/stand-armac-10.webp",
+      "/assets/img/projetos/stand-armac-11.webp",
+      "/assets/img/projetos/stand-armac-12.webp",
+      "/assets/img/projetos/stand-armac-13.webp",
+      "/assets/img/projetos/stand-armac-14.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand ArcelorMittal - Expoinovação",
+    "images": [
+      "/assets/img/projetos/stand-arcelormittal-expoinovacao-01.webp",
+      "/assets/img/projetos/stand-arcelormittal-expoinovacao-02.webp",
+      "/assets/img/projetos/stand-arcelormittal-expoinovacao-03.webp",
+      "/assets/img/projetos/stand-arcelormittal-expoinovacao-04.webp",
+      "/assets/img/projetos/stand-arcelormittal-expoinovacao-05.webp",
+      "/assets/img/projetos/stand-arcelormittal-expoinovacao-06.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Stand ArborGen",
+    "images": [
+      "/assets/img/projetos/stand-arborgen-01.webp",
+      "/assets/img/projetos/stand-arborgen-02.webp",
+      "/assets/img/projetos/stand-arborgen-03.webp",
+      "/assets/img/projetos/stand-arborgen-04.webp",
+      "/assets/img/projetos/stand-arborgen-05.webp",
+      "/assets/img/projetos/stand-arborgen-06.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  },
+  {
+    "title": "Cenografia Expoinovação - arena e painéis",
+    "images": [
+      "/assets/img/projetos/cenografia-expoinovacao-arena-e-paineis-01.webp",
+      "/assets/img/projetos/cenografia-expoinovacao-arena-e-paineis-02.webp",
+      "/assets/img/projetos/cenografia-expoinovacao-arena-e-paineis-03.webp"
+    ],
+    "client": "",
+    "event": "",
+    "city": "",
+    "area": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  }
+]
