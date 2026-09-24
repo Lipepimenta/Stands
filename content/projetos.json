@@ -1,1 +1,19 @@
-[]
+[
+  {
+    "title": "Teste do painel (remover)",
+    "images": [
+      "/assets/img/projetos/teste-pequena.webp"
+    ],
+    "client": "",
+    "event": "Teste automático",
+    "year": null,
+    "city": "Colombo",
+    "state": "",
+    "area": "",
+    "format": "",
+    "build": "",
+    "summary": "",
+    "featured": false,
+    "hidden": true
+  }
+]
