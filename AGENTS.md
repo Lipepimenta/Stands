@@ -15,6 +15,7 @@ This repository contains a static corporate website for JM Stands. It is built w
 - `js/i18n.js` and `js/consent.js` — language and cookie consent logic
 - `assets/` — images, icons, and static media
 - `projetos.html`, `js/projects.js`, `js/portfolio.js` — portfolio page, shared project data loading and gallery
+- `ENVIAR-FOTOS.bat` + `ferramentas/robo-fotos/` — optional local Node tool (sharp) that converts photos from the gitignored `fotos-para-subir/` inbox and commits them to `content/projetos.json`; it is not part of the site runtime
 - `admin/` (Sveltia CMS) and `content/*.json` — content panel; saves commit `content/projetos.json`, `content/clientes.json` and images under `assets/img/`
 
 ## Working rules

@@ -1,0 +1,10 @@
+{
+  "name": "jm-robo-fotos",
+  "private": true,
+  "description": "Converte e publica fotos de projetos no portfólio da JM Stands",
+  "type": "module",
+  "dependencies": {
+    "heic-convert": "^2.1.0",
+    "sharp": "^0.34.0"
+  }
+}

@@ -3,3 +3,7 @@ Thumbs.db
 desktop.ini
 .vscode/
 node_modules/
+.netlify/
+
+# Caixa de entrada do robô de fotos (as fotos originais não vão para o site)
+fotos-para-subir/

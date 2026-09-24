@@ -13,6 +13,8 @@ jm-stands/
 ├── privacidade.html    → Política de Privacidade (LGPD)
 ├── site.webmanifest    → ícones para celular (Android)
 ├── admin/              → painel de conteúdo (/admin): index.html + config.yml
+├── ENVIAR-FOTOS.bat    → robô: converte e publica as fotos de fotos-para-subir/
+├── ferramentas/        → código do robô de fotos (não faz parte do site)
 ├── content/            → projetos.json e clientes.json (gravados pelo painel)
 ├── css/style.css       → todo o visual
 ├── js/config.js        → ⚙️ DADOS EDITÁVEIS: WhatsApp, projetos, fotos, clientes
@@ -48,6 +50,8 @@ Acesse **https://www.jmstandspr.com.br/admin/** (enquanto o domínio não estive
 4. Preencha o que souber: cliente (só com autorização), feira, ano, cidade, metragem, formato e tipo de construção. Marque **Destacar na página inicial** para o projeto aparecer na home.
 5. Clique em **Salvar**. O site é atualizado sozinho em cerca de 1 minuto.
 
+**Se aparecer "Ocorreu um erro ao salvar" / "Failed to fetch":** o GitHub interrompe salvamentos que levam mais de ~5 segundos para subir. Com internet lenta, isso acontece a partir de 3 ou 4 fotos. Salve de 3 em 3 fotos (adicione, salve, adicione mais, salve) ou use o **robô de fotos** para lotes grandes. O painel guarda um rascunho automático, então nada se perde.
+
 Os logos de clientes ficam em **Portfólio → Marcas atendidas**. Para esconder um projeto sem apagar, marque **Ocultar do site**.
 
 **Dar acesso a alguém da equipe:**
@@ -65,6 +69,24 @@ No celular, também dá para usar **Entrar pelo celular** (QR code) a partir de 
    - Callback URL: `https://api.netlify.com/auth/done`
 2. Gere o **Client secret**.
 3. Na Netlify, vá em **Project configuration → Access & security → OAuth → Install provider → GitHub** e cole o Client ID e o Client secret.
+
+### Robô de fotos: para subir muitos projetos de uma vez (acervo)
+
+Serve para quando há muitas fotos no computador, por exemplo o acervo antigo inteiro. Roda só no computador.
+
+1. Na pasta do site, abra `fotos-para-subir/`. Se ainda não existir, ela é criada na primeira vez que o robô rodar.
+2. Crie **uma pasta por projeto**, com o nome que você quer ver no site (ex.: `Expotrade 2025 - Marca X`), e jogue as fotos dentro do jeito que estão: JPG, PNG, HEIC do iPhone, qualquer tamanho. A ordem segue o nome dos arquivos, e a primeira foto vira a capa.
+3. Dê **dois cliques em `ENVIAR-FOTOS.bat`**. O robô então:
+   - traz do GitHub o que foi cadastrado pelo painel;
+   - converte cada foto para WebP de até 1600 px, com cerca de 90% menos peso e sem dados de GPS ou da câmera;
+   - cadastra cada pasta como projeto **oculto (rascunho)**. Se já existir um projeto com o mesmo nome, ele acrescenta as fotos nesse projeto;
+   - publica tudo num único envio;
+   - move as pastas enviadas para `fotos-para-subir/_enviados/`.
+4. Abra o **painel**, complete feira, cliente, cidade etc. e desmarque **Ocultar do site**.
+
+Para testar sem enviar nada, rode `ENVIAR-FOTOS.bat --sem-publicar` pelo terminal.
+
+As fotos originais nunca vão para o site: a pasta `fotos-para-subir/` fica fora do Git. O robô precisa do [Node.js](https://nodejs.org) instalado e de acesso ao GitHub. O código está em `ferramentas/robo-fotos/`.
 
 ### Onde os projetos aparecem
 
