@@ -374,6 +374,46 @@ A data de início não pode estar no passado.|The start date cannot be in the pa
 A data final deve ser igual ou posterior ao início.|The end date must be the same as or later than the start date.|La fecha final debe ser igual o posterior a la fecha de inicio.
 Ativar modo claro|Switch to light mode|Activar modo claro
 Ativar modo escuro|Switch to dark mode|Activar modo oscuro
+Portfólio|Portfolio|Portafolio
+Destaques|Highlights|Destacados
+Ver portfólio completo →|View full portfolio →|Ver portafolio completo →
+Portfólio — JM Stands|Portfolio — JM Stands|Portafolio — JM Stands
+Stands projetados, produzidos e montados pela JM para feiras e eventos. Veja fotos dos projetos, formatos e marcas atendidas.|Stands designed, produced and installed by JM for trade shows and events. See project photos, formats and brands served.|Stands diseñados, producidos y montados por JM para ferias y eventos. Mira fotos de los proyectos, formatos y marcas atendidas.
+Portfólio JM|JM portfolio|Portafolio JM
+Stands que já saíram do|Stands that made it off the|Stands que ya salieron del
+papel.|drawing board.|papel.
+Projetos desenvolvidos, produzidos e montados pela JM em feiras e eventos. Toque em um projeto para ver todas as fotos.|Projects designed, produced and installed by JM at trade shows and events. Tap a project to see all photos.|Proyectos diseñados, producidos y montados por JM en ferias y eventos. Toca un proyecto para ver todas las fotos.
+Em breve, os projetos desenvolvidos pela JM. Enquanto isso, conte sobre o seu próximo evento.|JM's projects are coming soon. Meanwhile, tell us about your next event.|Pronto, los proyectos de JM. Mientras tanto, cuéntanos sobre tu próximo evento.
+projetos entregues|projects delivered|proyectos entregados
+Visual conceitual.|Concept visual.|Visual conceptual.
+Visual conceitual|Concept visual|Visual conceptual
+As imagens abaixo mostram possibilidades de projeto e não representam obras executadas. Em breve, os trabalhos reais da JM.|The images below show design possibilities and do not represent completed work. JM's real projects are coming soon.|Las imágenes muestran posibilidades de proyecto y no representan obras ejecutadas. Pronto, los trabajos reales de JM.
+Filtrar projetos por formato|Filter projects by format|Filtrar proyectos por formato
+Formato|Format|Formato
+Construção|Construction|Construcción
+Todos|All|Todos
+Esquina|Corner|Esquina
+Península|Peninsula|Península
+Linear|Inline|Lineal
+Construído|Custom-built|Construido
+Misto|Hybrid|Mixto
+Cenografia|Scenography|Escenografía
+Nenhum projeto neste filtro.|No projects match this filter.|Ningún proyecto en este filtro.
+Onde já estivemos|Where we have been|Dónde hemos estado
+O próximo stand pode ser o|Your next stand could be|El próximo stand puede ser el
+seu.|yours.|tuyo.
+Possibilidade de projeto|Design possibility|Posibilidad de proyecto
+Explorar esta direção ↗|Explore this direction ↗|Explorar esta dirección ↗
+EXPLORAR ESTA DIREÇÃO ↗|EXPLORE THIS DIRECTION ↗|EXPLORAR ESTA DIRECCIÓN ↗
+Quero um projeto assim ↗|I want a project like this ↗|Quiero un proyecto así ↗
+Espaços pensados para receber, apresentar e negociar.|Spaces designed to welcome, present and negotiate.|Espacios pensados para recibir, presentar y negociar.
+Três direções para visualizar possibilidades de layout, presença e experiência. As imagens abaixo são conceituais e não representam obras executadas.|Three directions to visualize layout, presence and experience possibilities. The images below are conceptual and do not represent completed work.|Tres direcciones para visualizar posibilidades de layout, presencia y experiencia. Las imágenes son conceptuales y no representan obras ejecutadas.
+Stand ilha para relacionamento|Island stand for client relations|Stand isla para relacionamiento
+Stand de esquina compacto|Compact corner stand|Stand de esquina compacto
+Experiência de marca e demonstração|Brand experience and demos|Experiencia de marca y demostración
+Recepção, reuniões e hospitalidade|Reception, meetings and hospitality|Recepción, reuniones y hospitalidad
+Exposição de produto e atendimento|Product display and customer service|Exhibición de producto y atención
+Demonstrações e geração de fluxo|Demos and foot traffic|Demostraciones y generación de flujo
 `;
   const dictionary = new Map(rows.trim().split('\n').map(row => {
     const [pt, en, es] = row.split('|');

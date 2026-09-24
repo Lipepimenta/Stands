@@ -42,15 +42,14 @@ window.SITE = {
     estrutura: ['', '', ''] // [principal, lateral 1, lateral 2] ex.: 'assets/img/estrutura/oficina.jpg'
   },
 
-  // Portfólio real. Só cadastre trabalhos da JM que podem ser publicados.
-  // A primeira foto de cada projeto vira capa; as demais aparecem na galeria.
-  // Exemplo:
-  // { client: 'Nome autorizado', title: 'Stand para lançamento', event: 'Nome da feira',
-  //   city: 'São Paulo', area: '120 m²', type: 'Stand ilha',
-  //   images: [
-  //     { src: 'assets/img/projetos/cliente-feira-01.webp', alt: 'Vista frontal do stand' },
-  //     { src: 'assets/img/projetos/cliente-feira-02.webp', alt: 'Área de atendimento' }
-  //   ] },
+  // Portfólio real. O jeito recomendado é o painel: https://www.jmstandspr.com.br/admin/
+  // (os projetos do painel ficam em content/projetos.json e os logos em content/clientes.json).
+  // Projetos cadastrados aqui também aparecem, depois dos do painel. Formato:
+  // { title: 'Stand de lançamento', images: ['assets/img/projetos/foto1.webp', 'assets/img/projetos/foto2.webp'],
+  //   client: 'Nome autorizado', event: 'Expotrade', year: 2025, city: 'Pinhais', state: 'PR', area: '60 m²',
+  //   format: 'Ilha', build: 'Construído', summary: '', featured: true }
+  // Alternativa com pasta numerada: { folder: 'expotrade-2025-marca', photos: 12, ... }
+  //   → assets/img/projetos/expotrade-2025-marca/01.jpg … 12.jpg (ext: 'webp' se forem WebP)
   projects: [],
 
   // Vitrine temporária: ajuda a visualizar o portfólio antes da entrada das fotos reais.
@@ -60,33 +59,40 @@ window.SITE = {
     {
       title: 'Stand ilha para relacionamento',
       area: '120–180 m²',
-      type: 'Stand ilha',
+      format: 'Ilha',
       objective: 'Recepção, reuniões e hospitalidade',
       images: [
-        { src: 'assets/img/conceitos/stand-ilha-conceitual.jpg', alt: 'Visual conceitual de stand ilha com marcenaria clara, lounge e iluminação indireta' }
+        { src: 'assets/img/conceitos/stand-ilha-conceitual.jpg', alt: 'Visual conceitual de stand ilha com marcenaria clara, lounge e iluminação indireta' },
+        { src: 'assets/img/conceitos/stand-esquina-conceitual.jpg', alt: 'Visual conceitual de stand de esquina com expositores, balcão e mesas de atendimento' },
+        { src: 'assets/img/conceitos/stand-experiencia-conceitual.jpg', alt: 'Visual conceitual de stand para experiência de marca com estrutura suspensa e ilha de demonstração' }
       ]
     },
     {
       title: 'Stand de esquina compacto',
       area: '36–60 m²',
-      type: 'Stand de esquina',
+      format: 'Esquina',
       objective: 'Exposição de produto e atendimento',
       images: [
-        { src: 'assets/img/conceitos/stand-esquina-conceitual.jpg', alt: 'Visual conceitual de stand de esquina com expositores, balcão e mesas de atendimento' }
+        { src: 'assets/img/conceitos/stand-esquina-conceitual.jpg', alt: 'Visual conceitual de stand de esquina com expositores, balcão e mesas de atendimento' },
+        { src: 'assets/img/conceitos/stand-experiencia-conceitual.jpg', alt: 'Visual conceitual de stand para experiência de marca com estrutura suspensa e ilha de demonstração' },
+        { src: 'assets/img/conceitos/stand-ilha-conceitual.jpg', alt: 'Visual conceitual de stand ilha com marcenaria clara, lounge e iluminação indireta' }
       ]
     },
     {
       title: 'Experiência de marca e demonstração',
       area: '80–120 m²',
-      type: 'Stand península',
+      format: 'Península',
       objective: 'Demonstrações e geração de fluxo',
       images: [
-        { src: 'assets/img/conceitos/stand-experiencia-conceitual.jpg', alt: 'Visual conceitual de stand para experiência de marca com estrutura suspensa e ilha de demonstração' }
+        { src: 'assets/img/conceitos/stand-experiencia-conceitual.jpg', alt: 'Visual conceitual de stand para experiência de marca com estrutura suspensa e ilha de demonstração' },
+        { src: 'assets/img/conceitos/stand-ilha-conceitual.jpg', alt: 'Visual conceitual de stand ilha com marcenaria clara, lounge e iluminação indireta' },
+        { src: 'assets/img/conceitos/stand-esquina-conceitual.jpg', alt: 'Visual conceitual de stand de esquina com expositores, balcão e mesas de atendimento' }
       ]
     }
   ],
 
-  // Logos de clientes autorizados (a seção fica oculta enquanto a lista estiver vazia)
+  // Logos de clientes autorizados (prefira cadastrar pelo painel /admin → Marcas atendidas).
+  // A seção fica oculta enquanto não houver nenhuma marca.
   // ex.: { name: 'Nome da marca', logo: 'assets/img/clientes/marca.svg' }
   clients: []
 };

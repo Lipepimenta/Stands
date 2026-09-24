@@ -1,0 +1,146 @@
+# ==========================================================================
+# Painel de conteúdo da JM Stands — https://SEU-SITE/admin/
+# Cada "Salvar" vira um commit no GitHub e a Netlify publica o site sozinha.
+# Documentação: https://sveltiacms.app/en/docs
+# ==========================================================================
+
+backend:
+  name: github
+  repo: Lipepimenta/Stands
+  branch: main
+  commit_messages:
+    create: 'Painel: cria {{collection}} "{{slug}}"'
+    update: 'Painel: atualiza {{collection}} "{{slug}}"'
+    delete: 'Painel: remove {{collection}} "{{slug}}"'
+    uploadMedia: 'Painel: envia "{{path}}"'
+    deleteMedia: 'Painel: remove "{{path}}"'
+
+site_url: https://www.jmstandspr.com.br
+display_url: https://www.jmstandspr.com.br
+logo_url: /assets/img/logo/logo1.png
+
+# Pasta padrão das fotos enviadas pelo painel
+media_folder: /assets/img/projetos
+public_folder: /assets/img/projetos
+
+# As fotos são reduzidas e convertidas para WebP no navegador, antes de enviar.
+# Pode mandar a foto original do celular (inclusive HEIC do iPhone).
+media_libraries:
+  all:
+    transformations:
+      raster_image:
+        format: webp
+        quality: 82
+        width: 2000
+        height: 2000
+      svg:
+        optimize: true
+
+collections:
+  - name: portfolio
+    label: Portfólio
+    icon: photo_library
+    files:
+      - name: projetos
+        label: Projetos
+        icon: photo_library
+        file: content/projetos.json
+        fields:
+          - name: projects
+            label: Projetos
+            label_singular: Projeto
+            widget: list
+            root: true
+            add_to_top: true
+            collapsed: true
+            summary: '{{fields.title}} · {{fields.event}} {{fields.year}}'
+            fields:
+              - name: title
+                label: Nome do projeto
+                widget: string
+                hint: 'Ex.: Stand de lançamento, Stand ilha com lounge…'
+              - name: images
+                label: Fotos
+                widget: image
+                multiple: true
+                min: 1
+                hint: 'Arraste várias fotos de uma vez. A primeira é a capa (dá para reordenar). Não precisa reduzir nem converter: o painel faz isso sozinho.'
+              - name: client
+                label: Cliente
+                widget: string
+                required: false
+                hint: 'Só coloque o nome se o cliente autorizar.'
+              - name: event
+                label: Feira ou evento
+                widget: string
+                required: false
+                hint: 'Ex.: Expotrade, APAS Show, Feira Construir…'
+              - name: year
+                label: Ano
+                widget: number
+                value_type: int
+                min: 2000
+                max: 2100
+                required: false
+              - name: city
+                label: Cidade
+                widget: string
+                required: false
+              - name: state
+                label: Estado (UF)
+                widget: select
+                required: false
+                options: [AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO]
+              - name: area
+                label: Metragem
+                widget: string
+                required: false
+                hint: 'Ex.: 60 m²'
+              - name: format
+                label: Formato do espaço
+                widget: select
+                required: false
+                options: [Ilha, Esquina, Península, Linear]
+              - name: build
+                label: Tipo de construção
+                widget: select
+                required: false
+                options: [Construído, Misto, Octanorm, Cenografia]
+              - name: summary
+                label: Resumo
+                widget: text
+                required: false
+                hint: 'Opcional. Uma ou duas frases: o desafio e a solução.'
+              - name: featured
+                label: Destacar na página inicial
+                widget: boolean
+                default: false
+                hint: 'A home mostra até 4 projetos destacados. Todos aparecem no Portfólio.'
+              - name: hidden
+                label: Ocultar do site
+                widget: boolean
+                default: false
+                hint: 'Use para guardar um projeto como rascunho.'
+
+      - name: clientes
+        label: Marcas atendidas (logos)
+        icon: verified
+        file: content/clientes.json
+        media_folder: /assets/img/clientes
+        public_folder: /assets/img/clientes
+        fields:
+          - name: clients
+            label: Marcas
+            label_singular: Marca
+            widget: list
+            root: true
+            summary: '{{fields.name}}'
+            fields:
+              - name: name
+                label: Nome da marca
+                widget: string
+              - name: logo
+                label: Logo
+                widget: image
+                required: false
+                hint: 'De preferência PNG com fundo transparente ou SVG. Só com autorização da marca.'

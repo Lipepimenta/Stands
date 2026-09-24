@@ -7,12 +7,18 @@ Site estático (HTML + CSS + JS puro), sem build e sem dependências. Basta subi
 ```
 jm-stands/
 ├── index.html          → página principal (textos, seções, FAQ, números)
+├── projetos.html       → portfólio completo (filtros, galeria, marcas)
+├── links.html          → página de links da bio do Instagram
 ├── 404.html            → página de "não encontrado"
 ├── privacidade.html    → Política de Privacidade (LGPD)
 ├── site.webmanifest    → ícones para celular (Android)
+├── admin/              → painel de conteúdo (/admin): index.html + config.yml
+├── content/            → projetos.json e clientes.json (gravados pelo painel)
 ├── css/style.css       → todo o visual
 ├── js/config.js        → ⚙️ DADOS EDITÁVEIS: WhatsApp, projetos, fotos, clientes
-├── js/main.js          → portfólio, galeria, links e animações
+├── js/main.js          → home: destaques do portfólio, links e animações
+├── js/projects.js      → leitura dos projetos + galeria de fotos (home e portfólio)
+├── js/portfolio.js     → página de portfólio: grid, filtros, marcas, feiras
 ├── js/quote.js         → formulário de solicitação em etapas
 ├── js/i18n.js          → idiomas português, inglês e espanhol
 ├── js/consent.js       → aviso de cookies + carregamento do Analytics/Pixel
@@ -20,7 +26,8 @@ jm-stands/
 │   ├── favicon.svg
 │   ├── apple-touch-icon.png, icon-192.png, icon-512.png
 │   └── img/
-│       ├── projetos/   → fotos dos projetos
+│       ├── projetos/   → uma pasta por projeto, fotos 01.jpg, 02.jpg…
+│       ├── conceitos/  → imagens conceituais temporárias
 │       ├── estrutura/  → fotos da oficina / equipe / montagem
 │       └── clientes/   → logos (de preferência .svg ou .png transparente)
 ├── robots.txt
@@ -31,23 +38,72 @@ jm-stands/
 
 O site prioriza fotos **reais da JM**. Enquanto não houver fotos cadastradas em `projects`, ele mostra três imagens de referência claramente marcadas como **Visual conceitual**. Assim que o primeiro projeto real com imagem for adicionado em `js/config.js`, toda a vitrine conceitual é ocultada automaticamente e dá lugar aos trabalhos reais. Logos e galerias sem conteúdo permanecem ocultos.
 
-1. Separe de 3 a 6 projetos executados pela JM. Para cada um, escolha uma foto geral do stand, 2 a 5 detalhes ou outros ângulos, nome do cliente (se autorizado), feira, cidade, metragem e formato.
-2. Salve as fotos em `assets/img/projetos/`, preferencialmente em WebP ou JPG, com nomes simples e sem espaços. Use a foto mais forte como a primeira da lista.
-3. Cadastre cada projeto em `js/config.js` no campo `projects`. Exemplo:
+### Painel admin: o jeito fácil de colocar projetos e fotos
+
+Acesse **https://www.jmstandspr.com.br/admin/** (enquanto o domínio não estiver no ar: https://jmstandspr.netlify.app/admin/), pelo computador ou pelo celular.
+
+1. Entre com **Entrar com GitHub**.
+2. Abra **Portfólio → Projetos → Adicionar projeto**.
+3. Preencha o nome e **arraste as fotos, várias de uma vez**, direto do celular ou da câmera (JPG, PNG ou HEIC do iPhone). O painel reduz e converte cada foto para WebP antes de enviar, então não precisa tratar nada. A primeira foto é a capa, e dá para reordenar.
+4. Preencha o que souber: cliente (só com autorização), feira, ano, cidade, metragem, formato e tipo de construção. Marque **Destacar na página inicial** para o projeto aparecer na home.
+5. Clique em **Salvar**. O site é atualizado sozinho em cerca de 1 minuto.
+
+Os logos de clientes ficam em **Portfólio → Marcas atendidas**. Para esconder um projeto sem apagar, marque **Ocultar do site**.
+
+**Dar acesso a alguém da equipe:**
+1. A pessoa cria uma conta grátis em github.com.
+2. Em https://github.com/Lipepimenta/Stands/settings/access, clique em **Add people** e dê permissão **Write**.
+3. A pessoa aceita o convite que chega por e-mail e passa a entrar no painel com essa conta.
+
+No celular, também dá para usar **Entrar pelo celular** (QR code) a partir de um computador já logado.
+
+**Como funciona por trás:** o painel é o [Sveltia CMS](https://sveltiacms.app), configurado em `admin/config.yml`. Cada "Salvar" vira um commit no GitHub, e a Netlify publica o site sozinha. As fotos vão para `assets/img/projetos/`, os dados para `content/projetos.json` e os logos para `content/clientes.json`. Não é preciso editar esses arquivos à mão.
+
+**Configuração única do login pelo GitHub** (feita uma vez só):
+1. No GitHub, vá em **Settings → Developer settings → OAuth Apps → New OAuth App** e preencha:
+   - Homepage: `https://jmstandspr.netlify.app`
+   - Callback URL: `https://api.netlify.com/auth/done`
+2. Gere o **Client secret**.
+3. Na Netlify, vá em **Project configuration → Access & security → OAuth → Install provider → GitHub** e cole o Client ID e o Client secret.
+
+### Onde os projetos aparecem
+
+- **`projetos.html` (Portfólio):** todos os projetos, com filtros por formato e construção, galeria com miniaturas e link direto para cada projeto (`projetos.html#nome-do-projeto`). Também mostra os logos de `clients` e a lista de feiras atendidas, montada sozinha a partir dos projetos.
+- **Home:** só uma seleção, os projetos com `featured: true` (até 4) e o botão "Ver portfólio completo".
+
+### Alternativa manual: inserir fotos sem o painel
+
+1. **Escolha as fotos:** de 4 a 8 por projeto. Uma visão geral forte (vira a capa), 2 ou 3 ângulos, detalhes (balcão, iluminação, marcenaria), o stand com público e, se houver, o render 3D.
+2. **Deixe as fotos leves:** cerca de 1600 px no lado maior e até ~350 KB cada, em JPG ou WebP. Foto direto do celular (4 a 8 MB) deixa o site lento. Dá para reduzir de graça em https://squoosh.app ou https://tinyjpg.com.
+3. **Crie uma pasta por projeto** em `assets/img/projetos/`, com nome simples, sem espaços nem acentos, e **numere as fotos**:
+
+```
+assets/img/projetos/expotrade-2025-marca/01.jpg   ← capa
+assets/img/projetos/expotrade-2025-marca/02.jpg
+assets/img/projetos/expotrade-2025-marca/03.jpg
+```
+
+4. **Cadastre o projeto** em `js/config.js`, no campo `projects`, informando a pasta e quantas fotos ela tem:
 
 ```js
 projects: [
   {
-    client: 'Cliente autorizado',
-    title: 'Stand para lançamento de produto',
-    event: 'Nome da feira', city: 'São Paulo', area: '60 m²', type: 'Stand ilha',
-    images: [
-      { src: 'assets/img/projetos/cliente-feira-01.webp', alt: 'Vista geral do stand no pavilhão' },
-      { src: 'assets/img/projetos/cliente-feira-02.webp', alt: 'Área de atendimento do stand' }
-    ]
+    folder: 'expotrade-2025-marca', photos: 3,
+    client: 'Cliente autorizado', title: 'Stand para lançamento de produto',
+    event: 'Expotrade', year: 2025, city: 'Pinhais', state: 'PR', area: '60 m²',
+    format: 'Ilha',        // Ilha · Esquina · Península · Linear
+    build: 'Construído',   // Construído · Misto · Octanorm · Cenografia
+    summary: 'Uma frase: o desafio e a solução.', // opcional
+    featured: true           // opcional: aparece na home
   }
 ]
 ```
+
+Para acrescentar fotos depois, coloque `04.jpg`, `05.jpg`… na pasta e aumente o número em `photos`. Se as fotos forem WebP, acrescente `ext: 'webp'`. Também é possível listar as fotos uma a uma, com nomes livres, em `images: [{ src, alt }]`.
+
+Os filtros aparecem sozinhos quando há pelo menos dois valores diferentes de `format` ou `build`. Use sempre a mesma grafia (por exemplo, "Ilha", e não "ilha" ou "Stand ilha").
+
+**Prévia local:** ao abrir `projetos.html` no computador, sem projetos reais cadastrados, a página completa a vitrine com espaços reservados e caixas de "LOGO" para mostrar como fica cheia. Esses espaços **não aparecem no site publicado**.
 
 Também é possível cadastrar uma foto de abertura separada em `images.hero` e fotos da oficina em `images.estrutura`. Os logos autorizados entram em `clients`, no mesmo arquivo. Não use fotos de outras montadoras como se fossem trabalhos da JM.
 

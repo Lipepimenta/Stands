@@ -14,6 +14,8 @@ This repository contains a static corporate website for JM Stands. It is built w
 - `js/quote.js` — quote request wizard and form handling
 - `js/i18n.js` and `js/consent.js` — language and cookie consent logic
 - `assets/` — images, icons, and static media
+- `projetos.html`, `js/projects.js`, `js/portfolio.js` — portfolio page, shared project data loading and gallery
+- `admin/` (Sveltia CMS) and `content/*.json` — content panel; saves commit `content/projetos.json`, `content/clientes.json` and images under `assets/img/`
 
 ## Working rules
 - Keep changes lightweight and static-site friendly.
@@ -21,13 +23,13 @@ This repository contains a static corporate website for JM Stands. It is built w
 - Do not introduce frameworks, package managers, or build tooling unless explicitly requested.
 - Update copy and placeholders only with real business data; avoid leaving `TROQUE` or fake values in published content.
 - Preserve the existing structure and semantics of the HTML unless a feature clearly requires a change.
-- If adding a project, client, or social media entry, update `js/config.js` rather than hardcoding values in multiple files.
+- Projects and client logos are managed through the admin panel (`content/*.json`); `js/config.js` entries still work as a fallback. Social media and other business data stay in `js/config.js`. Never hardcode these values in multiple files.
 - Maintain accessibility and mobile-first behavior when editing the layout.
 
 ## Content and data conventions
 - WhatsApp and contact details live in `js/config.js`.
 - Project photos belong under `assets/img/` and should match the paths defined in config data.
-- Logos and client references should be added to `clients` in `js/config.js` only.
+- Logos and client references live in `content/clientes.json` (admin panel) or `clients` in `js/config.js`.
 - Google Analytics / Meta Pixel IDs belong in the analytics config, and consent logic must remain respected.
 - Before publishing, verify that real domain, legal text, and contact information are in place.
 

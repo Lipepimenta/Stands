@@ -171,9 +171,9 @@
     document.body.style.overflow = 'hidden';
     go(step);
   };
-  const open = e => {
+  const open = (e, el) => {
     e.preventDefault();
-    show(e.currentTarget.dataset.project);
+    show(el.dataset.project);
   };
   const DEEP_LINK = '#solicitar';
   const close = () => {
@@ -185,9 +185,14 @@
     if (location.hash === DEEP_LINK) history.replaceState(null, '', location.pathname + location.search);
     if (lastFocus) lastFocus.focus();
   };
-  $$('[data-open]').forEach(el => el.addEventListener('click', open));
+  // Delegado: os botões dos projetos são criados depois que os dados carregam.
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-open]');
+    if (el) open(e, el);
+  });
   // Link direto para o formulário (ex.: bio do Instagram): .../#solicitar
-  const checkHash = () => { if (location.hash === DEEP_LINK) show(); };
+  // Com referência vinda do portfólio: .../?projeto=Nome do projeto#solicitar
+  const checkHash = () => { if (location.hash === DEEP_LINK) show(new URLSearchParams(location.search).get('projeto') || ''); };
   addEventListener('hashchange', checkHash);
   $('#close').addEventListener('click', close);
   $('#qFinish').addEventListener('click', close);
