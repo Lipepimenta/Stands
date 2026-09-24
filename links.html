@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>JM Stands — Links</title>
+  <meta name="description" content="Solicite o projeto do seu stand, fale com a JM no WhatsApp e conheça nossos trabalhos.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#111111">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:title" content="JM Stands — Projeto, produção e montagem de stands">
+  <meta property="og:description" content="Solicite o projeto do seu stand ou fale com a JM no WhatsApp.">
+  <meta property="og:image" content="https://www.jmstands.com.br/assets/img/og-image.jpg">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bio">
+<!-- Página para a bio do Instagram: publique e use o endereço .../links -->
+<main class="bio-shell">
+  <header class="bio-head">
+    <span class="bio-avatar" aria-hidden="true">JM<i>.</i></span>
+    <h1 class="display">JM Stands</h1>
+    <p>Projeto, produção e montagem de stands para feiras e eventos.</p>
+    <span class="verified-badge"><i aria-hidden="true">✓</i>+20 anos · Colombo · PR</span>
+  </header>
+
+  <nav class="bio-links" aria-label="Links">
+    <a class="bio-link primary" href="index.html?origem=instagram#solicitar">
+      <span><b>Solicitar projeto</b><small>Conte sobre o seu stand em 2 minutos</small></span><em aria-hidden="true">↗</em>
+    </a>
+    <a class="bio-link" data-bio-wa href="#" target="_blank" rel="noopener">
+      <span><b>Falar no WhatsApp</b><small>Atendimento comercial</small></span><em aria-hidden="true">↗</em>
+    </a>
+    <a class="bio-link" href="index.html?origem=instagram#projetos">
+      <span><b>Ver soluções e projetos</b><small>Stands sob medida, 3D, marcenaria e montagem</small></span><em aria-hidden="true">↗</em>
+    </a>
+    <a class="bio-link" href="index.html?origem=instagram">
+      <span><b>Conhecer o site</b><small>Como trabalhamos, da ideia ao pavilhão</small></span><em aria-hidden="true">↗</em>
+    </a>
+    <a class="bio-link" data-bio-mail href="#">
+      <span><b>Enviar e-mail</b><small data-bio-mail-text></small></span><em aria-hidden="true">↗</em>
+    </a>
+  </nav>
+
+  <footer class="bio-foot">
+    <span>© <span id="year">2026</span> JM Stands</span>
+    <a href="privacidade.html">Política de Privacidade</a>
+  </footer>
+</main>
+
+<script src="js/config.js"></script>
+<script>
+  (() => {
+    const S = window.SITE;
+    const wa = document.querySelector('[data-bio-wa]');
+    wa.href = 'https://wa.me/' + S.whatsapp + '?text=' + encodeURIComponent('Olá, JM! Vim pelo Instagram e gostaria de conversar sobre um projeto de stand.');
+    document.querySelector('[data-bio-mail]').href = 'mailto:' + S.email;
+    document.querySelector('[data-bio-mail-text]').textContent = S.email;
+    document.getElementById('year').textContent = new Date().getFullYear();
+  })();
+</script>
+</body>
+</html>
