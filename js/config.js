@@ -47,7 +47,7 @@ window.SITE = {
   // Projetos cadastrados aqui também aparecem, depois dos do painel. Formato:
   // { title: 'Stand de lançamento', images: ['assets/img/projetos/foto1.webp', 'assets/img/projetos/foto2.webp'],
   //   client: 'Nome autorizado', event: 'Expotrade', year: 2025, city: 'Pinhais', state: 'PR', area: '60 m²',
-  //   format: 'Ilha', build: 'Construído', summary: '', featured: true }
+  //   format: 'Ilha', build: 'Construído', summary: '', home: 'destaque' }  // home: 'destaque' | 'faixa' | ''
   // Alternativa com pasta numerada: { folder: 'expotrade-2025-marca', photos: 12, ... }
   //   → assets/img/projetos/expotrade-2025-marca/01.jpg … 12.jpg (ext: 'webp' se forem WebP)
   projects: [],

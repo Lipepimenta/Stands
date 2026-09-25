@@ -30,8 +30,9 @@
   // Projetos e logos cadastrados pelo painel /admin ficam em content/*.json.
   // Os de js/config.js continuam valendo (e são o que aparece abrindo o arquivo direto no computador).
   const load = file => fetch(file, { cache: 'no-cache' }).then(r => r.ok ? r.json() : []).catch(() => []);
-  const api = { concept: true, list: [], clients: [] };
-  const ready = Promise.all([load('content/projetos.json'), load('content/clientes.json')]).then(([projects, clients]) => {
+  const loadObj = file => load(file).then(d => d && !Array.isArray(d) ? d : {});
+  const api = { concept: true, list: [], clients: [], home: {} };
+  const ready = Promise.all([load('content/projetos.json'), load('content/clientes.json'), loadObj('content/home.json')]).then(([projects, clients, home]) => {
     const real = [...(Array.isArray(projects) ? projects : []), ...(SITE.projects || [])]
       .filter(p => p && !p.hidden && photos(p).length);
     api.concept = real.length === 0;
@@ -41,6 +42,12 @@
     api.clients = [...(Array.isArray(clients) ? clients : []), ...(SITE.clients || [])]
       .filter(c => c && c.name)
       .map(c => ({ ...c, logo: c.logo ? rel(c.logo) : '' }));
+    // Página inicial (painel → Página inicial): foto de abertura e fotos da estrutura
+    api.home = {
+      hero: home.hero ? rel(home.hero) : '',
+      heroAlt: home.heroAlt || '',
+      estrutura: (home.estrutura || []).filter(Boolean).map(rel)
+    };
     return api;
   });
 

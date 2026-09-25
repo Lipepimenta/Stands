@@ -47,7 +47,7 @@ Acesse **https://www.jmstandspr.com.br/admin/** (enquanto o domínio não estive
 1. Entre com **Entrar com GitHub**.
 2. Abra **Portfólio → Projetos → Adicionar projeto**.
 3. Preencha o nome e **arraste as fotos, várias de uma vez**, direto do celular ou da câmera (JPG, PNG ou HEIC do iPhone). O painel reduz e converte cada foto para WebP antes de enviar, então não precisa tratar nada. A primeira foto é a capa, e dá para reordenar.
-4. Preencha o que souber: cliente (só com autorização), feira, ano, cidade, metragem, formato e tipo de construção. Marque **Destacar na página inicial** para o projeto aparecer na home.
+4. Preencha o que souber: cliente (só com autorização), feira, ano, cidade, metragem, formato e tipo de construção. Em **Onde aparece na página inicial**, escolha *Seção Destaques* (até 4) ou *Faixa logo abaixo da abertura* (até 3). Cada projeto fica num lugar só.
 5. Clique em **Salvar**. O site é atualizado sozinho em cerca de 1 minuto.
 
 **Se aparecer "Ocorreu um erro ao salvar" / "Failed to fetch":** o GitHub interrompe salvamentos que levam mais de ~5 segundos para subir. Com internet lenta, isso acontece a partir de 3 ou 4 fotos. Salve de 3 em 3 fotos (adicione, salve, adicione mais, salve) ou use o **robô de fotos** para lotes grandes. O painel guarda um rascunho automático, então nada se perde.
@@ -91,7 +91,11 @@ As fotos originais nunca vão para o site: a pasta `fotos-para-subir/` fica fora
 ### Onde os projetos aparecem
 
 - **`projetos.html` (Portfólio):** todos os projetos, com filtros por formato e construção, galeria com miniaturas e link direto para cada projeto (`projetos.html#nome-do-projeto`). Também mostra os logos de `clients` e a lista de feiras atendidas, montada sozinha a partir dos projetos.
-- **Home:** só uma seleção, os projetos com `featured: true` (até 4) e o botão "Ver portfólio completo".
+- **Home:** cada área tem o seu conteúdo, e nenhuma foto se repete:
+  - **Foto de abertura:** painel → **Página inicial → Fotos da página inicial**. Pode escolher uma foto já enviada. Sem escolha, o site usa uma foto de projeto que não está na home.
+  - **Faixa logo abaixo da abertura** (3 fotos) e **Seção Destaques** (4 cards): definidas em cada projeto, no campo **Onde aparece na página inicial**. Sem marcação, o site completa com projetos que ainda não apareceram na página.
+  - Se a capa de um projeto já apareceu (por exemplo, como foto de abertura), a home usa a próxima foto dele.
+  - **Estrutura:** 3 fotos da oficina, marcenaria e montagem, também em **Página inicial**.
 
 ### Alternativa manual: inserir fotos sem o painel
 
@@ -116,7 +120,7 @@ projects: [
     format: 'Ilha',        // Ilha · Esquina · Península · Linear
     build: 'Construído',   // Construído · Misto · Octanorm · Cenografia
     summary: 'Uma frase: o desafio e a solução.', // opcional
-    featured: true           // opcional: aparece na home
+    home: 'destaque'         // opcional: 'destaque' (até 4) ou 'faixa' (até 3) na home
   }
 ]
 ```

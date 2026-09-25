@@ -23,53 +23,56 @@
 <body class="bio">
 <!-- Página para a bio do Instagram: publique e use o endereço .../links -->
 <main class="bio-shell">
+  <button class="bio-share" type="button" data-bio-share aria-label="Compartilhar esta página" title="Compartilhar esta página">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.7 10.7 6.6-4.3M8.7 13.3l6.6 4.3"/></svg>
+  </button>
+
   <header class="bio-head">
-    <a class="bio-brand" href="index.html?origem=instagram" aria-label="JM Stands — início">
-      <span class="bio-brand-logo"><img src="assets/img/logo/logo1.png" alt=""></span>
-      <span><b>JM Stands</b><small>Stands &amp; experiências</small></span>
+    <a class="bio-avatar" href="index.html?origem=instagram" aria-label="Acessar o site da JM Stands">
+      <img src="assets/img/logo/logo1.png" alt="">
     </a>
-    <span class="bio-kicker">Projeto · Produção · Montagem</span>
-    <h1 class="display">Espaços que fazem marcas serem vistas.</h1>
-    <p>Da primeira ideia à entrega no pavilhão, um único parceiro cuida de tudo.</p>
-    <div class="bio-proof" aria-label="Experiência da JM Stands">
-      <span><b>+20</b> anos</span>
-      <span><b>+1.000</b> projetos</span>
-      <span><b>+10</b> estados</span>
-    </div>
+    <h1>JM Stands</h1>
+    <p>Projeto, produção e montagem de stands.</p>
+    <span class="bio-status"><i aria-hidden="true"></i> Atendimento em todo o Brasil</span>
   </header>
 
   <nav class="bio-links" aria-label="Canais e páginas da JM Stands">
     <a class="bio-link bio-link-primary" href="index.html?origem=instagram#solicitar">
-      <span class="bio-link-copy"><small>Comece por aqui</small><b>Solicitar um projeto</b><em>Briefing guiado · leva cerca de 2 minutos</em></span>
+      <span class="bio-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z"/></svg></span>
+      <span class="bio-link-copy"><b>Solicitar orçamento</b><small>Conte sobre o seu evento</small></span>
+      <span class="bio-link-arrow" aria-hidden="true">→</span>
+    </a>
+
+    <a class="bio-link" data-bio-wa href="#" target="_blank" rel="noopener">
+      <span class="bio-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 21l1.65-4.8A9 9 0 1 1 7.8 19.35z"/><path d="M8.8 8.2c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.8 1.9c.1.3.1.5-.1.7l-.6.7c-.2.2-.1.4 0 .6.5.9 1.2 1.6 2.1 2.1.2.1.4.2.6 0l.8-1c.2-.2.4-.3.7-.1l1.8.8c.3.1.4.3.4.5 0 .4-.2 1.3-.8 1.8-.5.5-1.2.8-2 .7-1.2-.2-2.8-.8-4.5-2.3-2-1.8-3.1-4-3.2-5.1 0-.5.1-.9.3-1.3z"/></svg></span>
+      <span class="bio-link-copy"><b>Falar no WhatsApp</b><small>Atendimento comercial</small></span>
       <span class="bio-link-arrow" aria-hidden="true">↗</span>
     </a>
 
-    <div class="bio-contact-grid">
-      <a class="bio-link bio-contact" data-bio-wa href="#" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21l1.65-4.8A9 9 0 1 1 7.8 19.35z"/><path d="M8.8 8.2c.2-.4.4-.4.7-.4h.5c.2 0 .4.1.5.4l.8 1.9c.1.3.1.5-.1.7l-.6.7c-.2.2-.1.4 0 .6.5.9 1.2 1.6 2.1 2.1.2.1.4.2.6 0l.8-1c.2-.2.4-.3.7-.1l1.8.8c.3.1.4.3.4.5 0 .4-.2 1.3-.8 1.8-.5.5-1.2.8-2 .7-1.2-.2-2.8-.8-4.5-2.3-2-1.8-3.1-4-3.2-5.1 0-.5.1-.9.3-1.3z"/></svg>
-        <span><small>Converse agora</small><b>WhatsApp</b></span><em aria-hidden="true">↗</em>
-      </a>
-      <a class="bio-link bio-contact" data-bio-mail href="#">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>
-        <span><small>Envie seus arquivos</small><b>E-mail</b></span><em aria-hidden="true">↗</em>
-      </a>
-    </div>
+    <a class="bio-link" href="projetos.html?origem=instagram">
+      <span class="bio-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></span>
+      <span class="bio-link-copy"><b>Ver projetos</b><small>Stands e cenografias realizadas</small></span>
+      <span class="bio-link-arrow" aria-hidden="true">→</span>
+    </a>
 
-    <div class="bio-explore">
-      <span class="bio-section-label">Conheça a JM</span>
-      <a class="bio-link bio-link-compact" href="index.html?origem=instagram#projetos">
-        <span><b>Projetos e soluções</b><small>Veja o que podemos criar para a sua marca</small></span><em aria-hidden="true">→</em>
-      </a>
-      <a class="bio-link bio-link-compact" href="index.html?origem=instagram">
-        <span><b>Estrutura e processo</b><small>Da ideia à montagem no pavilhão</small></span><em aria-hidden="true">→</em>
-      </a>
-    </div>
+    <a class="bio-link" href="index.html?origem=instagram">
+      <span class="bio-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 21V9l8-6 8 6v12"/><path d="M9 21v-7h6v7"/></svg></span>
+      <span class="bio-link-copy"><b>Conhecer a JM</b><small>Serviços, processo e estrutura</small></span>
+      <span class="bio-link-arrow" aria-hidden="true">→</span>
+    </a>
   </nav>
 
+  <div class="bio-social" aria-label="Outros canais da JM Stands">
+    <a data-bio-instagram href="#" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></svg></a>
+    <a data-bio-mail href="#" aria-label="E-mail"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg></a>
+    <a href="index.html?origem=instagram" aria-label="Site da JM Stands"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18M12 3a15 15 0 0 0 0 18"/></svg></a>
+  </div>
+
   <footer class="bio-foot">
-    <span><i aria-hidden="true"></i> Atendimento comercial · Colombo · PR</span>
-    <span>© <span id="year">2026</span> JM Stands · <a href="privacidade.html">Privacidade</a></span>
+    <span>JM Stands · Colombo, PR</span>
+    <a href="privacidade.html">Privacidade</a>
   </footer>
+  <span class="sr-only" data-share-status aria-live="polite"></span>
 </main>
 
 <script src="js/config.js"></script>
@@ -79,7 +82,26 @@
     const wa = document.querySelector('[data-bio-wa]');
     wa.href = 'https://wa.me/' + S.whatsapp + '?text=' + encodeURIComponent('Olá, JM! Vim pelo Instagram e gostaria de conversar sobre um projeto de stand.');
     document.querySelector('[data-bio-mail]').href = 'mailto:' + S.email;
-    document.getElementById('year').textContent = new Date().getFullYear();
+    const instagram = document.querySelector('[data-bio-instagram]');
+    if (S.social.instagram) instagram.href = S.social.instagram;
+    else instagram.hidden = true;
+
+    const share = document.querySelector('[data-bio-share]');
+    const shareStatus = document.querySelector('[data-share-status]');
+    share.addEventListener('click', async () => {
+      const data = { title: 'JM Stands', text: 'Projeto, produção e montagem de stands.', url: location.href };
+      try {
+        if (navigator.share) await navigator.share(data);
+        else {
+          await navigator.clipboard.writeText(location.href);
+          shareStatus.textContent = 'Link copiado.';
+          share.classList.add('copied');
+          setTimeout(() => share.classList.remove('copied'), 1600);
+        }
+      } catch (error) {
+        if (error.name !== 'AbortError') shareStatus.textContent = 'Não foi possível compartilhar o link.';
+      }
+    });
   })();
 </script>
 </body>

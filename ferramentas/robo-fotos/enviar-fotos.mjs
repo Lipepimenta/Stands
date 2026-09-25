@@ -114,7 +114,7 @@ async function main() {
       const year = (title.match(/\b(19|20)\d{2}\b/) || [])[0];
       project = {
         title, images, client: '', event: '', ...(year ? { year: Number(year) } : {}),
-        city: '', area: '', summary: '', featured: false,
+        city: '', area: '', summary: '', home: '',
         hidden: true // entra como rascunho: complete os dados no painel e desmarque "Ocultar do site"
       };
       projects.unshift(project);

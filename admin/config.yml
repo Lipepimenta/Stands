@@ -39,6 +39,35 @@ media_libraries:
         optimize: true
 
 collections:
+  - name: site
+    label: Página inicial
+    icon: home
+    files:
+      - name: home
+        label: Fotos da página inicial
+        icon: home
+        file: content/home.json
+        media_folder: /assets/img/home
+        public_folder: /assets/img/home
+        fields:
+          - name: hero
+            label: Foto de abertura (topo do site)
+            widget: image
+            required: false
+            hint: 'Foto grande do topo, atrás do título. Prefira uma foto larga e mais escura, e que não seja capa de projeto da home. Dá para escolher uma já enviada.'
+          - name: heroAlt
+            label: Descrição da foto de abertura
+            widget: string
+            required: false
+            hint: 'Para acessibilidade e Google. Ex.: Stand da Autolac com arco de LED'
+          - name: estrutura
+            label: Fotos da seção Estrutura (oficina, marcenaria, montagem)
+            widget: image
+            multiple: true
+            required: false
+            max: 3
+            hint: 'Exatamente 3 fotos: a 1ª fica grande, as outras duas ao lado. Enquanto não houver 3, a seção mostra só o texto.'
+
   - name: portfolio
     label: Portfólio
     icon: photo_library
@@ -114,11 +143,16 @@ collections:
                 widget: text
                 required: false
                 hint: 'Opcional. Uma ou duas frases: o desafio e a solução.'
-              - name: featured
-                label: Destacar na página inicial
-                widget: boolean
-                default: false
-                hint: 'A home mostra até 4 projetos destacados. Todos aparecem no Portfólio.'
+              - name: home
+                label: Onde aparece na página inicial
+                widget: select
+                required: false
+                default: ''
+                options:
+                  - { label: 'Não aparece (só no Portfólio)', value: '' }
+                  - { label: 'Faixa logo abaixo da abertura (até 3)', value: 'faixa' }
+                  - { label: 'Seção Destaques (até 4)', value: 'destaque' }
+                hint: 'Um projeto aparece em um só lugar da home. Todos aparecem no Portfólio.'
               - name: hidden
                 label: Ocultar do site
                 widget: boolean

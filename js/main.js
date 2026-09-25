@@ -18,12 +18,32 @@
   // Os dados chegam de content/*.json (painel /admin); por isso a montagem espera o carregamento.
   window.JM_PROJECTS.ready.then(P => {
     const conceptMode = P.concept;
-    // A home mostra só uma seleção: os projetos com `featured: true` (ou os 4 primeiros).
-    const picked = P.list.filter(p => p.featured);
-    const featured = (picked.length ? picked : P.list).slice(0, 4);
-    $('#projectList').hidden = featured.length === 0;
-    $('#solutionGrid').hidden = featured.length > 0;
-    if (featured.length) {
+    // Cada área da home tem o seu conteúdo (painel → projeto → "Onde aparece na página inicial").
+    const placement = p => p.home || (p.featured ? 'destaque' : '');
+    let destaques = P.list.filter(p => placement(p) === 'destaque').slice(0, 4);
+    if (!destaques.length) destaques = P.list.slice(0, 4);
+    // Faixa abaixo da abertura: nunca repete um destaque; completa com projetos que ainda não apareceram.
+    const free = P.list.filter(p => !destaques.includes(p));
+    const faixa = [...free.filter(p => placement(p) === 'faixa'), ...free.filter(p => placement(p) !== 'faixa')].slice(0, 3);
+    const onHome = [...faixa, ...destaques];
+
+    // Foto de abertura: a escolhida no painel; sem escolha, uma foto de projeto fora da home.
+    const outside = P.list.filter(p => !onHome.includes(p)).flatMap(p => p.shots);
+    const hero = P.home.hero ? { src: P.home.hero, alt: P.home.heroAlt || 'Stand projetado e montado pela JM' }
+      : SITE.images.hero ? { src: SITE.images.hero, alt: 'Stand projetado e montado pela JM' }
+      : conceptMode ? null : outside[0] || (destaques[0] && destaques[0].shots[1]) || null;
+    // Nenhuma foto se repete na página: se a capa de um projeto já apareceu, usa a próxima foto dele.
+    const used = new Set(hero ? [hero.src] : []);
+    const cover = new Map(onHome.map(p => {
+      const shot = p.shots.find(s => !used.has(s.src)) || p.shots[0];
+      used.add(shot.src);
+      return [p, shot];
+    }));
+    if (hero) $('.hero-media').innerHTML = media(hero.src, hero.alt, true);
+
+    $('#projectList').hidden = destaques.length === 0;
+    $('#solutionGrid').hidden = destaques.length > 0;
+    if (destaques.length) {
       $('#portfolioHeading').textContent = conceptMode
         ? 'Espaços pensados para receber, apresentar e negociar.'
         : 'Projetos reais. Marcas em destaque.';
@@ -34,23 +54,17 @@
         link.textContent = link.classList.contains('btn') ? 'Ver projetos ↓' : 'Destaques';
       });
     }
-    if (!SITE.images.hero && featured.length) {
-      const first = featured[0].shots[0];
-      $('.hero-media').innerHTML = media(first.src, first.alt || featured[0].title, true);
-    }
-    if (featured.length) {
-      $('#portfolioPreview').hidden = false;
-      $('#portfolioPreview').innerHTML = featured.slice(0, 3).map((p, i) => `
-        <button type="button" data-gallery="${i}" aria-label="Ver fotos do projeto">
-          ${media(p.shots[0].src, p.shots[0].alt || p.title)}
-          ${p.concept ? '<small class="concept-label">Visual conceitual</small>' : ''}
-          <span>${esc(p.client || p.title)} <i aria-hidden="true">↗</i></span>
-        </button>`).join('');
-    }
-    $('#projectList').innerHTML = featured.map((p, i) => `
+    $('#portfolioPreview').hidden = faixa.length === 0;
+    $('#portfolioPreview').innerHTML = faixa.map(p => `
+      <button type="button" data-gallery="${onHome.indexOf(p)}" aria-label="Ver fotos do projeto">
+        ${media(cover.get(p).src, cover.get(p).alt || p.title)}
+        ${p.concept ? '<small class="concept-label">Visual conceitual</small>' : ''}
+        <span>${esc(p.client || p.title)} <i aria-hidden="true">↗</i></span>
+      </button>`).join('');
+    $('#projectList').innerHTML = destaques.map(p => `
       <article class="portfolio-card reveal">
-        <button class="portfolio-image" type="button" data-gallery="${i}" aria-label="Ver fotos do projeto">
-          ${media(p.shots[0].src, p.shots[0].alt || p.title)}
+        <button class="portfolio-image" type="button" data-gallery="${onHome.indexOf(p)}" aria-label="Ver fotos do projeto">
+          ${media(cover.get(p).src, cover.get(p).alt || p.title)}
           ${p.concept ? '<span class="concept-label">Visual conceitual</span>' : ''}
           <span class="portfolio-count"><b>${String(p.shots.length).padStart(2, '0')}</b> <span>${p.shots.length === 1 ? 'FOTO' : 'FOTOS'}</span> ↗</span>
         </button>
@@ -61,7 +75,15 @@
       </article>`).join('');
     document.addEventListener('click', e => {
       const button = e.target.closest('[data-gallery]');
-      if (button) P.open(featured, Number(button.dataset.gallery), button);
+      if (button) P.open(onHome, Number(button.dataset.gallery), button);
+    });
+
+    /* Estrutura: 3 fotos do painel (Página inicial) ou de js/config.js -------- */
+    const structure = P.home.estrutura.length >= 3 ? P.home.estrutura : (SITE.images.estrutura || []);
+    const hasStructure = structure.length >= 3 && structure.slice(0, 3).every(Boolean);
+    $('.structure').classList.toggle('no-photos', !hasStructure);
+    if (hasStructure) $$('[data-img^="estrutura:"]').forEach(el => {
+      el.innerHTML = media(structure[Number(el.dataset.img.split(':')[1])], el.dataset.alt || '');
     });
 
     /* Clientes --------------------------------------------------------------- */
@@ -75,7 +97,7 @@
     $$('.reveal:not(.on)').forEach(el => io.observe(el));
   });
 
-  /* Show the workshop gallery only when actual photos are available. */
+  /* Sem fotos da estrutura, a seção fica só com o texto (até os dados chegarem). */
   const structurePhotos = SITE.images.estrutura || [];
   if (!structurePhotos.every(Boolean)) $('.structure').classList.add('no-photos');
 
