@@ -1,120 +1,6 @@
 [
   {
-    "title": "Stand Vet Solutions",
-    "images": [
-      "/assets/img/projetos/stand-vet-solutions-01.webp"
-    ],
-    "client": "",
-    "event": "",
-    "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
-  },
-  {
-    "title": "Stand Unifique - Expoinovação",
-    "images": [
-      "/assets/img/projetos/stand-unifique-expoinovacao-01.webp",
-      "/assets/img/projetos/stand-unifique-expoinovacao-02.webp"
-    ],
-    "client": "",
-    "event": "",
-    "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
-  },
-  {
-    "title": "Stand Steelvet",
-    "images": [
-      "/assets/img/projetos/stand-steelvet-01.webp"
-    ],
-    "client": "",
-    "event": "",
-    "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
-  },
-  {
-    "title": "Stand Senac Fecomércio Sesc - Expoinovação",
-    "images": [
-      "/assets/img/projetos/stand-senac-fecomercio-sesc-expoinovacao-01.webp",
-      "/assets/img/projetos/stand-senac-fecomercio-sesc-expoinovacao-02.webp",
-      "/assets/img/projetos/stand-senac-fecomercio-sesc-expoinovacao-03.webp"
-    ],
-    "client": "",
-    "event": "",
-    "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
-  },
-  {
-    "title": "Stand Realfix",
-    "images": [
-      "/assets/img/projetos/stand-realfix-01.webp",
-      "/assets/img/projetos/stand-realfix-02.webp"
-    ],
-    "client": "",
-    "event": "",
-    "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
-  },
-  {
-    "title": "Stand Qualys Diagnósticos",
-    "images": [
-      "/assets/img/projetos/stand-qualys-diagnosticos-01.webp",
-      "/assets/img/projetos/stand-qualys-diagnosticos-02.webp",
-      "/assets/img/projetos/stand-qualys-diagnosticos-03.webp",
-      "/assets/img/projetos/stand-qualys-diagnosticos-04.webp",
-      "/assets/img/projetos/stand-qualys-diagnosticos-05.webp",
-      "/assets/img/projetos/stand-qualys-diagnosticos-06.webp",
-      "/assets/img/projetos/stand-qualys-diagnosticos-07.webp"
-    ],
-    "client": "",
-    "event": "",
-    "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
-  },
-  {
-    "title": "Stand Prefeitura de Joinville - Expoinovação",
-    "images": [
-      "/assets/img/projetos/stand-prefeitura-de-joinville-expoinovacao-01.webp"
-    ],
-    "client": "",
-    "event": "",
-    "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
-  },
-  {
-    "title": "Stand Play na Inovação - Expoinovação",
-    "images": [
-      "/assets/img/projetos/stand-play-na-inovacao-expoinovacao-01.webp"
-    ],
-    "client": "",
-    "event": "",
-    "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
-  },
-  {
-    "title": "Stand Greiner Bio-One",
+    "title": "Stand com iluminação em LED e jardim vertical",
     "images": [
       "/assets/img/projetos/stand-greiner-bio-one-01.webp",
       "/assets/img/projetos/stand-greiner-bio-one-02.webp",
@@ -128,49 +14,41 @@
       "/assets/img/projetos/stand-greiner-bio-one-10.webp",
       "/assets/img/projetos/stand-greiner-bio-one-11.webp"
     ],
-    "client": "",
+    "client": "Greiner Bio-One",
     "event": "",
     "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
+    "area": "≈ 100 m²",
+    "summary": "Teto rebaixado com perfis de LED azul, jardim vertical com logo iluminado, vitrines de produto embutidas e lounge para atendimento.",
+    "featured": true,
+    "hidden": true,
+    "format": "Península",
+    "build": "Construído",
+    "year": 2026
   },
   {
-    "title": "Stand Bitrix24 - Expoinovação",
+    "title": "Stand com painel de LED e marcenaria orgânica",
     "images": [
-      "/assets/img/projetos/stand-bitrix24-expoinovacao-01.webp",
-      "/assets/img/projetos/stand-bitrix24-expoinovacao-02.webp"
+      "/assets/img/projetos/stand-qualys-diagnosticos-01.webp",
+      "/assets/img/projetos/stand-qualys-diagnosticos-02.webp",
+      "/assets/img/projetos/stand-qualys-diagnosticos-03.webp",
+      "/assets/img/projetos/stand-qualys-diagnosticos-04.webp",
+      "/assets/img/projetos/stand-qualys-diagnosticos-05.webp",
+      "/assets/img/projetos/stand-qualys-diagnosticos-06.webp",
+      "/assets/img/projetos/stand-qualys-diagnosticos-07.webp"
     ],
-    "client": "",
+    "client": "Qualys Diagnósticos",
     "event": "",
     "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
+    "area": "≈ 80 m²",
+    "summary": "Formas curvas em ripado de madeira e jardim vertical, painel de LED de grande formato, área de demonstração de equipamentos e lounge.",
+    "featured": true,
+    "hidden": true,
+    "format": "Península",
+    "build": "Construído",
+    "year": 2026
   },
   {
-    "title": "Stand Autolac",
-    "images": [
-      "/assets/img/projetos/stand-autolac-01.webp",
-      "/assets/img/projetos/stand-autolac-02.webp",
-      "/assets/img/projetos/stand-autolac-03.webp",
-      "/assets/img/projetos/stand-autolac-04.webp",
-      "/assets/img/projetos/stand-autolac-05.webp",
-      "/assets/img/projetos/stand-autolac-06.webp",
-      "/assets/img/projetos/stand-autolac-07.webp"
-    ],
-    "client": "",
-    "event": "",
-    "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
-  },
-  {
-    "title": "Stand Armac",
+    "title": "Stand para exposição de máquinas pesadas",
     "images": [
       "/assets/img/projetos/stand-armac-01.webp",
       "/assets/img/projetos/stand-armac-02.webp",
@@ -187,34 +65,19 @@
       "/assets/img/projetos/stand-armac-13.webp",
       "/assets/img/projetos/stand-armac-14.webp"
     ],
-    "client": "",
+    "client": "Armac",
     "event": "",
     "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
+    "area": "≈ 150 m²",
+    "summary": "Pórtico com a marca em destaque, salas de reunião em vidro, balcão e área aberta para exposição de retroescavadeiras e minicarregadeiras.",
+    "featured": true,
+    "hidden": true,
+    "format": "Ilha",
+    "build": "Misto",
+    "year": 2026
   },
   {
-    "title": "Stand ArcelorMittal - Expoinovação",
-    "images": [
-      "/assets/img/projetos/stand-arcelormittal-expoinovacao-01.webp",
-      "/assets/img/projetos/stand-arcelormittal-expoinovacao-02.webp",
-      "/assets/img/projetos/stand-arcelormittal-expoinovacao-03.webp",
-      "/assets/img/projetos/stand-arcelormittal-expoinovacao-04.webp",
-      "/assets/img/projetos/stand-arcelormittal-expoinovacao-05.webp",
-      "/assets/img/projetos/stand-arcelormittal-expoinovacao-06.webp"
-    ],
-    "client": "",
-    "event": "",
-    "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
-  },
-  {
-    "title": "Stand ArborGen",
+    "title": "Stand com ripado de madeira e floreiras",
     "images": [
       "/assets/img/projetos/stand-arborgen-01.webp",
       "/assets/img/projetos/stand-arborgen-02.webp",
@@ -223,27 +86,216 @@
       "/assets/img/projetos/stand-arborgen-05.webp",
       "/assets/img/projetos/stand-arborgen-06.webp"
     ],
-    "client": "",
+    "client": "ArborGen",
     "event": "",
     "city": "",
-    "area": "",
-    "summary": "",
-    "featured": false,
-    "hidden": true
+    "area": "≈ 24 m²",
+    "summary": "Torre em ripado natural com floreiras suspensas, sala de reunião envidraçada, balcão em marcenaria e comunicação da marca.",
+    "featured": true,
+    "hidden": true,
+    "format": "Esquina",
+    "build": "Construído",
+    "year": 2026
   },
   {
-    "title": "Cenografia Expoinovação - arena e painéis",
+    "title": "Stand com arco de LED e totens digitais",
+    "images": [
+      "/assets/img/projetos/stand-autolac-01.webp",
+      "/assets/img/projetos/stand-autolac-02.webp",
+      "/assets/img/projetos/stand-autolac-03.webp",
+      "/assets/img/projetos/stand-autolac-04.webp",
+      "/assets/img/projetos/stand-autolac-05.webp",
+      "/assets/img/projetos/stand-autolac-06.webp",
+      "/assets/img/projetos/stand-autolac-07.webp"
+    ],
+    "client": "Autolac",
+    "event": "",
+    "city": "",
+    "area": "≈ 60 m²",
+    "summary": "Testeira curva contornada por LED, totens em formato de celular, jardim vertical e áreas de atendimento em volta de todo o stand.",
+    "featured": false,
+    "hidden": true,
+    "format": "Ilha",
+    "build": "Construído",
+    "year": 2026
+  },
+  {
+    "title": "Stand aberto com pórtico e área de negócios",
+    "images": [
+      "/assets/img/projetos/stand-arcelormittal-expoinovacao-01.webp",
+      "/assets/img/projetos/stand-arcelormittal-expoinovacao-02.webp",
+      "/assets/img/projetos/stand-arcelormittal-expoinovacao-03.webp",
+      "/assets/img/projetos/stand-arcelormittal-expoinovacao-04.webp",
+      "/assets/img/projetos/stand-arcelormittal-expoinovacao-05.webp",
+      "/assets/img/projetos/stand-arcelormittal-expoinovacao-06.webp"
+    ],
+    "client": "ArcelorMittal",
+    "event": "Expoinovação",
+    "city": "Joinville",
+    "area": "≈ 80 m²",
+    "summary": "Pórtico em degradê com a marca, balcões de atendimento, mesas para reuniões, TV e sala fechada de apoio.",
+    "featured": false,
+    "hidden": true,
+    "state": "SC",
+    "format": "Ilha",
+    "build": "Construído",
+    "year": 2026
+  },
+  {
+    "title": "Stand em pórtico com painel tecnológico",
+    "images": [
+      "/assets/img/projetos/stand-senac-fecomercio-sesc-expoinovacao-01.webp",
+      "/assets/img/projetos/stand-senac-fecomercio-sesc-expoinovacao-02.webp",
+      "/assets/img/projetos/stand-senac-fecomercio-sesc-expoinovacao-03.webp"
+    ],
+    "client": "Senac · Fecomércio · Sesc",
+    "event": "Expoinovação",
+    "city": "Joinville",
+    "area": "≈ 36 m²",
+    "summary": "Estrutura em pórtico preto com painel de marca, TV, balcões personalizados, floreira e mesas de atendimento.",
+    "featured": false,
+    "hidden": true,
+    "state": "SC",
+    "format": "Ilha",
+    "build": "Construído",
+    "year": 2026
+  },
+  {
+    "title": "Stand de cibersegurança com painéis iluminados",
+    "images": [
+      "/assets/img/projetos/stand-unifique-expoinovacao-01.webp",
+      "/assets/img/projetos/stand-unifique-expoinovacao-02.webp"
+    ],
+    "client": "Unifique",
+    "event": "Expoinovação",
+    "city": "Joinville",
+    "area": "≈ 36 m²",
+    "summary": "Paredes com comunicação visual de grande formato, balcão de atendimento, TV, mesas e floreira.",
+    "featured": false,
+    "hidden": true,
+    "state": "SC",
+    "format": "Esquina",
+    "build": "Construído",
+    "year": 2026
+  },
+  {
+    "title": "Stand com balcão contínuo e lounge",
+    "images": [
+      "/assets/img/projetos/stand-bitrix24-expoinovacao-01.webp",
+      "/assets/img/projetos/stand-bitrix24-expoinovacao-02.webp"
+    ],
+    "client": "Bitrix24",
+    "event": "Expoinovação",
+    "city": "Joinville",
+    "area": "≈ 30 m²",
+    "summary": "Balcão longo com comunicação da marca, painel alto de destaque e lounge com poltronas.",
+    "featured": false,
+    "hidden": true,
+    "state": "SC",
+    "format": "Ilha",
+    "build": "Construído",
+    "year": 2026
+  },
+  {
+    "title": "Stand com estrutura metálica e prateleiras",
+    "images": [
+      "/assets/img/projetos/stand-realfix-01.webp",
+      "/assets/img/projetos/stand-realfix-02.webp"
+    ],
+    "client": "Realfix Tintas Industriais",
+    "event": "",
+    "city": "",
+    "area": "≈ 20 m²",
+    "summary": "Estante metálica com prateleiras de madeira, iluminação em trilho, testeira com a marca e mesa bistrô.",
+    "featured": false,
+    "hidden": true,
+    "format": "Linear",
+    "build": "Construído",
+    "year": 2026
+  },
+  {
+    "title": "Stand com vitrines de produto",
+    "images": [
+      "/assets/img/projetos/stand-steelvet-01.webp"
+    ],
+    "client": "Steelvet",
+    "event": "",
+    "city": "",
+    "area": "≈ 18 m²",
+    "summary": "Balcão com vitrines de vidro para produtos, painel de fundo com TV e comunicação da marca.",
+    "featured": false,
+    "hidden": true,
+    "format": "Linear",
+    "build": "Construído",
+    "year": 2026
+  },
+  {
+    "title": "Stand para demonstração de equipamentos",
+    "images": [
+      "/assets/img/projetos/stand-vet-solutions-01.webp"
+    ],
+    "client": "Vet Solutions",
+    "event": "",
+    "city": "",
+    "area": "≈ 24 m²",
+    "summary": "Painel de fundo com a marca, balcão, TVs em pedestal e espaço livre para exibir equipamentos de diagnóstico.",
+    "featured": false,
+    "hidden": true,
+    "format": "Linear",
+    "build": "Construído",
+    "year": 2026
+  },
+  {
+    "title": "Stand com jardim vertical em grande formato",
+    "images": [
+      "/assets/img/projetos/stand-prefeitura-de-joinville-expoinovacao-01.webp"
+    ],
+    "client": "Prefeitura de Joinville",
+    "event": "Expoinovação",
+    "city": "Joinville",
+    "area": "≈ 30 m²",
+    "summary": "Parede longa com impressão de jardim vertical e brasão, balcão e área de atendimento.",
+    "featured": false,
+    "hidden": true,
+    "state": "SC",
+    "format": "Linear",
+    "build": "Construído",
+    "year": 2026
+  },
+  {
+    "title": "Stand envidraçado com parede de marcas",
+    "images": [
+      "/assets/img/projetos/stand-play-na-inovacao-expoinovacao-01.webp"
+    ],
+    "client": "Play na Inovação",
+    "event": "Expoinovação",
+    "city": "Joinville",
+    "area": "≈ 24 m²",
+    "summary": "Sala em vidro com testeira iluminada e parede de fundo com mosaico de marcas.",
+    "featured": false,
+    "hidden": true,
+    "state": "SC",
+    "format": "Ilha",
+    "build": "Misto",
+    "year": 2026
+  },
+  {
+    "title": "Cenografia do evento: arena e painéis",
     "images": [
       "/assets/img/projetos/cenografia-expoinovacao-arena-e-paineis-01.webp",
       "/assets/img/projetos/cenografia-expoinovacao-arena-e-paineis-02.webp",
       "/assets/img/projetos/cenografia-expoinovacao-arena-e-paineis-03.webp"
     ],
-    "client": "",
-    "event": "",
-    "city": "",
+    "client": "Expoinovação",
+    "event": "Expoinovação",
+    "city": "Joinville",
     "area": "",
-    "summary": "",
+    "summary": "Painéis de identidade do evento, backdrop para fotos e arena com assentos e iluminação em LED.",
     "featured": false,
-    "hidden": true
+    "hidden": true,
+    "state": "SC",
+    "format": "",
+    "build": "Cenografia",
+    "year": 2026
   }
 ]
