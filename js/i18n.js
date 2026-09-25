@@ -414,6 +414,36 @@ Experiência de marca e demonstração|Brand experience and demos|Experiencia de
 Recepção, reuniões e hospitalidade|Reception, meetings and hospitality|Recepción, reuniones y hospitalidad
 Exposição de produto e atendimento|Product display and customer service|Exhibición de producto y atención
 Demonstrações e geração de fluxo|Demos and foot traffic|Demostraciones y generación de flujo
+Até 6 arquivos e 7,5 MB no total. Para vídeos, DWG, SKP ou ZIP grandes, use um link abaixo.|Up to 6 files and 7.5 MB total. For large videos, DWG, SKP or ZIP files, use a link below.|Hasta 6 archivos y 7,5 MB en total. Para vídeos o archivos DWG, SKP o ZIP grandes, usa un enlace abajo.
+Os arquivos dentro do limite são enviados junto com o briefing e ficam vinculados ao mesmo protocolo.|Files within the limit are sent with the brief and linked to the same reference number.|Los archivos dentro del límite se envían con el briefing y quedan vinculados al mismo protocolo.
+Onde prefere receber o retorno? *|Where would you prefer to receive our reply? *|¿Dónde prefieres recibir nuestra respuesta? *
+A equipe responde pelo número informado.|Our team replies using the number provided.|El equipo responde al número informado.
+A equipe responde pelo endereço informado.|Our team replies using the email address provided.|El equipo responde al correo informado.
+A equipe pode continuar por qualquer um dos dois canais.|Our team can continue through either channel.|El equipo puede continuar por cualquiera de los dos canales.
+Seu preenchimento continua nesta tela. Você pode tentar novamente ou abrir uma conversa curta no WhatsApp com o protocolo.|Your information remains on this screen. You can try again or open a short WhatsApp chat with the reference number.|Tus datos permanecen en esta pantalla. Puedes intentarlo de nuevo o abrir una conversación breve en WhatsApp con el protocolo.
+Continuar pelo WhatsApp ↗|Continue on WhatsApp ↗|Continuar por WhatsApp ↗
+Baixar briefing|Download brief|Descargar briefing
+Solicitação registrada.|Request registered.|Solicitud registrada.
+Protocolo|Reference number|Protocolo
+Copiar|Copy|Copiar
+Falar sobre este pedido no WhatsApp ↗|Discuss this request on WhatsApp ↗|Hablar sobre esta solicitud por WhatsApp ↗
+registrados no briefing; envio por link necessário|listed in the brief; a file link is required|registrados en el briefing; se necesita un enlace
+prontos para envio pelo site|ready to upload through the website|listos para enviar por el sitio
+Os anexos não serão enviados: coloque os arquivos grandes no Drive ou WeTransfer e cole o link abaixo.|The attachments will not be uploaded: add the large files to Drive or WeTransfer and paste the link below.|Los adjuntos no se enviarán: sube los archivos grandes a Drive o WeTransfer y pega el enlace abajo.
+Serão enviados e vinculados ao protocolo.|They will be uploaded and linked to the reference number.|Se enviarán y quedarán vinculados al protocolo.
+O recebimento direto está indisponível. Use um link do Drive ou WeTransfer para não perder os arquivos.|Direct upload is unavailable. Use a Drive or WeTransfer link so the files are not lost.|La carga directa no está disponible. Usa un enlace de Drive o WeTransfer para no perder los archivos.
+Para não perder arquivos grandes, envie-os pelo Drive ou WeTransfer e cole o link para continuar.|To avoid losing large files, upload them to Drive or WeTransfer and paste the link to continue.|Para no perder archivos grandes, súbelos a Drive o WeTransfer y pega el enlace para continuar.
+O recebimento seguro ainda não está disponível. Baixe o briefing ou continue pelo WhatsApp sem perder o que preencheu.|Secure submission is not available yet. Download the brief or continue on WhatsApp without losing what you entered.|El envío seguro aún no está disponible. Descarga el briefing o continúa por WhatsApp sin perder lo que completaste.
+Não foi possível registrar agora. Nada foi apagado: tente novamente ou continue pelo WhatsApp com o protocolo.|We could not register it right now. Nothing was erased: try again or continue on WhatsApp with the reference number.|No fue posible registrarlo ahora. No se borró nada: inténtalo de nuevo o continúa por WhatsApp con el protocolo.
+Seu briefing foi salvo. A equipe da JM responderá pelo e-mail informado.|Your brief was saved. The JM team will reply to the email address provided.|Tu briefing fue guardado. El equipo de JM responderá al correo informado.
+Seu briefing foi salvo. A equipe poderá responder pelo WhatsApp ou por e-mail.|Your brief was saved. The team may reply through WhatsApp or email.|Tu briefing fue guardado. El equipo podrá responder por WhatsApp o correo.
+Seu briefing foi salvo. A equipe da JM responderá pelo WhatsApp informado.|Your brief was saved. The JM team will reply to the WhatsApp number provided.|Tu briefing fue guardado. El equipo de JM responderá al WhatsApp informado.
+Olá, JM!|Hello, JM!|¡Hola, JM!
+Não consegui concluir o envio pelo site e preciso de ajuda com a solicitação.|I could not complete the website submission and need help with my request.|No pude completar el envío en el sitio y necesito ayuda con la solicitud.
+Acabei de registrar uma solicitação de projeto pelo site.|I have just registered a project request on the website.|Acabo de registrar una solicitud de proyecto en el sitio.
+O briefing continua preenchido no site.|The brief remains filled in on the website.|El briefing sigue completo en el sitio.
+Podemos continuar por aqui.|We can continue here.|Podemos continuar por aquí.
+arquivo(s) não adicionado(s): limite de 6.|file(s) not added: limit of 6.|archivo(s) no añadido(s): límite de 6.
 `;
   const dictionary = new Map(rows.trim().split('\n').map(row => {
     const [pt, en, es] = row.split('|');

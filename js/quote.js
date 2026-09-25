@@ -1,8 +1,7 @@
 /* ==========================================================================
    Solicitar projeto — assistente em 4 etapas
-   Sem endpoint (config.js → form.endpoint): o briefing abre pronto no WhatsApp
-   ou no e-mail do cliente e ele anexa os arquivos por lá.
-   Com endpoint: dados e arquivos são enviados direto pelo site.
+   O briefing é registrado primeiro pelo site. WhatsApp e e-mail indicam apenas
+   onde o cliente prefere receber o retorno — não são usados como armazenamento.
    Textos do DOM ficam em português; o js/i18n.js traduz automaticamente.
    ========================================================================== */
 (() => {
@@ -15,6 +14,7 @@
   const cfg = SITE.form || {};
   const endpoint = cfg.endpoint || '';
   const maxBytes = (cfg.maxUploadMB || 25) * 1048576;
+  const maxFiles = cfg.maxFiles || 6;
   const LAST = 3, DONE = 4;
 
   const modal = $('#modal');
@@ -22,7 +22,7 @@
   const panels = $$('.q-panel', form);
   const steps = $$('.q-progress li', modal);
   const nextBtn = $('#qNext');
-  let step = 0, files = [], reference = '', lastFocus = null;
+  let step = 0, files = [], reference = '', lastFocus = null, requestId = '';
   const cityCache = new Map();
   let validCities = [];
 
@@ -42,6 +42,7 @@
   const fmt = n => n.toLocaleString('pt-BR', { maximumFractionDigits: 1 });
   const size = b => b < 1048576 ? Math.max(1, Math.round(b / 1024)) + ' KB' : fmt(b / 1048576) + ' MB';
   const totalSize = () => files.reduce((s, f) => s + f.file.size, 0);
+  const filesFit = () => files.length <= maxFiles && totalSize() <= maxBytes;
   const channel = () => val('canal') || 'whatsapp';
   const readyProject = () => val('ponto') === 'Já tenho um projeto pronto';
   const flow = () => readyProject() ? [0, 2, 3] : [0, 1, 2, 3];
@@ -49,6 +50,14 @@
     if (!value) return '';
     const [year, month, day] = value.split('-').map(Number);
     return new Intl.DateTimeFormat('pt-BR').format(new Date(year, month - 1, day));
+  };
+  const makeRequestId = () => {
+    const now = new Date();
+    const date = [now.getFullYear(), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')].join('');
+    const bytes = new Uint8Array(3);
+    if (globalThis.crypto && crypto.getRandomValues) crypto.getRandomValues(bytes);
+    else bytes.forEach((_, i) => { bytes[i] = Math.floor(Math.random() * 256); });
+    return `JM-${date}-${[...bytes].map(value => value.toString(16).padStart(2, '0')).join('').toUpperCase()}`;
   };
 
   const metragem = () => {
@@ -64,9 +73,8 @@
 
   /* Briefing estruturado (usado no resumo, no WhatsApp, no e-mail e no envio) */
   const briefing = () => {
-    const via = channel() === 'email' ? 'vou anexar neste e-mail' : 'vou anexar nesta conversa';
     const filesText = files.length
-      ? `${files.length} (${t(endpoint ? 'enviados pelo site' : via)})\n` + files.map(f => '• ' + f.file.name).join('\n')
+      ? `${files.length} (${filesFit() && endpoint ? t('prontos para envio pelo site') : t('registrados no briefing; envio por link necessário')})\n` + files.map(f => `• ${f.file.name} · ${size(f.file.size)}`).join('\n')
       : '';
     return [
       ['Evento', [
@@ -91,6 +99,7 @@
         ['Arquivos', filesText]
       ]],
       ['Contato', [
+        ['Protocolo', requestId],
         ['Nome', val('nome')],
         ['Empresa', val('empresa')],
         ['WhatsApp', val('whatsapp')],
@@ -108,13 +117,22 @@
         b(t(title).toUpperCase()) + '\n' + rows.map(([l, v]) => `${t(l)}: ${v}`).join('\n')
       ).join('\n\n');
   };
-  const subject = () => `${t('Solicitação de projeto')} — ${val('evento') || val('empresa') || val('nome')}`;
-  const waUrl = () => `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(asText(true))}`;
-  const mailUrl = () => `mailto:${SITE.email}?subject=${encodeURIComponent(subject())}&body=${encodeURIComponent(asText())}`;
+  const subject = () => `[${requestId}] ${t('Solicitação de projeto')} — ${val('evento') || val('empresa') || val('nome')}`;
+  const contactText = failed => [
+    t('Olá, JM!'),
+    failed ? t('Não consegui concluir o envio pelo site e preciso de ajuda com a solicitação.') : t('Acabei de registrar uma solicitação de projeto pelo site.'),
+    '',
+    `Protocolo: ${requestId}`,
+    val('evento') ? `Evento: ${val('evento')}` : '',
+    val('empresa') ? `Empresa: ${val('empresa')}` : '',
+    `${t('Contato')}: ${val('nome')}`,
+    '',
+    failed ? t('O briefing continua preenchido no site.') : t('Podemos continuar por aqui.')
+  ].filter(line => line !== '').join('\n');
+  const waUrl = failed => `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(contactText(failed))}`;
 
   /* Navegação entre etapas ------------------------------------------------- */
-  const submitLabel = () => endpoint ? 'Enviar solicitação ↗'
-    : channel() === 'email' ? 'Enviar por e-mail ↗' : 'Enviar pelo WhatsApp ↗';
+  const submitLabel = () => 'Enviar solicitação ↗';
 
   const go = (n, focus = true) => {
     step = n;
@@ -165,6 +183,7 @@
   const show = (project = '') => {
     lastFocus = document.activeElement;
     if (step === DONE) reset();
+    if (!requestId) requestId = makeRequestId();
     if (project) setRef(project);
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
@@ -375,6 +394,10 @@
       showStepError('Anexe o projeto ou cole um link para continuar.', $('#f-files'));
       return false;
     }
+    if (n === 2 && files.length && (!endpoint || !filesFit()) && !val('links')) {
+      showStepError(t('Para não perder arquivos grandes, envie-os pelo Drive ou WeTransfer e cole o link para continuar.'), $('#f-links'));
+      return false;
+    }
     if (n === LAST) {
       const digits = phone.value.replace(/\D/g, '');
       phone.setCustomValidity(phone.required && digits.length < 10 ? t('Informe o WhatsApp com DDD.') : '');
@@ -418,22 +441,29 @@
     hint.classList.remove('warn');
     if (!files.length) { hint.textContent = ''; return; }
     if (endpoint) {
-      const over = totalSize() > maxBytes;
+      const over = !filesFit();
       hint.classList.toggle('warn', over);
-      hint.textContent = `${size(totalSize())} / ${cfg.maxUploadMB || 25} MB` +
-        (over ? ' · ' + t('Passou do limite: envie os maiores por link (Drive, WeTransfer).') : '');
+      hint.textContent = `${files.length} / ${maxFiles} arquivos · ${size(totalSize())} / ${cfg.maxUploadMB || 7.5} MB` +
+        (over ? ' · ' + t('Os anexos não serão enviados: coloque os arquivos grandes no Drive ou WeTransfer e cole o link abaixo.') : ' · ' + t('Serão enviados e vinculados ao protocolo.'));
     } else {
-      hint.textContent = 'Seus arquivos estão prontos. Ao final, você anexa eles na conversa do WhatsApp ou no e-mail. A gente te lembra.';
+      hint.classList.add('warn');
+      hint.textContent = t('O recebimento direto está indisponível. Use um link do Drive ou WeTransfer para não perder os arquivos.');
     }
   };
 
   const add = fileList => {
+    let skipped = 0;
     [...fileList].forEach(file => {
       if (files.some(f => f.file.name === file.name && f.file.size === file.size)) return;
+      if (files.length >= maxFiles) { skipped += 1; return; }
       const kind = file.type.startsWith('image/') ? 'image' : file.type.startsWith('video/') ? 'video' : 'file';
       files.push({ file, kind, url: kind === 'file' ? '' : URL.createObjectURL(file) });
     });
     renderFiles();
+    if (skipped) {
+      hint.classList.add('warn');
+      hint.textContent += ` · ${skipped} ${t('arquivo(s) não adicionado(s): limite de 6.')}`;
+    }
     if (files.length) clearStepError();
   };
 
@@ -466,101 +496,123 @@
 
   /* Envio ------------------------------------------------------------------ */
   const error = $('#qError');
+  const fallback = $('#qFallback');
   const fail = msg => { error.textContent = msg; error.hidden = false; };
+
+  const briefFile = () => new File([asText()], `briefing-${requestId}.txt`, { type: 'text/plain;charset=utf-8' });
+  const downloadBrief = () => {
+    const url = URL.createObjectURL(briefFile());
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `briefing-${requestId}.txt`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  };
+  const showFallback = message => {
+    fail(message);
+    fallback.hidden = false;
+    $('#qFallbackWa').href = waUrl(true);
+  };
+
+  const submissionData = () => {
+    const data = new FormData();
+    data.append('form-name', 'solicitar-projeto');
+    data.append('site-check', '');
+    data.append('_subject', subject());
+    data.append('Protocolo', requestId);
+    data.append('Assunto', subject());
+    data.append('subject', subject());
+    if (val('email')) data.append('_replyto', val('email'));
+    data.append('Nome', val('nome'));
+    data.append('Empresa', val('empresa'));
+    data.append('WhatsApp', val('whatsapp'));
+    data.append('Email', val('email'));
+    data.append('Preferencia', channel() === 'ambos' ? 'WhatsApp e e-mail' : channel() === 'email' ? 'E-mail' : 'WhatsApp');
+    data.append('Evento', val('evento'));
+    data.append('Local', [val('cidade'), val('estado')].filter(Boolean).join(' · '));
+    data.append('Datas', [dateText(val('dataInicio')), dateText(val('dataFim'))].filter(Boolean).join(' a '));
+    data.append('Ponto_de_partida', val('ponto'));
+    data.append('Nivel_de_definicao', val('definicao'));
+    data.append('Metragem', metragem());
+    data.append('Tipo_de_espaco', espaco());
+    data.append('Itens', checked('itens').join(', '));
+    data.append('Investimento', val('investimento'));
+    data.append('Detalhes', val('mensagem'));
+    data.append('Referencia_no_site', reference);
+    data.append('Links', val('links'));
+    data.append('Arquivos', files.map(item => `${item.file.name} (${size(item.file.size)})`).join('\n'));
+    data.append('Origem', source);
+    data.append('body', asText());
+    if (filesFit()) files.forEach((item, index) => data.append(`arquivo_${String(index + 1).padStart(2, '0')}`, item.file, item.file.name));
+    return data;
+  };
 
   const send = async () => {
     error.hidden = true;
+    fallback.hidden = true;
     if (!validateStep(LAST)) return;
-
-    const ch = channel();
+    if (!requestId) requestId = makeRequestId();
     if (!endpoint) {
-      const url = ch === 'email' ? mailUrl() : waUrl();
-      if (ch === 'email') location.href = url;
-      else window.open(url, '_blank', 'noopener');
-      done(false, ch, url);
+      showFallback(t('O recebimento seguro ainda não está disponível. Baixe o briefing ou continue pelo WhatsApp sem perder o que preencheu.'));
       return;
     }
-
-    if (totalSize() > maxBytes) {
-      fail(t('Os arquivos passaram do limite. Remova os maiores e envie por link (Drive, WeTransfer).'));
+    if (!filesFit() && !val('links')) {
+      showFallback(t('Para não perder arquivos grandes, envie-os pelo Drive ou WeTransfer e cole o link para continuar.'));
       return;
     }
     nextBtn.disabled = true;
     nextBtn.textContent = 'Enviando…';
-    const data = new FormData();
-    data.append('_subject', subject());
-    if (val('email')) data.append('_replyto', val('email'));
-    briefing().forEach(([, rows]) => rows.forEach(([l, v]) => data.append(l, v)));
-    data.append('Canal preferido', ch === 'ambos' ? 'WhatsApp e e-mail' : ch === 'email' ? 'E-mail' : 'WhatsApp');
-    data.append('Briefing completo', asText());
-    files.forEach(f => data.append('arquivos', f.file, f.file.name));
     try {
-      const res = await fetch(endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+      const res = await fetch(endpoint, { method: 'POST', body: submissionData(), headers: { Accept: 'application/json' } });
       if (!res.ok) throw new Error(res.status);
-      done(true, ch);
+      done();
     } catch (_) {
-      fail(t('Não foi possível enviar agora. Verifique a conexão e tente de novo, ou fale com a gente pelo WhatsApp.'));
+      showFallback(t('Não foi possível registrar agora. Nada foi apagado: tente novamente ou continue pelo WhatsApp com o protocolo.'));
     } finally {
       nextBtn.disabled = false;
       if (step === LAST) nextBtn.textContent = submitLabel();
     }
   };
 
-  const done = (sent, ch, url) => {
+  const done = () => {
+    const ch = channel();
     const email = ch === 'email';
     const both = ch === 'ambos';
-    $('#qDoneTitle').textContent = sent ? 'Solicitação enviada.' : 'Briefing pronto.';
-    $('#qDoneText').textContent = sent
-      ? (email ? 'Recebemos o seu briefing e os arquivos. Nossa equipe vai analisar e responder por e-mail.'
-               : both ? 'Recebemos o seu briefing e os arquivos. Nossa equipe poderá responder pelo WhatsApp e por e-mail.'
-               : 'Recebemos o seu briefing e os arquivos. Nossa equipe vai analisar e responder pelo WhatsApp.')
-      : (email ? 'Abrimos o seu e-mail com tudo preenchido. Confira e clique em enviar.'
-               : both ? 'Abrimos o WhatsApp da JM com tudo preenchido. É só enviar; sua preferência pelos dois canais já está no briefing.'
-               : 'Abrimos o WhatsApp da JM com tudo preenchido. É só tocar em enviar na conversa.');
-
-    // Sem endpoint, os arquivos precisam ser anexados pelo próprio cliente
-    const pending = !sent && files.length > 0;
-    $('#qDoneFiles').hidden = !pending;
-    if (pending) {
-      $('#qDoneCount').innerHTML = `${files.length} <span>${email ? 'arquivo(s) para anexar no e-mail antes de enviar.' : 'arquivo(s) para anexar na conversa.'}</span>`;
-      const shareable = files.map(f => f.file);
-      $('#qShare').hidden = !(navigator.canShare && navigator.canShare({ files: shareable }));
-    }
-
-    $('#qDoneMail').hidden = sent || !email;
-    $('#qCopy').hidden = sent;
-    $('#qCopy').textContent = 'Copiar briefing';
-
+    $('#qDoneTitle').textContent = t('Solicitação registrada.');
+    $('#qDoneText').textContent = email
+      ? t('Seu briefing foi salvo. A equipe da JM responderá pelo e-mail informado.')
+      : both ? t('Seu briefing foi salvo. A equipe poderá responder pelo WhatsApp ou por e-mail.')
+      : t('Seu briefing foi salvo. A equipe da JM responderá pelo WhatsApp informado.');
+    $('#qProtocol').textContent = requestId;
+    $('#qDoneFiles').hidden = !files.length;
+    if (files.length) $('#qDoneCount').innerHTML = filesFit()
+      ? `${files.length} <span>arquivo(s) recebidos e vinculados a este protocolo.</span>`
+      : `<span>Os arquivos grandes foram registrados pelo nome; a equipe usará o link informado no briefing.</span>`;
     const reopen = $('#qReopen');
-    reopen.hidden = sent;
-    if (!sent) {
-      reopen.href = url;
-      reopen.textContent = email ? 'Abrir o e-mail de novo ↗' : 'Abrir o WhatsApp de novo ↗';
-      if (email) reopen.removeAttribute('target'); else reopen.target = '_blank';
-    }
+    reopen.hidden = false;
+    reopen.href = waUrl(false);
 
     go(DONE);
     // Conversão (só existe se o visitante aceitou os cookies — ver consent.js)
-    if (window.gtag) gtag('event', 'generate_lead', { method: sent ? 'site' : ch });
+    if (window.gtag) gtag('event', 'generate_lead', { method: 'site', contact_preference: ch });
     if (window.fbq) fbq('track', 'Lead');
   };
 
   $('#qCopy').addEventListener('click', e => {
     const btn = e.currentTarget;
     const ok = () => { btn.textContent = 'Copiado ✓'; };
-    if (navigator.clipboard) navigator.clipboard.writeText(asText()).then(ok).catch(() => {});
+    if (navigator.clipboard) navigator.clipboard.writeText(requestId).then(ok).catch(() => {});
   });
-  $$('[data-mail]', modal).forEach(a => { a.href = 'mailto:' + SITE.email; a.textContent = SITE.email; });
-
-  // No celular, abre a folha de compartilhamento com os arquivos (ex.: direto no WhatsApp)
-  $('#qShare').addEventListener('click', () => {
-    navigator.share({ files: files.map(f => f.file), title: t('Arquivos do projeto'), text: subject() }).catch(() => {});
-  });
+  $('#qDownload').addEventListener('click', downloadBrief);
+  $('#qFallbackDownload').addEventListener('click', downloadBrief);
 
   const reset = () => {
     form.reset();
     files.forEach(f => f.url && URL.revokeObjectURL(f.url));
     files = [];
+    requestId = '';
     renderFiles();
     setRef('');
     measure.hidden = true;
@@ -569,6 +621,8 @@
     $('#f-fundo').required = false;
     $('#f-outro').required = false;
     error.hidden = true;
+    fallback.hidden = true;
+    $('#qCopy').textContent = 'Copiar';
     city.disabled = true;
     setCities([]);
     cityStatus.textContent = 'Escolha o estado para ver as cidades.';

@@ -16,11 +16,12 @@ window.SITE = {
 
   // Formulário "Solicitar projeto"
   form: {
-    // Sem endpoint: o briefing abre no WhatsApp/e-mail do cliente e ele anexa os arquivos por lá.
-    // Com endpoint (ex.: 'https://formspree.io/f/xxxxxxx'): dados E arquivos chegam automaticamente
-    // no e-mail da JM, sem o cliente precisar anexar nada. Veja o README.
-    endpoint: '',
-    maxUploadMB: 25 // limite total de anexos quando há endpoint
+    // O site está na Netlify: "/" registra o briefing e os anexos em Forms.
+    // Ative Forms + notificação por e-mail no painel da Netlify (veja o README).
+    endpoint: '/',
+    provider: 'netlify',
+    maxUploadMB: 7.5, // a Netlify limita a requisição completa a 8 MB
+    maxFiles: 6
   },
 
   // Redes sociais — cole o link completo. Ícone vazio ('') não aparece no site.

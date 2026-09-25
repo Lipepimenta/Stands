@@ -159,10 +159,22 @@ Abrir o `index.html` direto no navegador já funciona. Para simular um servidor 
 
 ## Formulário "Solicitar projeto" (`js/quote.js`)
 
-Assistente em 4 etapas (Evento → Espaço → Referências → Contato) com anexos, links, revisão do briefing e envio por WhatsApp ou e-mail.
+Assistente em 4 etapas (Evento → Espaço → Referências → Contato) com protocolo próprio, anexos, links e revisão do briefing.
 
-- **Como está hoje (sem configurar nada):** o briefing abre pronto no WhatsApp da JM ou no e-mail do cliente. Os arquivos escolhidos aparecem listados na mensagem e a tela final lembra o cliente de anexá-los (no celular, o botão "Enviar os arquivos agora" abre o compartilhamento direto para o WhatsApp).
-- **Para receber os arquivos automaticamente no e-mail:** crie um formulário em um serviço como o [Formspree](https://formspree.io) (plano com upload de arquivos) e cole o endereço em `js/config.js` → `form.endpoint`. O limite total de anexos fica em `form.maxUploadMB`.
+- **Registro primeiro, conversa depois:** o site salva o briefing na Netlify Forms antes de oferecer o WhatsApp. A escolha WhatsApp/e-mail/ambos indica apenas onde o cliente prefere receber o retorno.
+- **Arquivos pequenos:** até 6 arquivos e 7,5 MB no total seguem com o briefing e ficam vinculados ao protocolo. Cada anexo usa um campo separado porque a Netlify aceita um arquivo por campo e limita a requisição completa a 8 MB.
+- **Vídeos e arquivos grandes:** devem ser enviados por Google Drive, WeTransfer ou Dropbox. Quando os anexos passam do limite, o link se torna obrigatório e o site não finge que enviou os arquivos.
+- **Falha de conexão:** nada é apagado. O cliente pode tentar novamente, baixar o briefing em `.txt` ou abrir uma mensagem curta no WhatsApp com o protocolo.
+- **WhatsApp organizado:** depois do registro, a mensagem contém somente protocolo, evento, empresa e contato — o briefing completo permanece na ficha recebida pela equipe.
+
+### Ativação única na Netlify
+
+1. Abra o projeto na Netlify e entre em **Forms → Enable form detection**.
+2. Faça um novo deploy para a Netlify reconhecer o formulário `solicitar-projeto`.
+3. Entre em **Forms → Submission notifications → Add notification → Email notification** e informe o e-mail da JM.
+4. Faça uma solicitação de teste com um JPG pequeno e confirme: ficha no painel, e-mail de aviso e link do anexo.
+
+O endereço de recebimento está em `js/config.js` → `form.endpoint`. O valor `/` usa a própria Netlify. Se a hospedagem mudar, será necessário configurar um endpoint compatível com `multipart/form-data` antes de publicar.
 - As faixas de "Investimento previsto" ficam no `index.html` (procure por `TROQUE`).
 
 ## LGPD e cookies
@@ -170,7 +182,7 @@ Assistente em 4 etapas (Evento → Espaço → Referências → Contato) com ane
 - `js/consent.js` mostra o aviso de cookies. Google Analytics e Meta Pixel **só carregam depois que o visitante aceita** (categorias Estatística e Marketing). A escolha pode ser mudada pelo link "Preferências de cookies" no rodapé.
 - O formulário exige o aceite da Política de Privacidade (`privacidade.html`).
 - Se mudar a forma de usar os dados (nova ferramenta, novo uso), atualize a `privacidade.html` e aumente `VERSION` em `js/consent.js` — o aviso volta a aparecer para todos.
-- Os leads chegam pelo WhatsApp: **o site não guarda nenhum dado**. Os pedidos ficam no WhatsApp/e-mail da JM — trate esses dados conforme a política (prazo de 2 anos para quem não fechou contrato, atender pedidos de exclusão em até 15 dias).
+- Os pedidos ficam registrados na Netlify Forms e podem gerar notificação por e-mail. Exporte ou apague os registros conforme a política (prazo de 2 anos para quem não fechou contrato e atendimento a pedidos de exclusão em até 15 dias).
 
 **Fotos:** use JPG ou WebP, com no máximo ~2400px de largura e ~300–500 KB cada (comprima em https://squoosh.app). Fotos pesadas deixam o site lento.
 

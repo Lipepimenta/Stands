@@ -6,7 +6,7 @@
    ========================================================================== */
 (() => {
   const KEY = 'jm-consent';
-  const VERSION = 1; // aumente para pedir o consentimento de novo (ex.: ao mudar a política)
+  const VERSION = 2; // política atualizada para o recebimento estruturado de briefings e anexos
   const ids = (window.SITE && window.SITE.analytics) || {};
 
   const read = () => {

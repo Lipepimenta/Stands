@@ -271,7 +271,19 @@
   </div>
   <h2 class="sr-only" id="modal-title">Solicitar projeto</h2>
 
-  <form id="quote" class="form-shell" novalidate>
+  <form id="quote" class="form-shell" name="solicitar-projeto" method="POST" enctype="multipart/form-data" data-netlify="true" netlify-honeypot="site-check" novalidate>
+    <input type="hidden" name="form-name" value="solicitar-projeto">
+    <p class="q-honeypot"><label>Não preencha este campo: <input name="site-check" tabindex="-1" autocomplete="off"></label></p>
+    <!-- Esquema da ficha recebida pela equipe (preenchido pelo quote.js). -->
+    <input type="hidden" name="Protocolo"><input type="hidden" name="Assunto"><input type="hidden" name="Nome"><input type="hidden" name="Empresa">
+    <input type="hidden" name="WhatsApp"><input type="hidden" name="Email"><input type="hidden" name="Preferencia"><input type="hidden" name="Evento">
+    <input type="hidden" name="Local"><input type="hidden" name="Datas"><input type="hidden" name="Ponto_de_partida"><input type="hidden" name="Nivel_de_definicao">
+    <input type="hidden" name="Metragem"><input type="hidden" name="Tipo_de_espaco"><input type="hidden" name="Itens"><input type="hidden" name="Investimento">
+    <input type="hidden" name="Detalhes"><input type="hidden" name="Referencia_no_site"><input type="hidden" name="Links"><input type="hidden" name="Arquivos">
+    <input type="hidden" name="Origem"><input type="hidden" name="subject"><textarea name="body" hidden></textarea>
+    <!-- Campos declarados para a Netlify reconhecer anexos enviados pelo JavaScript. -->
+    <input type="file" name="arquivo_01" hidden><input type="file" name="arquivo_02" hidden><input type="file" name="arquivo_03" hidden>
+    <input type="file" name="arquivo_04" hidden><input type="file" name="arquivo_05" hidden><input type="file" name="arquivo_06" hidden>
     <!-- 1. Evento ---------------------------------------------------------- -->
     <section class="q-panel" data-panel="0">
       <span class="eyebrow">Etapa 1 de 4 · Leva uns 2 minutos</span>
@@ -406,10 +418,10 @@
         <input type="file" id="f-files" multiple>
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4M7 9l5-5 5 5M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"/></svg>
         <strong>Arraste os arquivos aqui ou <u>escolha no dispositivo</u></strong>
-        <small>PDF, DWG, SKP, imagens, vídeos ou ZIP. Você também pode colar um link abaixo.</small>
+        <small>Até 6 arquivos e 7,5 MB no total. Para vídeos, DWG, SKP ou ZIP grandes, use um link abaixo.</small>
       </label>
       <ul class="q-files" id="qFiles"></ul>
-      <p class="q-hint" id="qFilesHint">Se escolher WhatsApp ou e-mail, você poderá anexar os arquivos na conversa aberta ao final.</p>
+      <p class="q-hint" id="qFilesHint">Os arquivos dentro do limite são enviados junto com o briefing e ficam vinculados ao mesmo protocolo.</p>
 
       <div class="field full"><label for="f-links">Links de arquivos ou inspirações</label><textarea id="f-links" name="links" placeholder="Google Drive, WeTransfer, Dropbox, Pinterest, Instagram… (ideal para vídeos e arquivos grandes)"></textarea></div>
       <p class="q-path-hint" id="qReadyFileHint" hidden><b>Para seguir, anexe o projeto ou informe um link.</b> Assim a equipe recebe o material certo sem fazer você responder um questionário desnecessário.</p>
@@ -428,17 +440,17 @@
       </div>
 
       <div class="q-group">
-        <p class="q-label">Como prefere receber o retorno? *</p>
+        <p class="q-label">Onde prefere receber o retorno? *</p>
         <div class="q-cards three">
           <label class="q-card q-channel"><input type="radio" name="canal" value="whatsapp" checked>
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 21l1.65-4.8A9 9 0 1 1 7.8 19.35z"/></svg>
-            <strong>WhatsApp</strong><small>Abre a conversa com a JM com tudo preenchido.</small></label>
+            <strong>WhatsApp</strong><small>A equipe responde pelo número informado.</small></label>
           <label class="q-card q-channel"><input type="radio" name="canal" value="email">
             <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 7 9 6 9-6"/></svg>
-            <strong>E-mail</strong><small>Envia o briefing por e-mail e a equipe responde por lá.</small></label>
+            <strong>E-mail</strong><small>A equipe responde pelo endereço informado.</small></label>
           <label class="q-card q-channel"><input type="radio" name="canal" value="ambos">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 12h8M12 8v8"/><circle cx="12" cy="12" r="9"/></svg>
-            <strong>WhatsApp e e-mail</strong><small>Você envia pelo WhatsApp e pode receber retorno nos dois canais.</small></label>
+            <strong>WhatsApp e e-mail</strong><small>A equipe pode continuar por qualquer um dos dois canais.</small></label>
         </div>
       </div>
 
@@ -450,21 +462,25 @@
       <label class="consent"><input type="checkbox" id="f-lgpd" required> <span>Concordo que a JM Stands use os dados acima para responder à minha solicitação e enviar a proposta, conforme a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>. *</span></label>
       <p class="q-trust"><i aria-hidden="true">✓</i><span>Contato sem compromisso. Seus dados vão direto para a equipe da JM e são tratados com confidencialidade.</span></p>
       <p class="q-error" id="qError" role="alert" hidden></p>
+      <div class="q-fallback" id="qFallback" hidden>
+        <p>Seu preenchimento continua nesta tela. Você pode tentar novamente ou abrir uma conversa curta no WhatsApp com o protocolo.</p>
+        <a class="btn btn-outline" id="qFallbackWa" href="#" target="_blank" rel="noopener">Continuar pelo WhatsApp ↗</a>
+        <button class="btn btn-outline" type="button" id="qFallbackDownload">Baixar briefing</button>
+      </div>
     </section>
 
     <!-- Sucesso ------------------------------------------------------------ -->
     <section class="q-panel q-done" data-panel="4" hidden>
       <span class="q-check" aria-hidden="true">✓</span>
-      <h3 class="display" tabindex="-1" id="qDoneTitle">Briefing pronto.</h3>
+      <h3 class="display" tabindex="-1" id="qDoneTitle">Solicitação registrada.</h3>
       <p class="q-lead" id="qDoneText"></p>
-      <p class="q-hint" id="qDoneMail" hidden><span>Se o e-mail não abriu, copie o briefing e envie para</span> <a data-mail href="mailto:marcenariarodsouza@gmail.com">marcenariarodsouza@gmail.com</a></p>
+      <div class="q-protocol"><span>Protocolo</span><strong id="qProtocol"></strong><button type="button" id="qCopy" aria-label="Copiar protocolo">Copiar</button></div>
       <div class="q-done-files" id="qDoneFiles" hidden>
         <p><b id="qDoneCount"></b></p>
-        <button class="btn btn-accent" type="button" id="qShare" hidden>Enviar os arquivos agora ↗</button>
       </div>
       <div class="q-done-actions">
-        <a class="btn btn-outline" id="qReopen" href="#" target="_blank" rel="noopener">Abrir de novo ↗</a>
-        <button class="btn btn-outline" type="button" id="qCopy">Copiar briefing</button>
+        <a class="btn btn-outline" id="qReopen" href="#" target="_blank" rel="noopener">Falar sobre este pedido no WhatsApp ↗</a>
+        <button class="btn btn-outline" type="button" id="qDownload">Baixar briefing</button>
         <button class="btn btn-accent" type="button" id="qFinish">Voltar ao site</button>
       </div>
     </section>
