@@ -280,7 +280,7 @@
     <input type="hidden" name="Local"><input type="hidden" name="Datas"><input type="hidden" name="Ponto_de_partida"><input type="hidden" name="Nivel_de_definicao">
     <input type="hidden" name="Metragem"><input type="hidden" name="Tipo_de_espaco"><input type="hidden" name="Itens"><input type="hidden" name="Investimento">
     <input type="hidden" name="Detalhes"><input type="hidden" name="Referencia_no_site"><input type="hidden" name="Links"><input type="hidden" name="Arquivos">
-    <input type="hidden" name="Origem"><input type="hidden" name="subject"><textarea name="body" hidden></textarea>
+    <input type="hidden" name="Origem"><input type="hidden" name="Pasta_Drive"><input type="hidden" name="subject"><textarea name="body" hidden></textarea>
     <!-- Campos declarados para a Netlify reconhecer anexos enviados pelo JavaScript. -->
     <input type="file" name="arquivo_01" hidden><input type="file" name="arquivo_02" hidden><input type="file" name="arquivo_03" hidden>
     <input type="file" name="arquivo_04" hidden><input type="file" name="arquivo_05" hidden><input type="file" name="arquivo_06" hidden>
@@ -461,6 +461,7 @@
 
       <label class="consent"><input type="checkbox" id="f-lgpd" required> <span>Concordo que a JM Stands use os dados acima para responder à minha solicitação e enviar a proposta, conforme a <a href="privacidade.html" target="_blank" rel="noopener">Política de Privacidade</a>. *</span></label>
       <p class="q-trust"><i aria-hidden="true">✓</i><span>Contato sem compromisso. Seus dados vão direto para a equipe da JM e são tratados com confidencialidade.</span></p>
+      <div class="q-upload" id="qUpload" hidden><div class="q-upload-track"><i id="qUploadBar"></i></div><p id="qUploadText" aria-live="polite"></p></div>
       <p class="q-error" id="qError" role="alert" hidden></p>
       <div class="q-fallback" id="qFallback" hidden>
         <p>Seu preenchimento continua nesta tela. Você pode tentar novamente ou abrir uma conversa curta no WhatsApp com o protocolo.</p>

@@ -374,6 +374,22 @@ A data de início não pode estar no passado.|The start date cannot be in the pa
 A data final deve ser igual ou posterior ao início.|The end date must be the same as or later than the start date.|La fecha final debe ser igual o posterior a la fecha de inicio.
 Ativar modo claro|Switch to light mode|Activar modo claro
 Ativar modo escuro|Switch to dark mode|Activar modo oscuro
+Acabei de enviar um pedido de orçamento pelo site.|I have just sent a quote request through the website.|Acabo de enviar una solicitud de presupuesto por el sitio.
+O briefing completo já está com a equipe. Podemos continuar por aqui.|The full brief is already with the team. We can continue here.|El briefing completo ya está con el equipo. Podemos continuar por aquí.
+Algum arquivo passou de 2 GB. Envie esse por link (Drive, WeTransfer) e remova-o da lista.|A file is larger than 2 GB. Send it via a link (Drive, WeTransfer) and remove it from the list.|Algún archivo supera 2 GB. Envíalo por enlace (Drive, WeTransfer) y quítalo de la lista.
+Algum arquivo passou de 2 GB: envie esse por link.|A file is larger than 2 GB: send it via a link.|Algún archivo supera 2 GB: envíalo por enlace.
+Vão direto para a equipe da JM, inclusive vídeos grandes.|They go straight to the JM team, including large videos.|Van directo al equipo de JM, incluso videos grandes.
+arquivo(s) não adicionado(s): limite atingido.|file(s) not added: limit reached.|archivo(s) no agregado(s): límite alcanzado.
+Preparando o envio…|Preparing upload…|Preparando el envío…
+Enviando arquivos|Uploading files|Enviando archivos
+Finalizando o pedido…|Finishing your request…|Finalizando la solicitud…
+A conexão caiu durante o envio. Nada foi perdido: toque em Enviar de novo para continuar de onde parou.|The connection dropped during upload. Nothing was lost: tap Send again to continue where it stopped.|La conexión se cayó durante el envío. No se perdió nada: toca Enviar de nuevo para continuar donde se detuvo.
+Seu briefing foi salvo. Envie a mensagem no WhatsApp para agilizar; a equipe também poderá responder por e-mail.|Your brief has been saved. Send the WhatsApp message to speed things up; the team may also reply by email.|Tu briefing fue guardado. Envía el mensaje por WhatsApp para agilizar; el equipo también podrá responder por correo.
+Seu briefing foi salvo. Agora é só enviar a mensagem pronta no WhatsApp da JM.|Your brief has been saved. Now just send the ready-made message to JM on WhatsApp.|Tu briefing fue guardado. Ahora solo envía el mensaje listo al WhatsApp de JM.
+arquivo(s) enviados à equipe|file(s) sent to the team|archivo(s) enviados al equipo
+enviados para a pasta do pedido|sent to the request folder|enviados a la carpeta de la solicitud
+Enviar no WhatsApp ↗|Send on WhatsApp ↗|Enviar por WhatsApp ↗
+Local|Location|Ubicación
 Portfólio|Portfolio|Portafolio
 Destaques|Highlights|Destacados
 Ver portfólio completo →|View full portfolio →|Ver portafolio completo →

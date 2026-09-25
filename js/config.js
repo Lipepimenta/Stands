@@ -21,7 +21,13 @@ window.SITE = {
     endpoint: '/',
     provider: 'netlify',
     maxUploadMB: 7.5, // a Netlify limita a requisição completa a 8 MB
-    maxFiles: 6
+    maxFiles: 6,
+    // Google Drive da JM (ferramentas/google-drive/LEIA-ME.md): cole aqui a URL do app da web
+    // (termina em /exec). Com ela, os arquivos vão para uma pasta por pedido, sem limite de 8 MB,
+    // a equipe recebe um e-mail formatado e a Netlify Forms vira cópia de segurança.
+    drive: '',
+    driveMaxFiles: 15,
+    driveMaxFileMB: 2048
   },
 
   // Redes sociais — cole o link completo. Ícone vazio ('') não aparece no site.

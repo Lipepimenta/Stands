@@ -13,8 +13,13 @@
 
   const cfg = SITE.form || {};
   const endpoint = cfg.endpoint || '';
+  // Com o Google Drive ligado (config.js → form.drive), os arquivos vão direto para a pasta do
+  // pedido, em partes, sem o limite de 8 MB da Netlify. A Netlify Forms fica como cópia de segurança.
+  const drive = (cfg.drive || '').trim();
   const maxBytes = (cfg.maxUploadMB || 25) * 1048576;
-  const maxFiles = cfg.maxFiles || 6;
+  const maxFiles = drive ? (cfg.driveMaxFiles || 15) : (cfg.maxFiles || 6);
+  const maxFileBytes = (cfg.driveMaxFileMB || 2048) * 1048576;
+  const CHUNK = 5 * 1048576; // múltiplo de 256 KB, exigido pelo envio retomável do Drive
   const LAST = 3, DONE = 4;
 
   const modal = $('#modal');
@@ -22,7 +27,8 @@
   const panels = $$('.q-panel', form);
   const steps = $$('.q-progress li', modal);
   const nextBtn = $('#qNext');
-  let step = 0, files = [], reference = '', lastFocus = null, requestId = '';
+  let step = 0, files = [], reference = '', lastFocus = null, requestId = '', openedAt = 0;
+  let driveSession = null; // { pasta, uploads } — mantido entre tentativas para retomar o envio
   const cityCache = new Map();
   let validCities = [];
 
@@ -43,6 +49,8 @@
   const size = b => b < 1048576 ? Math.max(1, Math.round(b / 1024)) + ' KB' : fmt(b / 1048576) + ' MB';
   const totalSize = () => files.reduce((s, f) => s + f.file.size, 0);
   const filesFit = () => files.length <= maxFiles && totalSize() <= maxBytes;
+  const driveFit = () => files.length <= maxFiles && files.every(f => f.file.size <= maxFileBytes);
+  const sentBytes = () => files.reduce((s, f) => s + (f.sent || 0), 0);
   const channel = () => val('canal') || 'whatsapp';
   const readyProject = () => val('ponto') === 'Já tenho um projeto pronto';
   const flow = () => readyProject() ? [0, 2, 3] : [0, 1, 2, 3];
@@ -60,38 +68,40 @@
     return `JM-${date}-${[...bytes].map(value => value.toString(16).padStart(2, '0')).join('').toUpperCase()}`;
   };
 
-  const metragem = () => {
+  // `tr` traduz os valores para o idioma do visitante; a equipe recebe sempre em português (tr = texto original).
+  const same = s => s;
+  const metragem = (tr = t) => {
     const m = val('metragem');
-    if (m !== 'medidas') return t(m);
+    if (m !== 'medidas') return tr(m);
     const a = num(val('frente')), b = num(val('fundo'));
     return a && b ? `${fmt(a)} × ${fmt(b)} m (${fmt(a * b)} m²)` : '';
   };
-  const espaco = () => {
+  const espaco = (tr = t) => {
     const e = val('espaco');
-    return e === 'outro' ? val('espacoOutro') || t('Outro') : t(e);
+    return e === 'outro' ? val('espacoOutro') || tr('Outro') : tr(e);
   };
+  const preference = () => channel() === 'ambos' ? 'WhatsApp e e-mail' : channel() === 'email' ? 'E-mail' : 'WhatsApp';
 
   /* Briefing estruturado (usado no resumo, no WhatsApp, no e-mail e no envio) */
-  const briefing = () => {
-    const filesText = files.length
-      ? `${files.length} (${filesFit() && endpoint ? t('prontos para envio pelo site') : t('registrados no briefing; envio por link necessário')})\n` + files.map(f => `• ${f.file.name} · ${size(f.file.size)}`).join('\n')
-      : '';
+  const briefing = (tr = t) => {
+    const filesText = !files.length ? ''
+      : `${files.length} (${drive ? tr('enviados para a pasta do pedido') : filesFit() && endpoint ? tr('prontos para envio pelo site') : tr('registrados no briefing; envio por link necessário')})\n` + files.map(f => `• ${f.file.name} · ${size(f.file.size)}`).join('\n');
     return [
       ['Evento', [
-        ['Referência no site', t(reference)],
-        ['Ponto de partida', t(val('ponto'))],
+        ['Referência no site', tr(reference)],
+        ['Ponto de partida', tr(val('ponto'))],
         ['Feira ou evento', val('evento')],
         ['Local', [val('cidade'), val('estado')].filter(Boolean).join(' · ')],
         ['Início do evento', dateText(val('dataInicio'))],
         ['Fim previsto', dateText(val('dataFim'))],
-        ['Espaço reservado', t(val('reserva'))]
+        ['Espaço reservado', tr(val('reserva'))]
       ]],
       ['Espaço', [
-        ['Nível de definição', t(val('definicao'))],
-        ['Metragem', metragem()],
-        ['Tipo de espaço', espaco()],
-        ['Precisa ter', checked('itens').map(t).join(', ')],
-        ['Investimento previsto', t(val('investimento'))],
+        ['Nível de definição', tr(val('definicao'))],
+        ['Metragem', metragem(tr)],
+        ['Tipo de espaço', espaco(tr)],
+        ['Precisa ter', checked('itens').map(tr).join(', ')],
+        ['Investimento previsto', tr(val('investimento'))],
         ['Detalhes', val('mensagem')]
       ]],
       ['Referências', [
@@ -118,17 +128,25 @@
       ).join('\n\n');
   };
   const subject = () => `[${requestId}] ${t('Solicitação de projeto')} — ${val('evento') || val('empresa') || val('nome')}`;
-  const contactText = failed => [
-    t('Olá, JM!'),
-    failed ? t('Não consegui concluir o envio pelo site e preciso de ajuda com a solicitação.') : t('Acabei de registrar uma solicitação de projeto pelo site.'),
-    '',
-    `Protocolo: ${requestId}`,
-    val('evento') ? `Evento: ${val('evento')}` : '',
-    val('empresa') ? `Empresa: ${val('empresa')}` : '',
-    `${t('Contato')}: ${val('nome')}`,
-    '',
-    failed ? t('O briefing continua preenchido no site.') : t('Podemos continuar por aqui.')
-  ].filter(line => line !== '').join('\n');
+  // Mensagem curta que o cliente envia à JM pelo próprio WhatsApp (wa.me, sem API da Meta).
+  // O briefing completo e os arquivos já chegaram à equipe por e-mail e no Drive.
+  const contactText = failed => {
+    const row = (label, value) => value ? `*${t(label)}:* ${value}` : '';
+    return [
+      t('Olá, JM!'),
+      failed ? t('Não consegui concluir o envio pelo site e preciso de ajuda com a solicitação.') : t('Acabei de enviar um pedido de orçamento pelo site.'),
+      '',
+      row('Protocolo', requestId),
+      row('Evento', val('evento')),
+      row('Local', [val('cidade'), val('estado')].filter(Boolean).join(' · ')),
+      row('Metragem', metragem()),
+      row('Empresa', val('empresa')),
+      row('Contato', val('nome')),
+      !failed && files.length ? row('Arquivos', `${files.length} ${t('enviados pelo site')}`) : '',
+      '',
+      failed ? t('O briefing continua preenchido no site.') : t('O briefing completo já está com a equipe. Podemos continuar por aqui.')
+    ].filter((line, i, all) => line !== '' || (all[i - 1] !== '' && i > 0)).join('\n').trim();
+  };
   const waUrl = failed => `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(contactText(failed))}`;
 
   /* Navegação entre etapas ------------------------------------------------- */
@@ -184,6 +202,7 @@
     lastFocus = document.activeElement;
     if (step === DONE) reset();
     if (!requestId) requestId = makeRequestId();
+    if (!openedAt) openedAt = Date.now();
     if (project) setRef(project);
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
@@ -394,7 +413,11 @@
       showStepError('Anexe o projeto ou cole um link para continuar.', $('#f-files'));
       return false;
     }
-    if (n === 2 && files.length && (!endpoint || !filesFit()) && !val('links')) {
+    if (n === 2 && drive && !driveFit()) {
+      showStepError(t('Algum arquivo passou de 2 GB. Envie esse por link (Drive, WeTransfer) e remova-o da lista.'), $('#f-links'));
+      return false;
+    }
+    if (n === 2 && !drive && files.length && (!endpoint || !filesFit()) && !val('links')) {
       showStepError(t('Para não perder arquivos grandes, envie-os pelo Drive ou WeTransfer e cole o link para continuar.'), $('#f-links'));
       return false;
     }
@@ -440,7 +463,12 @@
 
     hint.classList.remove('warn');
     if (!files.length) { hint.textContent = ''; return; }
-    if (endpoint) {
+    if (drive) {
+      const over = !driveFit();
+      hint.classList.toggle('warn', over);
+      hint.textContent = `${files.length} / ${maxFiles} arquivos · ${size(totalSize())} · ` +
+        (over ? t('Algum arquivo passou de 2 GB: envie esse por link.') : t('Vão direto para a equipe da JM, inclusive vídeos grandes.'));
+    } else if (endpoint) {
       const over = !filesFit();
       hint.classList.toggle('warn', over);
       hint.textContent = `${files.length} / ${maxFiles} arquivos · ${size(totalSize())} / ${cfg.maxUploadMB || 7.5} MB` +
@@ -454,7 +482,7 @@
   const add = fileList => {
     let skipped = 0;
     [...fileList].forEach(file => {
-      if (files.some(f => f.file.name === file.name && f.file.size === file.size)) return;
+      if (!file.size || files.some(f => f.file.name === file.name && f.file.size === file.size)) return;
       if (files.length >= maxFiles) { skipped += 1; return; }
       const kind = file.type.startsWith('image/') ? 'image' : file.type.startsWith('video/') ? 'video' : 'file';
       files.push({ file, kind, url: kind === 'file' ? '' : URL.createObjectURL(file) });
@@ -462,7 +490,7 @@
     renderFiles();
     if (skipped) {
       hint.classList.add('warn');
-      hint.textContent += ` · ${skipped} ${t('arquivo(s) não adicionado(s): limite de 6.')}`;
+      hint.textContent += ` · ${skipped} ${t('arquivo(s) não adicionado(s): limite atingido.')}`;
     }
     if (files.length) clearStepError();
   };
@@ -516,7 +544,9 @@
     $('#qFallbackWa').href = waUrl(true);
   };
 
-  const submissionData = () => {
+  // Cópia na Netlify Forms. Com o Drive ligado vai só o texto (os arquivos já estão na pasta do pedido);
+  // sem o Drive, os anexos pequenos seguem junto, como antes.
+  const submissionData = (withFiles, folder = '') => {
     const data = new FormData();
     data.append('form-name', 'solicitar-projeto');
     data.append('site-check', '');
@@ -529,24 +559,134 @@
     data.append('Empresa', val('empresa'));
     data.append('WhatsApp', val('whatsapp'));
     data.append('Email', val('email'));
-    data.append('Preferencia', channel() === 'ambos' ? 'WhatsApp e e-mail' : channel() === 'email' ? 'E-mail' : 'WhatsApp');
+    data.append('Preferencia', preference());
     data.append('Evento', val('evento'));
     data.append('Local', [val('cidade'), val('estado')].filter(Boolean).join(' · '));
     data.append('Datas', [dateText(val('dataInicio')), dateText(val('dataFim'))].filter(Boolean).join(' a '));
     data.append('Ponto_de_partida', val('ponto'));
     data.append('Nivel_de_definicao', val('definicao'));
-    data.append('Metragem', metragem());
-    data.append('Tipo_de_espaco', espaco());
+    data.append('Metragem', metragem(same));
+    data.append('Tipo_de_espaco', espaco(same));
     data.append('Itens', checked('itens').join(', '));
     data.append('Investimento', val('investimento'));
     data.append('Detalhes', val('mensagem'));
     data.append('Referencia_no_site', reference);
     data.append('Links', val('links'));
-    data.append('Arquivos', files.map(item => `${item.file.name} (${size(item.file.size)})`).join('\n'));
+    data.append('Arquivos', files.map(item => `${item.file.name} (${size(item.file.size)})${item.drive ? ' — ' + item.drive.url : ''}`).join('\n'));
+    data.append('Pasta_Drive', folder);
     data.append('Origem', source);
-    data.append('body', asText());
-    if (filesFit()) files.forEach((item, index) => data.append(`arquivo_${String(index + 1).padStart(2, '0')}`, item.file, item.file.name));
+    data.append('body', briefing(same).map(([title, rows]) => title.toUpperCase() + '\n' + rows.map(([l, v]) => `${l}: ${v}`).join('\n')).join('\n\n'));
+    if (withFiles) files.forEach((item, index) => data.append(`arquivo_${String(index + 1).padStart(2, '0')}`, item.file, item.file.name));
     return data;
+  };
+  const postNetlify = (withFiles, folder) => fetch(endpoint, { method: 'POST', body: submissionData(withFiles, folder), headers: { Accept: 'application/json' } })
+    .then(res => { if (!res.ok) throw new Error(res.status); });
+
+  /* Envio para o Google Drive da JM (ferramentas/google-drive/Codigo.gs) ---- */
+  const upload = $('#qUpload'), uploadBar = $('#qUploadBar'), uploadText = $('#qUploadText');
+  const progress = (label, ratio) => {
+    upload.hidden = false;
+    uploadText.textContent = label;
+    uploadBar.style.width = Math.round(Math.min(1, Math.max(0, ratio)) * 100) + '%';
+  };
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+  // Corpo em texto puro: o navegador não faz a verificação prévia (CORS) e o Apps Script aceita.
+  const drivePost = async body => {
+    const res = await fetch(drive, { method: 'POST', body: JSON.stringify({ protocolo: requestId, hp: val('site-check'), ...body }) });
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.erro || 'falha no recebimento');
+    return data;
+  };
+  const toBase64 = blob => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result).split(',')[1] || '');
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+  // Miniatura leve (até 320 px) para o e-mail da equipe: fotos e o 1º segundo dos vídeos
+  const thumbnail = f => new Promise(resolve => {
+    if (f.kind === 'file' || !f.url) { resolve(''); return; }
+    const timer = setTimeout(() => resolve(''), 6000);
+    const draw = (source, w, h) => {
+      clearTimeout(timer);
+      try {
+        const scale = Math.min(1, 320 / Math.max(w, h));
+        const canvas = document.createElement('canvas');
+        canvas.width = Math.max(1, Math.round(w * scale));
+        canvas.height = Math.max(1, Math.round(h * scale));
+        canvas.getContext('2d').drawImage(source, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL('image/jpeg', 0.72).split(',')[1] || '');
+      } catch (_) { resolve(''); }
+    };
+    if (f.kind === 'image') {
+      const img = new Image();
+      img.onload = () => draw(img, img.naturalWidth, img.naturalHeight);
+      img.onerror = () => { clearTimeout(timer); resolve(''); };
+      img.src = f.url;
+    } else {
+      const video = document.createElement('video');
+      video.muted = true;
+      video.preload = 'auto';
+      video.onloadeddata = () => { video.currentTime = Math.min(1, (video.duration || 2) / 2); };
+      video.onseeked = () => draw(video, video.videoWidth, video.videoHeight);
+      video.onerror = () => { clearTimeout(timer); resolve(''); };
+      video.src = f.url;
+    }
+  });
+
+  const uploadFile = async (f, up, onProgress) => {
+    let tries = 0;
+    while (!f.drive) {
+      try {
+        const from = f.sent || 0;
+        const answer = await drivePost({ acao: 'parte', uploadId: up.id, inicio: from, dados: await toBase64(f.file.slice(from, from + CHUNK)) });
+        tries = 0;
+        f.sent = answer.concluido ? f.file.size : answer.recebido;
+        if (answer.concluido) f.drive = answer.arquivo;
+        onProgress();
+      } catch (err) {
+        if (++tries > 4) throw err;
+        await sleep(1500 * tries);
+        // Pergunta ao Drive quanto já chegou e continua dali (não reenvia o que já foi)
+        try {
+          const state = await drivePost({ acao: 'status', uploadId: up.id });
+          f.sent = state.concluido ? f.file.size : state.recebido;
+          if (state.concluido) f.drive = state.arquivo;
+        } catch (_) {}
+      }
+    }
+  };
+
+  const sendDrive = async () => {
+    const total = totalSize() || 1;
+    progress(t('Preparando o envio…'), 0);
+    if (!driveSession) {
+      driveSession = await drivePost({
+        acao: 'iniciar', tempo: Date.now() - openedAt, evento: val('evento'), nome: val('nome'),
+        arquivos: files.map(f => ({ nome: f.file.name, tamanho: f.file.size, tipo: f.file.type }))
+      });
+    }
+    for (const [i, f] of files.entries()) {
+      await uploadFile(f, driveSession.uploads[i], () => {
+        progress(`${t('Enviando arquivos')} · ${size(sentBytes())} / ${size(total)} · ${Math.floor((sentBytes() / total) * 100)}%`, sentBytes() / total);
+      });
+    }
+    progress(t('Finalizando o pedido…'), 1);
+    const thumbs = await Promise.all(files.map(thumbnail));
+    await drivePost({
+      acao: 'concluir', evento: val('evento'), nome: val('nome'),
+      campos: {
+        nome: val('nome'), empresa: val('empresa'), whatsapp: val('whatsapp'), email: val('email'),
+        preferencia: preference(), idioma: document.documentElement.lang.slice(0, 2), origem: source,
+        evento: val('evento'), local: [val('cidade'), val('estado')].filter(Boolean).join(' · '),
+        datas: [dateText(val('dataInicio')), dateText(val('dataFim'))].filter(Boolean).join(' a '),
+        metragem: metragem(same), espaco: espaco(same), investimento: val('investimento'), ponto: val('ponto'), referencia: reference
+      },
+      secoes: briefing(same),
+      links: val('links'),
+      arquivos: files.map((f, i) => ({ nome: f.file.name, tamanho: f.file.size, tipo: f.file.type, url: f.drive && f.drive.url, miniatura: thumbs[i] }))
+    });
+    return driveSession.pasta.url;
   };
 
   const send = async () => {
@@ -554,23 +694,37 @@
     fallback.hidden = true;
     if (!validateStep(LAST)) return;
     if (!requestId) requestId = makeRequestId();
-    if (!endpoint) {
+    if (!drive && !endpoint) {
       showFallback(t('O recebimento seguro ainda não está disponível. Baixe o briefing ou continue pelo WhatsApp sem perder o que preencheu.'));
       return;
     }
-    if (!filesFit() && !val('links')) {
+    if (!drive && !filesFit() && !val('links')) {
       showFallback(t('Para não perder arquivos grandes, envie-os pelo Drive ou WeTransfer e cole o link para continuar.'));
       return;
     }
     nextBtn.disabled = true;
     nextBtn.textContent = 'Enviando…';
     try {
-      const res = await fetch(endpoint, { method: 'POST', body: submissionData(), headers: { Accept: 'application/json' } });
-      if (!res.ok) throw new Error(res.status);
+      if (drive) {
+        let folder = '';
+        try {
+          folder = await sendDrive();
+        } catch (err) {
+          // Drive indisponível: se os anexos cabem na Netlify, o pedido segue por lá sem perder nada
+          if (endpoint && filesFit()) { await postNetlify(true, ''); done(); return; }
+          throw err;
+        }
+        if (endpoint) await Promise.race([postNetlify(false, folder).catch(() => {}), sleep(8000)]);
+      } else {
+        await postNetlify(filesFit(), '');
+      }
       done();
     } catch (_) {
-      showFallback(t('Não foi possível registrar agora. Nada foi apagado: tente novamente ou continue pelo WhatsApp com o protocolo.'));
+      showFallback(sentBytes() > 0
+        ? t('A conexão caiu durante o envio. Nada foi perdido: toque em Enviar de novo para continuar de onde parou.')
+        : t('Não foi possível registrar agora. Nada foi apagado: tente novamente ou continue pelo WhatsApp com o protocolo.'));
     } finally {
+      upload.hidden = true;
       nextBtn.disabled = false;
       if (step === LAST) nextBtn.textContent = submitLabel();
     }
@@ -583,20 +737,29 @@
     $('#qDoneTitle').textContent = t('Solicitação registrada.');
     $('#qDoneText').textContent = email
       ? t('Seu briefing foi salvo. A equipe da JM responderá pelo e-mail informado.')
-      : both ? t('Seu briefing foi salvo. A equipe poderá responder pelo WhatsApp ou por e-mail.')
-      : t('Seu briefing foi salvo. A equipe da JM responderá pelo WhatsApp informado.');
+      : both ? t('Seu briefing foi salvo. Envie a mensagem no WhatsApp para agilizar; a equipe também poderá responder por e-mail.')
+      : t('Seu briefing foi salvo. Agora é só enviar a mensagem pronta no WhatsApp da JM.');
     $('#qProtocol').textContent = requestId;
     $('#qDoneFiles').hidden = !files.length;
-    if (files.length) $('#qDoneCount').innerHTML = filesFit()
-      ? `${files.length} <span>arquivo(s) recebidos e vinculados a este protocolo.</span>`
-      : `<span>Os arquivos grandes foram registrados pelo nome; a equipe usará o link informado no briefing.</span>`;
+    const delivered = files.length && files.every(f => f.drive);
+    if (files.length) $('#qDoneCount').innerHTML = delivered
+      ? `${files.length} <span>${t('arquivo(s) enviados à equipe')} (${size(totalSize())}).</span>`
+      : filesFit()
+        ? `${files.length} <span>arquivo(s) recebidos e vinculados a este protocolo.</span>`
+        : `<span>Os arquivos grandes foram registrados pelo nome; a equipe usará o link informado no briefing.</span>`;
     const reopen = $('#qReopen');
+    const wantsWhats = ch !== 'email';
     reopen.hidden = false;
     reopen.href = waUrl(false);
+    reopen.textContent = wantsWhats ? 'Enviar no WhatsApp ↗' : 'Falar sobre este pedido no WhatsApp ↗';
+    reopen.classList.toggle('btn-accent', wantsWhats);
+    reopen.classList.toggle('btn-outline', !wantsWhats);
 
     go(DONE);
+    // Quem escolheu WhatsApp já sai com a conversa aberta (se o navegador bloquear, o botão acima faz o mesmo)
+    if (wantsWhats) { try { window.open(reopen.href, '_blank', 'noopener'); } catch (_) {} }
     // Conversão (só existe se o visitante aceitou os cookies — ver consent.js)
-    if (window.gtag) gtag('event', 'generate_lead', { method: 'site', contact_preference: ch });
+    if (window.gtag) gtag('event', 'generate_lead', { method: drive ? 'site_drive' : 'site', contact_preference: ch });
     if (window.fbq) fbq('track', 'Lead');
   };
 
@@ -613,6 +776,8 @@
     files.forEach(f => f.url && URL.revokeObjectURL(f.url));
     files = [];
     requestId = '';
+    openedAt = 0;
+    driveSession = null;
     renderFiles();
     setRef('');
     measure.hidden = true;
