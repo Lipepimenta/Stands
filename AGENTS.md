@@ -16,7 +16,8 @@ This repository contains a static corporate website for JM Stands. It is built w
 - `assets/` — images, icons, and static media
 - `projetos.html`, `js/projects.js`, `js/portfolio.js` — portfolio page, shared project data loading and gallery
 - `ENVIAR-FOTOS.bat` + `ferramentas/robo-fotos/` — optional local Node tool (sharp) that converts photos from the gitignored `fotos-para-subir/` inbox and commits them to `content/projetos.json`; it is not part of the site runtime
-- `admin/` (Sveltia CMS) and `content/*.json` — content panel; saves commit `content/projetos.json`, `content/clientes.json` and images under `assets/img/`
+- `painel/` — main content panel (plain HTML/CSS/JS): GitHub login via the Netlify OAuth provider, step-by-step project wizard, photo editor; each publish is one commit to `content/*.json` and images under `assets/img/`
+- `admin/` (Sveltia CMS) — older backup panel; writes the same `content/*.json` files
 
 ## Working rules
 - Keep changes lightweight and static-site friendly.

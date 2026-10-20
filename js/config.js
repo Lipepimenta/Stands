@@ -49,7 +49,7 @@ window.SITE = {
     estrutura: ['', '', ''] // [principal, lateral 1, lateral 2] ex.: 'assets/img/estrutura/oficina.jpg'
   },
 
-  // Portfólio real. O jeito recomendado é o painel: https://www.jmproducaostands.com.br/admin/
+  // Portfólio real. O jeito recomendado é o painel: https://www.jmproducaostands.com.br/painel/
   // (os projetos do painel ficam em content/projetos.json e os logos em content/clientes.json).
   // Projetos cadastrados aqui também aparecem, depois dos do painel. Formato:
   // { title: 'Stand de lançamento', images: ['assets/img/projetos/foto1.webp', 'assets/img/projetos/foto2.webp'],
@@ -98,7 +98,7 @@ window.SITE = {
     }
   ],
 
-  // Logos de clientes autorizados (prefira cadastrar pelo painel /admin → Marcas atendidas).
+  // Logos de clientes autorizados (prefira cadastrar pelo painel /painel → Logos de clientes).
   // A seção fica oculta enquanto não houver nenhuma marca.
   // ex.: { name: 'Nome da marca', logo: 'assets/img/clientes/marca.svg' }
   clients: []

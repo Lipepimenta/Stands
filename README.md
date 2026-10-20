@@ -12,7 +12,8 @@ jm-stands/
 ├── 404.html            → página de "não encontrado"
 ├── privacidade.html    → Política de Privacidade (LGPD)
 ├── site.webmanifest    → ícones para celular (Android)
-├── admin/              → painel de conteúdo (/admin): index.html + config.yml
+├── painel/             → painel do site (/painel): index.html + painel.css + painel.js
+├── admin/              → painel antigo, reserva (/admin): index.html + config.yml
 ├── ENVIAR-FOTOS.bat    → robô: converte e publica as fotos de fotos-para-subir/
 ├── ferramentas/        → código do robô de fotos (não faz parte do site)
 ├── content/            → projetos.json e clientes.json (gravados pelo painel)
@@ -40,28 +41,31 @@ jm-stands/
 
 O site prioriza fotos **reais da JM**. Enquanto não houver fotos cadastradas em `projects`, ele mostra três imagens de referência claramente marcadas como **Visual conceitual**. Assim que o primeiro projeto real com imagem for adicionado em `js/config.js`, toda a vitrine conceitual é ocultada automaticamente e dá lugar aos trabalhos reais. Logos e galerias sem conteúdo permanecem ocultos.
 
-### Painel admin: o jeito fácil de colocar projetos e fotos
+### Painel do site: o jeito fácil de colocar projetos e fotos
 
-Acesse **https://www.jmproducaostands.com.br/admin/** (enquanto o domínio não estiver no ar: https://jmstandspr.netlify.app/admin/), pelo computador ou pelo celular.
+Acesse **https://www.jmproducaostands.com.br/painel/** (enquanto o domínio não estiver no ar: https://jmstandspr.netlify.app/painel/), pelo computador ou pelo celular. Tem modo claro, escuro e automático.
 
-1. Entre com **Entrar com GitHub**.
-2. Abra **Portfólio → Projetos → Adicionar projeto**.
-3. Preencha o nome e **arraste as fotos, várias de uma vez**, direto do celular ou da câmera (JPG, PNG ou HEIC do iPhone). O painel reduz e converte cada foto para WebP antes de enviar, então não precisa tratar nada. A primeira foto é a capa, e dá para reordenar.
-4. Preencha o que souber: cliente (só com autorização), feira, ano, cidade, metragem, formato e tipo de construção. Em **Onde aparece na página inicial**, escolha *Seção Destaques* (até 4) ou *Faixa logo abaixo da abertura* (até 3). Cada projeto fica num lugar só.
-5. Clique em **Salvar**. O site é atualizado sozinho em cerca de 1 minuto.
+1. Clique em **Entrar com GitHub**.
+2. Toque em **Novo projeto** e siga as 6 etapas:
+   1. **Fotos:** arraste as fotos, quantas quiser, direto do celular ou da câmera (JPG, PNG ou HEIC do iPhone). A primeira é a capa. Dá para reordenar arrastando ou trocar a capa na estrela.
+   2. **Ajustar** (opcional): recortar, girar, endireitar, zoom, brilho e contraste.
+   3. **Informações:** só o nome é obrigatório. O cliente só aparece se a autorização estiver marcada.
+   4. **Onde aparece:** só no Portfólio, *Destaques* (até 4) ou *Faixa logo abaixo da abertura* (até 3). Se estiver cheio, o painel pergunta qual projeto sai.
+   5. **Pré-visualizar:** o card como fica no site, no computador e no celular.
+   6. **Publicar.** O site atualiza sozinho em cerca de 1 minuto, e o painel avisa quando já está no ar.
 
-**Se aparecer "Ocorreu um erro ao salvar" / "Failed to fetch":** o GitHub interrompe salvamentos que levam mais de ~5 segundos para subir. Com internet lenta, isso acontece a partir de 3 ou 4 fotos. Salve de 3 em 3 fotos (adicione, salve, adicione mais, salve) ou use o **robô de fotos** para lotes grandes. O painel guarda um rascunho automático, então nada se perde.
+As fotos são reduzidas e convertidas para WebP no próprio navegador e enviadas **uma por vez**, então não existe mais limite de fotos por salvamento. O painel guarda um **rascunho automático** (inclusive das fotos), então dá para fechar e continuar depois.
 
-Os logos de clientes ficam em **Portfólio → Marcas atendidas**. Para esconder um projeto sem apagar, marque **Ocultar do site**.
+Em **Projetos**, o menu **⋯** de cada card tem *Editar*, *Ocultar do site* e *Excluir*. Em **Página inicial** ficam a foto de abertura e as 3 fotos da seção Estrutura. Em **Logos de clientes** ficam as marcas atendidas.
 
 **Dar acesso a alguém da equipe:**
 1. A pessoa cria uma conta grátis em github.com.
 2. Em https://github.com/Lipepimenta/Stands/settings/access, clique em **Add people** e dê permissão **Write**.
 3. A pessoa aceita o convite que chega por e-mail e passa a entrar no painel com essa conta.
 
-No celular, também dá para usar **Entrar pelo celular** (QR code) a partir de um computador já logado.
+**Como funciona por trás:** o painel fica em `painel/` (HTML, CSS e JS, sem dependências). O login usa o mesmo provedor GitHub configurado na Netlify. Cada publicação vira **um** commit no GitHub (`Painel: cria projeto "…"`), e a Netlify publica o site sozinha. As fotos vão para `assets/img/projetos/`, `assets/img/home/` e `assets/img/clientes/`, e os dados para `content/projetos.json`, `content/home.json` e `content/clientes.json`. Não é preciso editar esses arquivos à mão.
 
-**Como funciona por trás:** o painel é o [Sveltia CMS](https://sveltiacms.app), configurado em `admin/config.yml`. Cada "Salvar" vira um commit no GitHub, e a Netlify publica o site sozinha. As fotos vão para `assets/img/projetos/`, os dados para `content/projetos.json` e os logos para `content/clientes.json`. Não é preciso editar esses arquivos à mão.
+O painel antigo ([Sveltia CMS](https://sveltiacms.app), em `admin/`) continua funcionando em `/admin/` como reserva e grava nos mesmos arquivos.
 
 **Configuração única do login pelo GitHub** (feita uma vez só):
 1. No GitHub, vá em **Settings → Developer settings → OAuth Apps → New OAuth App** e preencha:
