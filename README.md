@@ -58,10 +58,12 @@ As fotos são reduzidas e convertidas para WebP no próprio navegador e enviadas
 
 Em **Projetos**, o menu **⋯** de cada card tem *Editar*, *Ocultar do site* e *Excluir*. Em **Página inicial** ficam a foto de abertura e as 3 fotos da seção Estrutura. Em **Logos de clientes** ficam as marcas atendidas.
 
-**Dar acesso a alguém da equipe:**
-1. A pessoa cria uma conta grátis em github.com.
-2. Em https://github.com/Lipepimenta/Stands/settings/access, clique em **Add people** e dê permissão **Write**.
-3. A pessoa aceita o convite que chega por e-mail e passa a entrar no painel com essa conta.
+**Dar acesso a alguém da equipe** (tela **Equipe**, só para quem administra o site):
+1. A pessoa cria uma conta grátis em https://github.com/signup (dá para entrar com o Google) e te passa o nome de usuário.
+2. No painel, abra **Equipe**, digite o nome de usuário e toque em **Convidar**. Depois mande o link do painel pelo botão do WhatsApp.
+3. A pessoa abre o painel e entra com a conta dela. O convite é aceito ali mesmo, sem precisar abrir o e-mail.
+
+Na mesma tela dá para cancelar convites e tirar o acesso de alguém.
 
 **Como funciona por trás:** o painel fica em `painel/` (HTML, CSS e JS, sem dependências). O login usa o mesmo provedor GitHub configurado na Netlify. Cada publicação vira **um** commit no GitHub (`Painel: cria projeto "…"`), e a Netlify publica o site sozinha. As fotos vão para `assets/img/projetos/`, `assets/img/home/` e `assets/img/clientes/`, e os dados para `content/projetos.json`, `content/home.json` e `content/clientes.json`. Não é preciso editar esses arquivos à mão.
 

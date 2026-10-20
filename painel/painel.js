@@ -65,7 +65,9 @@
     warn: 'M12 3 2 20h20zM12 10v4M12 17h.01',
     crop: 'M6 2v14a2 2 0 0 0 2 2h14M18 22V8a2 2 0 0 0-2-2H2',
     monitor: 'M3 4h18v12H3zM8 20h8M12 16v4',
-    logout: 'M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3'
+    logout: 'M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3',
+    users: 'M16 19v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM22 19v-1a4 4 0 0 0-3-3.9M16 4.1a3.5 3.5 0 0 1 0 6.8',
+    copy: 'M9 9h11v11H9zM5 15H4V4h11v1'
   };
   const ic = n => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${ICONS[n]}"/></svg>`;
 
@@ -99,6 +101,7 @@
   let W = null; // assistente de projeto (novo ou edição)
   let H = null; // fotos da página inicial
   let L = null; // logos
+  let T = null; // equipe (quem tem acesso e convites)
   let lastKey = '';
 
   const cover = p => (p.images && p.images[0]) || '';
@@ -255,14 +258,32 @@
   }
   async function signIn(token) {
     S.token = token;
-    const [user, repo] = await Promise.all([gh('/user'), gh(`/repos/${REPO}`)]);
+    const user = await gh('/user');
+    let repo = await gh(`/repos/${REPO}`).catch(e => { if (e.status === 404) return { permissions: {} }; throw e; });
     if (!repo.permissions || !repo.permissions.push) {
+      // Convidado pelo painel (Equipe): aceita o convite aqui mesmo, sem precisar abrir o e-mail
+      const invites = await gh('/user/repository_invitations').catch(() => []);
+      const inv = invites.find(i => i.repository && i.repository.full_name.toLowerCase() === REPO.toLowerCase());
+      if (inv) {
+        S.invite = { id: inv.id, from: inv.inviter ? inv.inviter.login : '', login: user.login, token };
+        S.token = '';
+        return false;
+      }
       S.token = '';
-      throw new Error(`A conta ${user.login} ainda não tem permissão para editar o site. Peça para o dono do projeto dar acesso “Write”.`);
+      throw new Error(`A conta ${user.login} ainda não tem acesso ao painel. Peça para quem cuida do site convidar você em “Equipe”.`);
     }
+    S.invite = null;
     local.set('jm-painel-token', token);
-    S.user = user;
-    local.set('jm-painel-user', JSON.stringify({ login: user.login, name: user.name, avatar_url: user.avatar_url }));
+    S.user = { login: user.login, name: user.name, avatar_url: user.avatar_url, admin: !!repo.permissions.admin };
+    local.set('jm-painel-user', JSON.stringify(S.user));
+    return true;
+  }
+  async function acceptInvite() {
+    const inv = S.invite;
+    S.token = inv.token;
+    await gh(`/user/repository_invitations/${inv.id}`, { method: 'PATCH' });
+    await sleep(800); // o GitHub leva um instante para liberar o acesso
+    return signIn(inv.token);
   }
   function signOut() {
     local.del('jm-painel-token');
@@ -270,7 +291,8 @@
     S.token = '';
     S.user = null;
     S.loaded = false;
-    W = H = L = null;
+    S.invite = null;
+    W = H = L = T = null;
     if (location.hash) location.hash = '';
     render();
   }
@@ -359,6 +381,7 @@
     else if (r.name === 'projeto') content = wizardView();
     else if (r.name === 'abertura') { ensureHero(); content = heroView(); }
     else if (r.name === 'logos') { ensureLogos(); content = logosView(); }
+    else if (r.name === 'equipe' && S.user.admin) { ensureTeam(); content = teamView(); }
     else content = homeView();
     document.body.className = r.name === 'projeto' ? 'body-wizard' : '';
     app.innerHTML = shellView(r.name, content);
@@ -375,7 +398,16 @@
   const loadingView = text => `<div class="login"><div class="login-card"><span class="logo">JM</span><p style="margin:0">${esc(text)}</p></div></div>`;
 
   /* Login -------------------------------------------------------------------- */
-  const loginView = () => `
+  const loginView = () => S.invite ? `
+    <div class="login">
+      <div class="login-card">
+        <span class="logo">JM</span>
+        <h1>Você foi convidado(a)</h1>
+        <p>${S.invite.from ? `<b>${esc(S.invite.from)}</b> convidou` : 'Você recebeu um convite de'} a conta <b>${esc(S.invite.login)}</b> para editar o site da JM Stands.</p>
+        <button type="button" class="btn primary big" data-act="accept-invite">${ic('check')} Aceitar convite e entrar</button>
+        <p class="fine"><a href="#" data-act="cancel-invite">Entrar com outra conta</a></p>
+      </div>
+    </div>` : `
     <div class="login">
       <div class="login-card">
         <span class="logo">JM</span>
@@ -405,7 +437,7 @@
           ${brand}
           <a class="btn primary side-new" href="#/projeto/novo">${ic('plus')} Novo projeto</a>
           <nav>
-            ${NAV.map(([k, i, l]) => `<a class="nav-link" href="#/${k}" ${on(k)}>${ic(i)}<span>${l}</span></a>`).join('')}
+            ${[...NAV, ...(u.admin ? [['equipe', 'users', 'Equipe']] : [])].map(([k, i, l]) => `<a class="nav-link" href="#/${k}" ${on(k)}>${ic(i)}<span>${l}</span></a>`).join('')}
             <a class="nav-link" href="../" target="_blank" rel="noopener">${ic('external')}<span>Ver o site</span></a>
           </nav>
           <div class="spacer"></div>
@@ -468,6 +500,7 @@
         <div class="stat"><b>${count('destaque')} de ${MAX.destaque}</b><span>nos Destaques</span><div class="meter"><i style="width:${Math.min(1, count('destaque') / MAX.destaque) * 100}%"></i></div></div>
         <div class="stat"><b>${count('faixa')} de ${MAX.faixa}</b><span>na faixa da abertura</span><div class="meter"><i style="width:${Math.min(1, count('faixa') / MAX.faixa) * 100}%"></i></div></div>
       </div>
+      ${S.user.admin ? `<a class="tip team-tip" href="#/equipe">${ic('users')}<span><b>Equipe:</b> convide alguém da família ou da equipe para também atualizar o site.</span>${ic('right')}</a>` : ''}
       <h2 class="section-title">Projetos recentes <a href="#/projetos">Ver todos →</a></h2>
       <div class="cards">${S.projects.length ? S.projects.slice(0, 4).map(card).join('') : `<a class="add-card" href="#/projeto/novo">${ic('plus')}<span>Cadastrar o primeiro projeto</span></a>`}</div>`;
   }
@@ -1286,6 +1319,113 @@
     render();
   }
 
+  /* Equipe: quem pode editar o site e convites (só para o dono/administrador) - */
+  const panelUrl = () => location.origin + location.pathname;
+  function ensureTeam() {
+    if (T) return;
+    T = { loading: true, people: [], invites: [], q: '', found: null, looking: false, sent: '' };
+    loadTeam();
+  }
+  async function loadTeam() {
+    try {
+      const [people, invites] = await Promise.all([gh(`/repos/${REPO}/collaborators?per_page=100`), gh(`/repos/${REPO}/invitations?per_page=100`)]);
+      Object.assign(T, { people, invites });
+    } catch (e) {
+      toast(errText(e), 'warn');
+    }
+    T.loading = false;
+    if (route().name === 'equipe') render();
+  }
+  const hasAccess = login => T.people.some(p => p.login.toLowerCase() === login.toLowerCase());
+  const isInvited = login => T.invites.some(i => i.invitee && i.invitee.login.toLowerCase() === login.toLowerCase());
+  function foundHtml() {
+    if (!T.q.trim()) return '';
+    if (T.looking) return '<p class="muted" style="margin:0">Procurando…</p>';
+    if (T.found === false) return `<p class="tip" style="margin:0">${ic('warn')}<span>Não achamos essa conta. Confira o nome: é o que aparece no endereço <b>github.com/nome</b> do perfil dela.</span></p>`;
+    const f = T.found;
+    if (!f) return '';
+    const note = hasAccess(f.login) ? 'Já tem acesso ao painel.' : isInvited(f.login) ? 'Já foi convidada(o). É só entrar no painel.' : '';
+    return `
+      <div class="found">
+        <img src="${esc(f.avatar_url)}&s=96" alt="">
+        <div><b>${esc(f.name || f.login)}</b><span>@${esc(f.login)}</span></div>
+      </div>
+      ${note ? `<p class="muted" style="margin:0">${note}</p>` : `<button type="button" class="btn primary" data-act="team-invite" data-v="${esc(f.login)}">${ic('plus')} Convidar @${esc(f.login)}</button>`}`;
+  }
+  function sentHtml() {
+    const msg = `Oi! Já te dei acesso ao painel do site da JM Stands. Entre por aqui com a sua conta do GitHub: ${panelUrl()}`;
+    return `
+      <div class="sent">
+        <p>${ic('check')} <span><b>Convite enviado para @${esc(T.sent)}.</b> Agora mande o link do painel. Quando ela entrar com a conta do GitHub, o convite é aceito na hora.</span></p>
+        <div class="row">
+          <a class="btn primary" href="https://wa.me/?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">Mandar pelo WhatsApp</a>
+          <button type="button" class="btn" data-act="copy-link">${ic('copy')} Copiar link</button>
+        </div>
+      </div>`;
+  }
+  function teamView() {
+    const owner = REPO.split('/')[0].toLowerCase();
+    const person = p => {
+      const isOwner = p.login.toLowerCase() === owner, me = p.login === S.user.login;
+      const role = isOwner ? 'Dono do site' : p.permissions && p.permissions.admin ? 'Administrador' : 'Pode editar';
+      return `<li class="person"><img src="${esc(p.avatar_url)}&s=80" alt=""><div><b>${esc(p.login)}${me ? ' (você)' : ''}</b><span>${role}</span></div>${!isOwner && !me ? `<button type="button" class="btn ghost danger" data-act="team-remove" data-v="${esc(p.login)}">Tirar acesso</button>` : ''}</li>`;
+    };
+    const invite = i => `<li class="person"><img src="${esc(i.invitee.avatar_url)}&s=80" alt=""><div><b>${esc(i.invitee.login)}</b><span>Convidada(o) · ainda não entrou no painel</span></div><button type="button" class="btn ghost danger" data-act="team-cancel" data-i="${i.id}">Cancelar convite</button></li>`;
+    return `
+      <div class="page-head"><div><h1>Equipe</h1><p>Quem pode atualizar o site. Só quem administra o site vê esta tela.</p></div></div>
+      <div class="team">
+        <div class="panel">
+          <h3>Convidar alguém</h3>
+          <ol class="how">
+            <li>A pessoa cria uma conta grátis em <a href="https://github.com/signup" target="_blank" rel="noopener">github.com/signup</a> (dá para entrar com o Google).</li>
+            <li>Ela te passa o <b>nome de usuário</b> do GitHub. Digite aqui e toque em <b>Convidar</b>.</li>
+            <li>Ela abre o painel e entra com a conta dela. O convite é aceito na hora.</li>
+          </ol>
+          <label class="field"><span>Nome de usuário no GitHub</span>
+            <input class="input" id="teamUser" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="Ex.: maria-silva" value="${esc(T.q)}"></label>
+          <div id="teamFound" class="team-found">${foundHtml()}</div>
+          ${T.sent ? sentHtml() : ''}
+        </div>
+        <div>
+          <h2 class="section-title" style="margin-top:0">Com acesso</h2>
+          ${T.loading ? '<p class="muted">Carregando…</p>' : `<ul class="people">${T.people.map(person).join('')}</ul>`}
+          ${T.invites.length ? `<h2 class="section-title">Convites pendentes</h2><ul class="people">${T.invites.map(invite).join('')}</ul>` : ''}
+        </div>
+      </div>`;
+  }
+  let lookTimer;
+  function lookUp(value) {
+    T.q = value;
+    T.found = null;
+    const q = value.trim().replace(/^@/, '');
+    clearTimeout(lookTimer);
+    T.looking = /^[a-z\d](?:[a-z\d-]{0,38})$/i.test(q);
+    if (!T.looking && q) T.found = false;
+    $('#teamFound').innerHTML = foundHtml();
+    if (!T.looking) return;
+    lookTimer = setTimeout(async () => {
+      let found;
+      try { found = await gh(`/users/${encodeURIComponent(q)}`); } catch (e) { found = false; }
+      if (T.q !== value) return; // já digitou outra coisa
+      T.looking = false;
+      T.found = found && found.type === 'User' ? found : false;
+      const box = $('#teamFound');
+      if (box) box.innerHTML = foundHtml();
+    }, 500);
+  }
+  async function teamChange(fn, okMsg) {
+    if (S.busy) return;
+    S.busy = true;
+    try {
+      await fn();
+      if (okMsg) toast(okMsg);
+    } catch (e) {
+      toast(errText(e), 'warn');
+    }
+    S.busy = false;
+    await loadTeam();
+  }
+
   /* Arquivos (botão ou arrastar) --------------------------------------------- */
   async function handleFiles(kind, files) {
     if (!files || !files.length) return;
@@ -1319,7 +1459,7 @@
     try {
       const token = await getToken();
       if (!token) { btns.forEach(b => { b.disabled = false; }); return; }
-      await signIn(token);
+      if (!await signIn(token)) { render(); return; } // tem convite pendente: mostra a tela de aceitar
       await reload();
       if (!location.hash || location.hash === '#/entrar') location.hash = '#/inicio';
       render();
@@ -1401,6 +1541,40 @@
       // logos
       case 'logo-remove': L.list.splice(i, 1); L.dirty = true; render(); break;
       case 'logos-save': saveLogos(); break;
+      // equipe
+      case 'team-invite': {
+        const login = t.dataset.v;
+        t.disabled = true;
+        teamChange(async () => {
+          await gh(`/repos/${REPO}/collaborators/${encodeURIComponent(login)}`, { method: 'PUT', body: { permission: 'push' } });
+          Object.assign(T, { sent: login, q: '', found: null });
+        });
+        break;
+      }
+      case 'team-remove':
+        if (!confirm(`Tirar o acesso de ${t.dataset.v}? Ela(e) não vai mais conseguir entrar no painel.`)) break;
+        teamChange(() => gh(`/repos/${REPO}/collaborators/${encodeURIComponent(t.dataset.v)}`, { method: 'DELETE' }), 'Acesso removido.');
+        break;
+      case 'team-cancel':
+        teamChange(() => gh(`/repos/${REPO}/invitations/${i}`, { method: 'DELETE' }), 'Convite cancelado.');
+        break;
+      case 'copy-link':
+        try { await navigator.clipboard.writeText(panelUrl()); toast('Link copiado.'); } catch (err) { prompt('Copie o link do painel:', panelUrl()); }
+        break;
+      case 'accept-invite':
+        t.disabled = true;
+        try {
+          await acceptInvite();
+          await reload();
+          toast('Convite aceito. Bem-vinda(o) ao painel!');
+          location.hash = '#/inicio';
+        } catch (err) {
+          toast(errText(err), 'warn');
+          t.disabled = false;
+        }
+        render();
+        break;
+      case 'cancel-invite': e.preventDefault(); S.invite = null; render(); break;
     }
   });
 
@@ -1416,6 +1590,8 @@
       $(`#o-${k}`).textContent = (k === 'str' && v > 0 ? '+' : '') + v + t.dataset.unit;
       layoutEditor();
       saveDraft();
+    } else if (t.id === 'teamUser') {
+      lookUp(t.value);
     } else if (t.id === 'q') {
       S.q = t.value;
       $('#cardList').innerHTML = cardsHtml();
@@ -1542,7 +1718,7 @@
     try { S.user = JSON.parse(local.get('jm-painel-user', 'null')); } catch (e) { S.user = null; }
     render();
     try {
-      if (!S.user) await signIn(S.token);
+      if (!S.user || !('admin' in S.user)) await signIn(S.token);
       await reload();
     } catch (e) {
       if (S.token) toast(errText(e), 'warn');
