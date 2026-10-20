@@ -49,7 +49,7 @@ window.SITE = {
     estrutura: ['', '', ''] // [principal, lateral 1, lateral 2] ex.: 'assets/img/estrutura/oficina.jpg'
   },
 
-  // Portfólio real. O jeito recomendado é o painel: https://www.jmstandspr.com.br/admin/
+  // Portfólio real. O jeito recomendado é o painel: https://www.jmproducaostands.com.br/admin/
   // (os projetos do painel ficam em content/projetos.json e os logos em content/clientes.json).
   // Projetos cadastrados aqui também aparecem, depois dos do painel. Formato:
   // { title: 'Stand de lançamento', images: ['assets/img/projetos/foto1.webp', 'assets/img/projetos/foto2.webp'],

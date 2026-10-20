@@ -15,8 +15,8 @@ backend:
     uploadMedia: 'Painel: envia "{{path}}"'
     deleteMedia: 'Painel: remove "{{path}}"'
 
-site_url: https://www.jmstandspr.com.br
-display_url: https://www.jmstandspr.com.br
+site_url: https://www.jmproducaostands.com.br
+display_url: https://www.jmproducaostands.com.br
 logo_url: /assets/img/logo/logo1.png
 
 # Pasta padrão das fotos enviadas pelo painel

@@ -42,7 +42,7 @@ O site prioriza fotos **reais da JM**. Enquanto não houver fotos cadastradas em
 
 ### Painel admin: o jeito fácil de colocar projetos e fotos
 
-Acesse **https://www.jmstandspr.com.br/admin/** (enquanto o domínio não estiver no ar: https://jmstandspr.netlify.app/admin/), pelo computador ou pelo celular.
+Acesse **https://www.jmproducaostands.com.br/admin/** (enquanto o domínio não estiver no ar: https://jmstandspr.netlify.app/admin/), pelo computador ou pelo celular.
 
 1. Entre com **Entrar com GitHub**.
 2. Abra **Portfólio → Projetos → Adicionar projeto**.
@@ -65,7 +65,7 @@ No celular, também dá para usar **Entrar pelo celular** (QR code) a partir de 
 
 **Configuração única do login pelo GitHub** (feita uma vez só):
 1. No GitHub, vá em **Settings → Developer settings → OAuth Apps → New OAuth App** e preencha:
-   - Homepage: `https://jmstandspr.netlify.app`
+   - Homepage: `https://www.jmproducaostands.com.br`
    - Callback URL: `https://api.netlify.com/auth/done`
 2. Gere o **Client secret**.
 3. Na Netlify, vá em **Project configuration → Access & security → OAuth → Install provider → GitHub** e cole o Client ID e o Client secret.
@@ -151,7 +151,7 @@ Abrir o `index.html` direto no navegador já funciona. Para simular um servidor 
 - [x] `index.html` → números reais (anos, projetos, estados)
 - [ ] `index.html` → revisar respostas do FAQ e texto da seção Estrutura (marcados com `TROQUE`)
 - [x] `index.html` → e-mail real e cidade (Colombo · PR)
-- [x] Domínio definido: `https://www.jmstandspr.com.br` (já aplicado em `index.html`, `links.html`, `privacidade.html`, `robots.txt` e `sitemap.xml`)
+- [x] Domínio definido: `https://www.jmproducaostands.com.br` (já aplicado em `index.html`, `links.html`, `privacidade.html`, `robots.txt` e `sitemap.xml`)
 - [ ] Criar `assets/img/og-image.jpg` (1200×630) — imagem que aparece ao compartilhar o link no WhatsApp/LinkedIn
 - [ ] `js/config.js` → links das redes sociais (`social`) — ícone sem link não aparece
 - [ ] `privacidade.html` → razão social e CNPJ reais (procure por `TROQUE`)
@@ -217,7 +217,7 @@ A página `404.html` é reconhecida automaticamente pelo Netlify, Cloudflare Pag
 
 ### Domínio próprio
 
-1. Registre o domínio (ex.: `jmstandspr.com.br`) em https://registro.br
+1. Registre o domínio (ex.: `jmproducaostands.com.br`) em https://registro.br
 2. No painel da hospedagem (Netlify/Cloudflare/Vercel), adicione o domínio personalizado.
 3. No registro.br, aponte o DNS conforme as instruções que a hospedagem mostrar. O HTTPS é ativado automaticamente.
 

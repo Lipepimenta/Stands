@@ -17,7 +17,7 @@ const CONFIG = {
   EMAIL_EQUIPE: 'marcenariarodsouza@gmail.com', // vários: 'a@x.com, b@y.com'
   NOME_REMETENTE: 'JM Stands',
   CONFIRMAR_PARA_CLIENTE: true,
-  SITE: 'https://www.jmstandspr.com.br',
+  SITE: 'https://www.jmproducaostands.com.br',
   LOGO: 'https://jmstandspr.netlify.app/assets/img/logo/logo1.png',
   WHATSAPP_JM: '5541995605724',
   MAX_ARQUIVOS: 15,

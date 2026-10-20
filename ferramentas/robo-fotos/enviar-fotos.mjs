@@ -158,7 +158,7 @@ async function main() {
   say('\n✔ Pronto!');
   if (created.length) say(`  Novos (como rascunho): ${created.join(', ')}`);
   if (updated.length) say(`  Com fotos novas: ${updated.join(', ')}`);
-  say('\nO site atualiza em ~1 minuto. Para mostrar os projetos novos, abra o painel,\ncomplete feira/cliente/cidade e desmarque "Ocultar do site":\n  https://www.jmstandspr.com.br/admin/');
+  say('\nO site atualiza em ~1 minuto. Para mostrar os projetos novos, abra o painel,\ncomplete feira/cliente/cidade e desmarque "Ocultar do site":\n  https://www.jmproducaostands.com.br/admin/');
   say('\nAs fotos originais foram movidas para fotos-para-subir/_enviados/ (pode apagar depois).');
 }
 
