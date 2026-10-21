@@ -8,6 +8,8 @@ backend:
   name: github
   repo: Lipepimenta/Stands
   branch: main
+  # O login do GitHub fica no projeto da Netlify (o site agora é hospedado na Cloudflare)
+  site_domain: jmstandspr.netlify.app
   commit_messages:
     create: 'Painel: cria {{collection}} "{{slug}}"'
     update: 'Painel: atualiza {{collection}} "{{slug}}"'
