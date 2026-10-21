@@ -43,7 +43,7 @@ O site prioriza fotos **reais da JM**. Enquanto não houver fotos cadastradas em
 
 ### Painel do site: o jeito fácil de colocar projetos e fotos
 
-Acesse **https://www.jmproducaostands.com.br/painel/** (enquanto o domínio não estiver no ar: https://jmstandspr.netlify.app/painel/), pelo computador ou pelo celular. Tem modo claro, escuro e automático.
+Acesse **https://www.jmproducaostands.com.br/painel/** (também em https://jm-stands.felipefavero100.workers.dev/painel/), pelo computador ou pelo celular. Tem modo claro, escuro e automático.
 
 1. Clique em **Entrar com GitHub**.
 2. Toque em **Novo projeto** e siga as 6 etapas:
@@ -65,7 +65,7 @@ Em **Projetos**, o menu **⋯** de cada card tem *Editar*, *Ocultar do site* e *
 
 Na mesma tela dá para cancelar convites e tirar o acesso de alguém.
 
-**Como funciona por trás:** o painel fica em `painel/` (HTML, CSS e JS, sem dependências). O login usa o mesmo provedor GitHub configurado na Netlify. Cada publicação vira **um** commit no GitHub (`Painel: cria projeto "…"`), e a Netlify publica o site sozinha. As fotos vão para `assets/img/projetos/`, `assets/img/home/` e `assets/img/clientes/`, e os dados para `content/projetos.json`, `content/home.json` e `content/clientes.json`. Não é preciso editar esses arquivos à mão.
+**Como funciona por trás:** o painel fica em `painel/` (HTML, CSS e JS, sem dependências). O login usa o provedor GitHub configurado no projeto da Netlify `jmstandspr` (só o login; o site não é mais hospedado lá, não apague esse projeto). Cada publicação vira **um** commit no GitHub (`Painel: cria projeto "…"`), e a Cloudflare publica o site sozinha. As fotos vão para `assets/img/projetos/`, `assets/img/home/` e `assets/img/clientes/`, e os dados para `content/projetos.json`, `content/home.json` e `content/clientes.json`. Não é preciso editar esses arquivos à mão.
 
 O painel antigo ([Sveltia CMS](https://sveltiacms.app), em `admin/`) continua funcionando em `/admin/` como reserva e grava nos mesmos arquivos.
 
@@ -175,31 +175,16 @@ Há dois modos, e o site escolhe sozinho pelo `js/config.js`:
 Cliente → arquivos em partes de 5 MB → Apps Script (conta Google da JM)
         → pasta no Drive por pedido + planilha de controle + briefing em PDF
         → e-mail formatado para a equipe + confirmação para o cliente
-        → cópia do texto na Netlify Forms (segurança)
         → mensagem pronta no WhatsApp da JM (wa.me, sem API da Meta)
 ```
 
 - **Sem limite de 8 MB:** vídeos, plantas DWG/SKP e ZIPs de até 2 GB cada, 15 por pedido, com barra de progresso.
-- **Não perde nada:** se a conexão cair no meio, o envio continua de onde parou ao tocar em *Enviar* de novo. Se o Google estiver fora do ar, o pedido segue pela Netlify Forms com os anexos que couberem.
+- **Não perde nada:** se a conexão cair no meio, o envio continua de onde parou ao tocar em *Enviar* de novo. Se o Google estiver fora do ar, o cliente pode baixar o briefing ou seguir pelo WhatsApp com o protocolo.
 - **Chega organizado:** o e-mail da equipe traz evento, local, datas, metragem e investimento em destaque, os dados do cliente com botões *Responder no WhatsApp / por e-mail*, as seções do briefing e cada arquivo com miniatura e link.
 - Instalação: `ferramentas/google-drive/LEIA-ME.md`. O código fica em `ferramentas/google-drive/Codigo.gs`.
 
-**2. Só Netlify Forms (`form.drive` vazio)**
+**Instalado em 20/10/2026** na conta Google filipefaverojob@gmail.com. A URL do app está em `js/config.js` → `form.drive`. Sem ela (`drive` vazio) e sem `form.endpoint`, o formulário só oferece baixar o briefing e enviar pelo WhatsApp.
 
-- **Registro primeiro, conversa depois:** o site salva o briefing na Netlify Forms antes de oferecer o WhatsApp. A escolha WhatsApp/e-mail/ambos indica apenas onde o cliente prefere receber o retorno.
-- **Arquivos pequenos:** até 6 arquivos e 7,5 MB no total seguem com o briefing e ficam vinculados ao protocolo. Cada anexo usa um campo separado porque a Netlify aceita um arquivo por campo e limita a requisição completa a 8 MB.
-- **Vídeos e arquivos grandes:** devem ser enviados por Google Drive, WeTransfer ou Dropbox. Quando os anexos passam do limite, o link se torna obrigatório e o site não finge que enviou os arquivos.
-- **Falha de conexão:** nada é apagado. O cliente pode tentar novamente, baixar o briefing em `.txt` ou abrir uma mensagem curta no WhatsApp com o protocolo.
-- **WhatsApp organizado (nos dois modos):** depois do registro, quem escolheu WhatsApp envia à JM uma mensagem curta com protocolo, evento, local, metragem e contato. O briefing completo fica com a equipe.
-
-### Ativação única na Netlify
-
-1. Abra o projeto na Netlify e entre em **Forms → Enable form detection**. ✅ Ligado em 25/09/2026.
-2. Faça um novo deploy para a Netlify reconhecer o formulário `solicitar-projeto`.
-3. Entre em **Forms → Submission notifications → Add notification → Email notification** e informe o e-mail da JM. ✅ Configurado em 25/09/2026 para marcenariarodsouza@gmail.com.
-4. Faça uma solicitação de teste com um JPG pequeno e confirme: ficha no painel, e-mail de aviso e link do anexo.
-
-O endereço de recebimento está em `js/config.js` → `form.endpoint`. O valor `/` usa a própria Netlify. Se a hospedagem mudar, será necessário configurar um endpoint compatível com `multipart/form-data` antes de publicar.
 - As faixas de "Investimento previsto" ficam no `index.html` (procure por `TROQUE`).
 
 ## LGPD e cookies
@@ -207,26 +192,18 @@ O endereço de recebimento está em `js/config.js` → `form.endpoint`. O valor 
 - `js/consent.js` mostra o aviso de cookies. Google Analytics e Meta Pixel **só carregam depois que o visitante aceita** (categorias Estatística e Marketing). A escolha pode ser mudada pelo link "Preferências de cookies" no rodapé.
 - O formulário exige o aceite da Política de Privacidade (`privacidade.html`).
 - Se mudar a forma de usar os dados (nova ferramenta, novo uso), atualize a `privacidade.html` e aumente `VERSION` em `js/consent.js` — o aviso volta a aparecer para todos.
-- Os pedidos ficam registrados na Netlify Forms e podem gerar notificação por e-mail. Exporte ou apague os registros conforme a política (prazo de 2 anos para quem não fechou contrato e atendimento a pedidos de exclusão em até 15 dias).
+- Os pedidos ficam na pasta e na planilha "Orçamentos do site JM" do Google Drive. Exporte ou apague os registros conforme a política (prazo de 2 anos para quem não fechou contrato e atendimento a pedidos de exclusão em até 15 dias).
 
 **Fotos:** use JPG ou WebP, com no máximo ~2400px de largura e ~300–500 KB cada (comprima em https://squoosh.app). Fotos pesadas deixam o site lento.
 
-## Publicar (opções gratuitas)
+## Hospedagem (Cloudflare)
 
-**Netlify (mais simples):** crie uma conta em netlify.com → *Add new site* → *Deploy manually* → arraste a pasta `jm-stands`. Em segundos o site fica no ar em um endereço `*.netlify.app`.
+O site fica na **Cloudflare** (Workers com arquivos estáticos, plano grátis, uso comercial permitido), conta felipefavero100@gmail.com, projeto `jm-stands`.
 
-**Cloudflare Pages / Vercel:** mesmo processo (upload da pasta ou conexão com um repositório GitHub).
-
-**GitHub Pages:** suba a pasta em um repositório → *Settings → Pages* → publicar a partir da branch `main`.
-
-A página `404.html` é reconhecida automaticamente pelo Netlify, Cloudflare Pages e GitHub Pages.
-
-### Domínio próprio
-
-1. Registre o domínio (ex.: `jmproducaostands.com.br`) em https://registro.br
-2. No painel da hospedagem (Netlify/Cloudflare/Vercel), adicione o domínio personalizado.
-3. No registro.br, aponte o DNS conforme as instruções que a hospedagem mostrar. O HTTPS é ativado automaticamente.
-
+- **Publicação automática:** cada push na `main` (inclusive os salvamentos do painel) publica o site em ~1 minuto. Configuração em `wrangler.jsonc`; o que não vai para o site fica em `.assetsignore`.
+- **Endereços:** https://www.jmproducaostands.com.br (e sem www) e https://jm-stands.felipefavero100.workers.dev.
+- **Domínio:** registrado no Registro.br, com DNS na Cloudflare (`elaine.ns.cloudflare.com` e `hassan.ns.cloudflare.com`). O HTTPS é automático.
+- A Netlify foi usada até 20/10/2026 e saiu por causa do limite de créditos do plano grátis. O projeto `jmstandspr` continua lá só para o login do painel, com as publicações desligadas.
 ### Depois de publicar
 
 - Cadastre o site no **Google Search Console** e envie o `sitemap.xml`.

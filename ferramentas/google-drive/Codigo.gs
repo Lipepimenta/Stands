@@ -18,7 +18,7 @@ const CONFIG = {
   NOME_REMETENTE: 'JM Stands',
   CONFIRMAR_PARA_CLIENTE: true,
   SITE: 'https://www.jmproducaostands.com.br',
-  LOGO: 'https://jm-stands.felipefavero100.workers.dev/assets/img/logo/logo1.png', // troca para o domínio quando ele estiver no ar
+  LOGO: 'https://www.jmproducaostands.com.br/assets/img/logo/logo1.png',
   WHATSAPP_JM: '5541995605724',
   MAX_ARQUIVOS: 15,
   MAX_MB_POR_ARQUIVO: 2048,

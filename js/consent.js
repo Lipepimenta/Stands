@@ -6,7 +6,7 @@
    ========================================================================== */
 (() => {
   const KEY = 'jm-consent';
-  const VERSION = 2; // política atualizada para o recebimento estruturado de briefings e anexos
+  const VERSION = 3; // política atualizada: hospedagem na Cloudflare e pedidos no Google Drive
   const ids = (window.SITE && window.SITE.analytics) || {};
 
   const read = () => {
