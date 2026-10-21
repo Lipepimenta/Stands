@@ -1,0 +1,14 @@
+# Arquivos do repositório que NÃO são publicados no site (Cloudflare)
+.git
+.github
+.gitignore
+.assetsignore
+.wrangler
+node_modules
+wrangler.jsonc
+README.md
+AGENTS.md
+CLAUDE.md
+*.bat
+ferramentas
+fotos-para-subir

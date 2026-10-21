@@ -1,0 +1,13 @@
+// Hospedagem na Cloudflare (Workers com arquivos estáticos).
+// Cada push na main publica o site sozinho (Workers Builds, ligado no painel da Cloudflare).
+// O que não vai para o site fica listado em .assetsignore.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "jm-stands",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": ".",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page"
+  }
+}
