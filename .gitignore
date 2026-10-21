@@ -7,3 +7,6 @@ node_modules/
 
 # Caixa de entrada do robô de fotos (as fotos originais não vão para o site)
 fotos-para-subir/
+
+# Arquivos locais da ferramenta da Cloudflare
+.wrangler/
