@@ -1,0 +1,3 @@
+# Endereços curtos (Cloudflare). 200 = mostra a página sem mudar o endereço.
+/bio /links 200
+/bio/ /bio 301
