@@ -8,7 +8,7 @@ Com isto ligado, cada pedido feito no site:
 - manda ao cliente um **e-mail de confirmação** com o protocolo;
 - guarda o **briefing em PDF** dentro da pasta do pedido.
 
-A Netlify Forms continua recebendo uma cópia de cada pedido. Se o Google estiver fora do ar, o site envia o pedido pela Netlify e nada se perde.
+Instalado em 20/10/2026 na conta filipefaverojob@gmail.com (projeto "Orçamentos do site JM"); a URL já está em `js/config.js` → `form.drive`. Se o Google estiver fora do ar, o site oferece baixar o briefing e enviar pelo WhatsApp, sem perder o que o cliente preencheu.
 
 ## Instalação (uma vez, uns 10 minutos)
 

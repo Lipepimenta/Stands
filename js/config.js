@@ -16,16 +16,15 @@ window.SITE = {
 
   // Formulário "Solicitar projeto"
   form: {
-    // O site está na Netlify: "/" registra o briefing e os anexos em Forms.
-    // Ative Forms + notificação por e-mail no painel da Netlify (veja o README).
-    endpoint: '/',
-    provider: 'netlify',
-    maxUploadMB: 7.5, // a Netlify limita a requisição completa a 8 MB
+    // Sem servidor próprio: os pedidos vão para o Google Drive da JM (ferramentas/google-drive).
+    // endpoint/provider ficavam para a Netlify Forms; na Cloudflare não há recebimento de formulário.
+    endpoint: '',
+    provider: '',
+    maxUploadMB: 7.5,
     maxFiles: 6,
-    // Google Drive da JM (ferramentas/google-drive/LEIA-ME.md): cole aqui a URL do app da web
-    // (termina em /exec). Com ela, os arquivos vão para uma pasta por pedido, sem limite de 8 MB,
-    // a equipe recebe um e-mail formatado e a Netlify Forms vira cópia de segurança.
-    drive: '',
+    // URL do app da web do Google Apps Script (termina em /exec): cria a pasta do pedido no Drive,
+    // registra na planilha e manda o e-mail formatado para a equipe.
+    drive: 'https://script.google.com/macros/s/AKfycbwfLgPyyazIJDGJ1qGHQFKUFlGE7KiIEbPHeZ_iX0lyoXBfGYmXD0EL2WpldvQX6Fg/exec',
     driveMaxFiles: 15,
     driveMaxFileMB: 2048
   },
