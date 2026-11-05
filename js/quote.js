@@ -732,6 +732,7 @@
 
   const done = () => {
     const ch = channel();
+    if (window.jmTrack) window.jmTrack('briefing', { canal: ch });
     const email = ch === 'email';
     const both = ch === 'ambos';
     $('#qDoneTitle').textContent = t('Solicitação registrada.');

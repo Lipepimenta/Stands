@@ -19,7 +19,7 @@ const CONFIG = {
   CONFIRMAR_PARA_CLIENTE: true,
   SITE: 'https://www.jmproducaostands.com.br',
   LOGO: 'https://www.jmproducaostands.com.br/assets/img/logo/logo1.png',
-  WHATSAPP_JM: '5541995605724',
+  WHATSAPP_JM: '5541998499278',
   MAX_ARQUIVOS: 15,
   MAX_MB_POR_ARQUIVO: 2048,
   TEMPO_MINIMO_MS: 8000 // pedidos preenchidos mais rápido que isso são tratados como robô

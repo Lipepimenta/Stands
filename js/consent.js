@@ -46,10 +46,37 @@
     fbq('track', 'PageView');
     addScript('https://connect.facebook.net/en_US/fbevents.js');
   };
+  // Google Ads (conversões): usa o mesmo gtag, só com consentimento de marketing
+  let adsOn = false;
+  const loadAds = () => {
+    if (adsOn || !ids.googleAds) return;
+    adsOn = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function () { dataLayer.push(arguments); };
+    if (!gaOn) { gtag('js', new Date()); addScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(ids.googleAds)); }
+    gtag('config', ids.googleAds);
+  };
   const apply = c => {
     if (c.analytics) loadGA();
-    if (c.marketing) loadPixel();
+    if (c.marketing) { loadPixel(); loadAds(); }
   };
+
+  /* Contatos (medição) ------------------------------------------------------
+     Cada clique em WhatsApp, telefone ou e-mail, e cada briefing registrado, vira um
+     evento. Sem consentimento nada é enviado: as funções abaixo não fazem nada. */
+  window.jmTrack = (acao, extra = {}) => {
+    if (gaOn) gtag('event', 'generate_lead', { metodo: acao, ...extra });
+    if (adsOn && ids.googleAdsLead) gtag('event', 'conversion', { send_to: ids.googleAds + '/' + ids.googleAdsLead });
+    if (pixelOn) fbq('track', 'Contact', { metodo: acao });
+  };
+  document.addEventListener('click', e => {
+    const a = e.target.closest('a[href]');
+    if (!a) return;
+    const h = a.getAttribute('href');
+    if (/wa\.me|api\.whatsapp|whatsapp\.com/i.test(h)) window.jmTrack('whatsapp', { local: a.dataset.local || a.className || '' });
+    else if (/^tel:/i.test(h)) window.jmTrack('telefone');
+    else if (/^mailto:/i.test(h)) window.jmTrack('email');
+  }, true);
 
   /* Aviso ------------------------------------------------------------------ */
   const box = document.createElement('div');

@@ -6,7 +6,7 @@
 
 window.SITE = {
   // Número com DDI + DDD, só dígitos. Ex.: 5511987654321
-  whatsapp: '5541995605724',
+  whatsapp: '5541998499278',
 
   // Mensagem padrão dos botões de WhatsApp (flutuante e rodapé)
   whatsappMessage: 'Olá, JM! Gostaria de conversar sobre um projeto de stand.',
@@ -40,7 +40,11 @@ window.SITE = {
   // Medição de acessos — só carregam DEPOIS que o visitante aceitar os cookies.
   analytics: {
     ga4: '',       // Google Analytics 4, ex.: 'G-XXXXXXXXXX'   (categoria "Estatística")
-    metaPixel: ''  // Meta/Facebook Pixel, ex.: '123456789012345' (categoria "Marketing")
+    metaPixel: '', // Meta/Facebook Pixel, ex.: '123456789012345' (categoria "Marketing")
+    googleAds: '',     // Google Ads, ex.: 'AW-123456789' (categoria "Marketing")
+    googleAdsLead: ''  // rótulo da conversão "Contato" no Google Ads, ex.: 'AbC-D_efG123'
+    // Com ga4 preenchido, cada clique em WhatsApp/telefone/e-mail e cada briefing vira o evento
+    // "generate_lead" no Analytics (marque como evento-chave lá). Ver js/consent.js > jmTrack.
   },
 
   images: {
