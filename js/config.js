@@ -39,7 +39,7 @@ window.SITE = {
 
   // Medição de acessos — só carregam DEPOIS que o visitante aceitar os cookies.
   analytics: {
-    ga4: '',       // Google Analytics 4, ex.: 'G-XXXXXXXXXX'   (categoria "Estatística")
+    ga4: 'G-3WL35Q8ZS3',       // Google Analytics 4, ex.: 'G-XXXXXXXXXX'   (categoria "Estatística")
     metaPixel: '', // Meta/Facebook Pixel, ex.: '123456789012345' (categoria "Marketing")
     googleAds: '',     // Google Ads, ex.: 'AW-123456789' (categoria "Marketing")
     googleAdsLead: ''  // rótulo da conversão "Contato" no Google Ads, ex.: 'AbC-D_efG123'
