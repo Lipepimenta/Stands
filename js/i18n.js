@@ -157,6 +157,7 @@ Estatística|Analytics|Estadísticas
 — medir e personalizar anúncios nas redes sociais (Meta Pixel).|— measuring and personalizing social media ads (Meta Pixel).|— medir y personalizar anuncios en redes sociales (Meta Pixel).
 Personalizar|Customize|Personalizar
 Recusar|Reject|Rechazar
+Cookies de estatística e marketing só com a sua permissão. Veja a|Statistics and marketing cookies only with your permission. See the|Cookies de estadística y marketing solo con tu permiso. Consulta la
 Aceitar todos|Accept all|Aceptar todas
 Salvar escolhas|Save choices|Guardar preferencias
 JM Stands — Projetamos espaços que fazem marcas serem vistas|JM Stands — We design spaces that get brands seen|JM Stands — Diseñamos espacios que hacen visibles a las marcas

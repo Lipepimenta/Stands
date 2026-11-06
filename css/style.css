@@ -278,7 +278,7 @@ section { padding: clamp(80px, 10vw, 150px) 0; }
 /* Footer ------------------------------------------------------------------ */
 footer { background: #111; color: #aaa; border-top: 1px solid #333; padding: 50px 0 28px; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 50px; }
-.footer-grid h4 { color: #fff; margin: 0 0 14px; font: 600 13px var(--display); text-transform: uppercase; letter-spacing: .1em; }
+.footer-grid h2 { color: #fff; margin: 0 0 14px; font: 600 13px var(--display); text-transform: uppercase; letter-spacing: .1em; }
 .footer-grid a { display: block; text-decoration: none; margin: 7px 0; }
 .footer-grid .brandmark { color: #fff; }
 .foot-end { border-top: 1px solid #333; margin-top: 40px; padding-top: 20px; display: flex; justify-content: space-between; gap: 12px; font-size: 11px; }
@@ -907,7 +907,7 @@ body, .services, .clients, .legal, .modal, .cookie, .bio, .notfound,
 .projects, .structure, .cta, footer { background: var(--strong); color: var(--strong-text); }
 .projects .section-head .intro, .structure-copy p, .cta-row p, footer, .portfolio-caption p { color: var(--strong-muted); }
 .project, .meta, .foot-end, .founder, .section-action, .structure.no-photos .structure-copy, .portfolio-card { border-color: var(--strong-line); }
-.meta b, .footer-grid h4, .footer-grid .brandmark, .founder b, .company b { color: var(--strong-text); }
+.meta b, .footer-grid h2, .footer-grid .brandmark, .founder b, .company b { color: var(--strong-text); }
 .solution { border-color: var(--strong-line); background: linear-gradient(145deg, var(--strong-surface), var(--strong)); }
 .solution p, .section-action p { color: var(--strong-muted); }
 .client { color: var(--muted); }
@@ -1128,4 +1128,19 @@ html.menu-lock { overflow: hidden; }
 .portfolio-preview:empty { min-height: clamp(180px, 24vw, 350px); }
 @media (max-width: 700px) {
   .portfolio-preview:empty { min-height: 180px; }
+}
+
+/* Aviso de cookies compacto no celular: texto curto e os 3 botões numa linha.
+   Recusar e Aceitar têm o mesmo tamanho (a escolha continua livre, como pede a LGPD). */
+.cookie-short { display: none; }
+@media (max-width: 700px) {
+  .cookie { padding: 14px 0 calc(14px + env(safe-area-inset-bottom)); font-size: 13px; line-height: 1.45; }
+  .cookie-inner { gap: 12px; }
+  .cookie-long { display: none; }
+  .cookie-short { display: inline; }
+  /* Ao personalizar, volta o texto completo */
+  .cookie-inner:has(.cookie-prefs:not([hidden])) .cookie-long { display: inline; }
+  .cookie-inner:has(.cookie-prefs:not([hidden])) .cookie-short { display: none; }
+  .cookie-actions { flex-wrap: nowrap; gap: 8px; }
+  .cookie-actions .btn, .cookie-actions .btn-accent { flex: 1 1 0; order: 0; min-height: 42px; padding: 0 8px; font-size: 13px; }
 }

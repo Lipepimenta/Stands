@@ -41,7 +41,8 @@
       const ref = p.client ? `${p.client} — ${p.title}` : p.title;
       return `
         <article class="pf-card" id="${esc(p.id)}">
-          <button class="pf-media" type="button" data-pf-gallery="${i}" aria-label="Ver fotos do projeto">
+          <button class="pf-media" type="button" data-pf-gallery="${i}">
+        <b class="sr-only">Ver fotos do projeto</b>
             ${media(p.shots[0].src, p.shots[0].alt || p.title, false, '(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw')}
             ${p.concept ? '<span class="concept-label">Visual conceitual</span>' : ''}
             <span class="portfolio-count"><b>${String(p.shots.length).padStart(2, '0')}</b> <span>${p.shots.length === 1 ? 'FOTO' : 'FOTOS'}</span> ↗</span>
@@ -51,7 +52,7 @@
             <h3>${esc(p.title)}</h3>
             ${line.length ? `<p>${line.map(v => `<span>${esc(v)}</span>`).join(' · ')}</p>` : ''}
             ${p.summary || p.objective ? `<p class="pf-summary">${esc(p.summary || p.objective)}</p>` : ''}
-            <a class="pf-link" href="index.html?projeto=${encodeURIComponent(ref)}#solicitar">${p.concept ? 'Explorar esta direção' : 'Quero um projeto assim'} ↗</a>
+            <a class="pf-link" href="./?projeto=${encodeURIComponent(ref)}#solicitar">${p.concept ? 'Explorar esta direção' : 'Quero um projeto assim'} ↗</a>
           </div>
         </article>`;
     };

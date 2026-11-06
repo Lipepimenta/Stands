@@ -85,7 +85,7 @@
   box.setAttribute('aria-label', 'Aviso de cookies');
   box.innerHTML = `
     <div class="wrap cookie-inner">
-      <p>Usamos cookies essenciais para o site funcionar e, com a sua permissão, cookies de estatística e marketing para entender as visitas e melhorar nossos anúncios. Veja a <a href="privacidade.html">Política de Privacidade</a>.</p>
+      <p><span class="cookie-long">Usamos cookies essenciais para o site funcionar e, com a sua permissão, cookies de estatística e marketing para entender as visitas e melhorar nossos anúncios. Veja a</span><span class="cookie-short">Cookies de estatística e marketing só com a sua permissão. Veja a</span> <a href="privacidade">Política de Privacidade</a>.</p>
       <div class="cookie-prefs" hidden>
         <label><input type="checkbox" checked disabled> <span><b>Essenciais</b> — necessários para o site funcionar e lembrar esta escolha. Sempre ativos.</span></label>
         <label><input type="checkbox" data-c="analytics"> <span><b>Estatística</b> — contagem anônima de visitas e páginas vistas (Google Analytics).</span></label>

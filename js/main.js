@@ -59,14 +59,16 @@
     }
     $('#portfolioPreview').hidden = faixa.length === 0;
     $('#portfolioPreview').innerHTML = faixa.map(p => `
-      <button type="button" data-gallery="${onHome.indexOf(p)}" aria-label="Ver fotos do projeto">
+      <button type="button" data-gallery="${onHome.indexOf(p)}">
+        <b class="sr-only">Ver fotos do projeto</b>
         ${media(cover.get(p).src, cover.get(p).alt || p.title, false, '(max-width: 700px) 50vw, 34vw')}
         ${p.concept ? '<small class="concept-label">Visual conceitual</small>' : ''}
         <span>${esc(p.client || p.title)} <i aria-hidden="true">↗</i></span>
       </button>`).join('');
     $('#projectList').innerHTML = destaques.map(p => `
       <article class="portfolio-card reveal">
-        <button class="portfolio-image" type="button" data-gallery="${onHome.indexOf(p)}" aria-label="Ver fotos do projeto">
+        <button class="portfolio-image" type="button" data-gallery="${onHome.indexOf(p)}">
+        <b class="sr-only">Ver fotos do projeto</b>
           ${media(cover.get(p).src, cover.get(p).alt || p.title, false, '(max-width: 700px) 100vw, 50vw')}
           ${p.concept ? '<span class="concept-label">Visual conceitual</span>' : ''}
           <span class="portfolio-count"><b>${String(p.shots.length).padStart(2, '0')}</b> <span>${p.shots.length === 1 ? 'FOTO' : 'FOTOS'}</span> ↗</span>
