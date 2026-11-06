@@ -25,9 +25,9 @@
   <link rel="manifest" href="site.webmanifest">
   <meta name="apple-mobile-web-app-title" content="JM Stands">
   <meta name="format-detection" content="telephone=no">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- Fontes servidas pelo próprio site (sem esperar o Google Fonts) -->
+  <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin>
   <script src="js/theme.js"></script>
   <link rel="stylesheet" href="css/style.css">
 
@@ -110,7 +110,7 @@
     <span class="scroll" aria-hidden="true">ROLE PARA EXPLORAR</span>
   </section>
 
-  <div class="portfolio-preview" id="portfolioPreview" aria-label="Projetos em destaque" hidden></div>
+  <div class="portfolio-preview" id="portfolioPreview" aria-label="Projetos em destaque"></div>
 
   <div class="trust">
     <div class="wrap"><b>JM STANDS</b><span>Projeto 3D</span><span>Produção própria</span><span>Montagem nacional</span><span>Entrega no pavilhão</span></div>
