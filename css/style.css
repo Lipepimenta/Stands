@@ -1054,3 +1054,60 @@ body.bio { background: var(--paper); color: var(--ink); background-image: radial
 @media (max-width: 700px) {
   .gallery-lightbox:has(.gallery-thumbs:not([hidden])) .gallery-stage { height: 62svh; }
 }
+
+/* ==========================================================================
+   Menu do celular e do tablet (js/menu.js) — até 1100px
+   ========================================================================== */
+.nav-toggle { display: none; }
+.nav-extras { display: none; }
+html.menu-lock { overflow: hidden; }
+@media (max-width: 1100px) {
+  #header .inner { gap: 12px; }
+  #header .inner > .btn { display: inline-flex; min-height: 44px; padding: 10px 16px; font-size: 13px; white-space: nowrap; }
+  .nav-toggle {
+    display: grid; place-content: center; gap: 5px; width: 44px; height: 44px; flex: 0 0 44px; padding: 0;
+    border: 1px solid var(--strong-line); border-radius: 50%; cursor: pointer;
+    background: color-mix(in srgb, var(--strong-surface) 88%, transparent); color: var(--strong-text);
+  }
+  .nav-toggle span { display: block; width: 18px; height: 2px; border-radius: 2px; background: currentColor; transition: transform .25s ease, opacity .2s ease; }
+  .menu-open .nav-toggle span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .menu-open .nav-toggle span:nth-child(2) { opacity: 0; }
+  .menu-open .nav-toggle span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .nav-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  #header .nav {
+    display: none; position: fixed; inset: 82px 0 auto; max-height: calc(100svh - 82px); overflow-y: auto;
+    flex-direction: column; gap: 0; padding: 8px var(--pad) 24px;
+    background: var(--strong); border-bottom: 1px solid var(--strong-line); box-shadow: 0 24px 40px #0006;
+  }
+  #header.menu-open { background: var(--strong); }
+  #header.menu-open .nav { display: flex; }
+  #header .nav a { padding: 16px 0; border-bottom: 1px solid var(--strong-line); font: 600 20px/1.2 var(--display); text-align: left; }
+  .nav-extras { display: flex; align-items: center; gap: 12px; padding-top: 20px; }
+  .nav-extras .language-control select { max-width: none; }
+}
+@media (max-width: 560px) {
+  #header .nav { inset: 70px 0 auto; max-height: calc(100svh - 70px); }
+}
+@media (max-width: 380px) {
+  #header .inner > .btn { padding: 10px 12px; font-size: 12px; }
+}
+
+/* ==========================================================================
+   Topo legível sobre qualquer foto (a foto muda pelo painel)
+   ========================================================================== */
+.hero:after {
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.62) 38%, rgba(0,0,0,.18) 72%),
+    linear-gradient(0deg, rgba(0,0,0,.55), transparent 50%),
+    linear-gradient(180deg, rgba(0,0,0,.45), transparent 28%);
+}
+.hero h1, .hero .eyebrow { text-shadow: 0 2px 24px rgba(0,0,0,.55); }
+.hero h1 em { color: #d6b07a; }
+.hero-copy { color: #e4e6e3; text-shadow: 0 1px 12px rgba(0,0,0,.7); }
+@media (max-width: 1100px) {
+  /* Texto ocupa a largura toda: escurece a foto por igual, mais forte onde fica o texto */
+  .hero:after {
+    background: linear-gradient(180deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.70) 45%, rgba(0,0,0,.80) 100%);
+  }
+}

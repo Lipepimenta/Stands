@@ -3,8 +3,9 @@
   const $ = (s, root = document) => root.querySelector(s);
   const $$ = (s, root = document) => [...root.querySelectorAll(s)];
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const media = (src, alt, eager) => src
-    ? `<img src="${esc(src)}" alt="${esc(alt)}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">`
+  // Usa as versões menores das fotos (js/projects.js → srcset) quando existirem
+  const media = (src, alt, eager, sizes) => src
+    ? window.JM_PROJECTS.media(src, alt, eager, sizes)
     : '<div class="placeholder" aria-hidden="true"></div>';
 
   /* Imagens fixas (hero e estrutura) --------------------------------------- */
@@ -39,7 +40,9 @@
       used.add(shot.src);
       return [p, shot];
     }));
-    if (hero) $('.hero-media').innerHTML = media(hero.src, hero.alt, true);
+    // O worker.js já coloca a foto de abertura no HTML (carrega antes do JS); só troca se for outra
+    const heroNow = $('.hero-media img');
+    if (hero && !(heroNow && heroNow.getAttribute('src') === hero.src)) $('.hero-media').innerHTML = media(hero.src, hero.alt, true, '100vw');
 
     $('#projectList').hidden = destaques.length === 0;
     $('#solutionGrid').hidden = destaques.length > 0;
@@ -57,14 +60,14 @@
     $('#portfolioPreview').hidden = faixa.length === 0;
     $('#portfolioPreview').innerHTML = faixa.map(p => `
       <button type="button" data-gallery="${onHome.indexOf(p)}" aria-label="Ver fotos do projeto">
-        ${media(cover.get(p).src, cover.get(p).alt || p.title)}
+        ${media(cover.get(p).src, cover.get(p).alt || p.title, false, '(max-width: 700px) 50vw, 34vw')}
         ${p.concept ? '<small class="concept-label">Visual conceitual</small>' : ''}
         <span>${esc(p.client || p.title)} <i aria-hidden="true">↗</i></span>
       </button>`).join('');
     $('#projectList').innerHTML = destaques.map(p => `
       <article class="portfolio-card reveal">
         <button class="portfolio-image" type="button" data-gallery="${onHome.indexOf(p)}" aria-label="Ver fotos do projeto">
-          ${media(cover.get(p).src, cover.get(p).alt || p.title)}
+          ${media(cover.get(p).src, cover.get(p).alt || p.title, false, '(max-width: 700px) 100vw, 50vw')}
           ${p.concept ? '<span class="concept-label">Visual conceitual</span>' : ''}
           <span class="portfolio-count"><b>${String(p.shots.length).padStart(2, '0')}</b> <span>${p.shots.length === 1 ? 'FOTO' : 'FOTOS'}</span> ↗</span>
         </button>

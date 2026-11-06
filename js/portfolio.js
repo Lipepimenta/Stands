@@ -42,7 +42,7 @@
       return `
         <article class="pf-card" id="${esc(p.id)}">
           <button class="pf-media" type="button" data-pf-gallery="${i}" aria-label="Ver fotos do projeto">
-            ${media(p.shots[0].src, p.shots[0].alt || p.title)}
+            ${media(p.shots[0].src, p.shots[0].alt || p.title, false, '(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw')}
             ${p.concept ? '<span class="concept-label">Visual conceitual</span>' : ''}
             <span class="portfolio-count"><b>${String(p.shots.length).padStart(2, '0')}</b> <span>${p.shots.length === 1 ? 'FOTO' : 'FOTOS'}</span> ↗</span>
           </button>

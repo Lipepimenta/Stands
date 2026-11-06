@@ -12,6 +12,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 import heicConvert from 'heic-convert';
+import { gerarMiniaturas } from './miniaturas.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const INBOX = path.join(ROOT, 'fotos-para-subir');
@@ -124,6 +125,7 @@ async function main() {
 
   if (!written.length) return say('\nNada para enviar.');
   fs.writeFileSync(DATA, JSON.stringify(projects, null, 2) + '\n');
+  await gerarMiniaturas({ log: say }); // versões de 640/1024 px para celular e tablet
   say(`\nFotos: ${kb(totalIn)} → ${kb(totalOut)} (${Math.round(100 - (totalOut / totalIn) * 100)}% menores)`);
 
   // 3) Publica tudo num único envio
@@ -131,6 +133,7 @@ async function main() {
     say('\nPublicando…');
     try {
       git('add', '--', path.relative(ROOT, DATA), ...written.map(w => path.relative(ROOT, w)));
+      git('add', '-A', '--', 'assets/img/_m', 'content/miniaturas.json');
       const msg = [created.length && `${created.length} projeto(s) novo(s)`, updated.length && `fotos em ${updated.length} projeto(s)`].filter(Boolean).join(' e ');
       git('commit', '-m', `Robô: ${msg} (${written.length} fotos)`);
       git('push', '--quiet');

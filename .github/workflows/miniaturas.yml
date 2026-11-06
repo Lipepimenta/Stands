@@ -1,0 +1,44 @@
+# Gera as versões menores das fotos (640/1024 px) quando entram fotos novas pelo painel.
+# O robô de fotos do computador já faz isso sozinho; aqui cobre o que vem do painel.
+# Commits feitos com o GITHUB_TOKEN não disparam esta Action de novo (sem laço).
+name: Miniaturas das fotos
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/img/projetos/**'
+      - 'assets/img/home/**'
+      - 'content/projetos.json'
+      - 'content/home.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: miniaturas
+  cancel-in-progress: false
+
+jobs:
+  miniaturas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Instalar o robô
+        working-directory: ferramentas/robo-fotos
+        run: npm ci --omit=dev --no-audit --no-fund
+      - name: Gerar miniaturas
+        run: node ferramentas/robo-fotos/miniaturas.mjs
+      - name: Publicar
+        run: |
+          git add -A assets/img/_m content/miniaturas.json
+          if git diff --cached --quiet; then echo "Nada novo."; exit 0; fi
+          git config user.name "robo-miniaturas"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Robô: miniaturas das fotos"
+          git pull --rebase --quiet
+          git push

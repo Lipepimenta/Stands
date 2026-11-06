@@ -31,8 +31,9 @@
   // Os de js/config.js continuam valendo (e são o que aparece abrindo o arquivo direto no computador).
   const load = file => fetch(file, { cache: 'no-cache' }).then(r => r.ok ? r.json() : []).catch(() => []);
   const loadObj = file => load(file).then(d => d && !Array.isArray(d) ? d : {});
-  const api = { concept: true, list: [], clients: [], home: {} };
-  const ready = Promise.all([load('content/projetos.json'), load('content/clientes.json'), loadObj('content/home.json')]).then(([projects, clients, home]) => {
+  const api = { concept: true, list: [], clients: [], home: {}, variants: {} };
+  const ready = Promise.all([load('content/projetos.json'), load('content/clientes.json'), loadObj('content/home.json'), loadObj('content/miniaturas.json')]).then(([projects, clients, home, variants]) => {
+    api.variants = variants; // fotos menores para celular/tablet (ferramentas/robo-fotos/miniaturas.mjs)
     const real = [...(Array.isArray(projects) ? projects : []), ...(SITE.projects || [])]
       .filter(p => p && !p.hidden && photos(p).length);
     api.concept = real.length === 0;
@@ -56,7 +57,18 @@
   const meta = p => [[p.event, p.year].filter(Boolean).join(' '), [p.city, p.state].filter(Boolean).join(' · '), p.area, format(p), p.build, p.objective]
     .filter(Boolean).map(String);
 
-  const media = (src, alt, eager) => `<img src="${esc(src)}" alt="${esc(alt)}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">`;
+  /* Foto com versões menores: o navegador baixa a largura certa para a tela.
+     assets/img/projetos/x.webp → assets/img/_m/projetos/x-640.webp e x-1024.webp (lista em content/miniaturas.json).
+     Foto sem miniatura (recém-enviada pelo painel) sai só no tamanho original. */
+  const variant = (src, w) => src.replace(/^assets\/img\//, 'assets/img/_m/').replace(/\.[^.]+$/, `-${w}.webp`);
+  const srcset = (src, sizes = '(max-width: 700px) 100vw, 50vw') => {
+    const v = api.variants[src];
+    if (!Array.isArray(v) || v.length < 2) return '';
+    const [full, ...widths] = v;
+    const list = [...widths.map(w => `${encodeURI(variant(src, w))} ${w}w`), `${encodeURI(src)} ${full}w`].join(', ');
+    return ` srcset="${esc(list)}" sizes="${esc(sizes)}"`;
+  };
+  const media = (src, alt, eager, sizes) => `<img${srcset(src, sizes)} src="${esc(src)}" alt="${esc(alt)}"${eager ? ' fetchpriority="high"' : ' loading="lazy"'} decoding="async">`;
 
   /* Galeria ampliada ------------------------------------------------------- */
   let gallery, current = [], projectIndex = 0, imageIndex = 0, previousFocus = null, startX = null;
@@ -74,7 +86,7 @@
     thumbs.hidden = items.length < 2;
     if (thumbs.dataset.project !== p.id) {
       thumbs.dataset.project = p.id;
-      thumbs.innerHTML = items.map((shot, i) => `<button type="button" data-shot="${i}" aria-label="Foto ${i + 1}">${media(shot.src, '')}</button>`).join('');
+      thumbs.innerHTML = items.map((shot, i) => `<button type="button" data-shot="${i}" aria-label="Foto ${i + 1}">${media(shot.src, '', false, '96px')}</button>`).join('');
     }
     $$('button', thumbs).forEach((b, i) => b.toggleAttribute('aria-current', i === imageIndex));
     const active = $(`[data-shot="${imageIndex}"]`, thumbs);
@@ -151,6 +163,6 @@
     $('.gallery-close', gallery).focus();
   };
 
-  Object.assign(api, { ready, photos, meta, format, media, esc, open, close });
+  Object.assign(api, { ready, photos, meta, format, media, srcset, esc, open, close });
   window.JM_PROJECTS = api;
 })();

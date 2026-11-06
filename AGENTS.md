@@ -16,6 +16,9 @@ This repository contains a static corporate website for JM Stands. It is built w
 - `assets/` — images, icons, and static media
 - `projetos.html`, `js/projects.js`, `js/portfolio.js` — portfolio page, shared project data loading and gallery
 - `ENVIAR-FOTOS.bat` + `ferramentas/robo-fotos/` — optional local Node tool (sharp) that converts photos from the gitignored `fotos-para-subir/` inbox and commits them to `content/projetos.json`; it is not part of the site runtime
+- `ferramentas/robo-fotos/miniaturas.mjs` — generates 640/1024 px copies of every photo in `assets/img/_m/` and lists them in `content/miniaturas.json` (used for srcset); runs from the photo robot and from `.github/workflows/miniaturas.yml` on pushes that add photos
+- `js/menu.js` — mobile/tablet menu (≤1100px): hamburger panel; theme and language controls move into it
+- `worker.js` — redirects to https://www and injects the home hero photo (from `content/home.json`) into index.html so it loads before JS
 - `painel/` — main content panel (plain HTML/CSS/JS): GitHub login via the Netlify OAuth provider, step-by-step project wizard, photo editor; each publish is one commit to `content/*.json` and images under `assets/img/`
 - `admin/` (Sveltia CMS) — older backup panel; writes the same `content/*.json` files
 
