@@ -4,12 +4,15 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "jm-stands",
+  "main": "worker.js",
   "compatibility_date": "2026-10-01",
   "routes": [
     { "pattern": "www.jmproducaostands.com.br", "custom_domain": true },
     { "pattern": "jmproducaostands.com.br", "custom_domain": true }
   ],
   "assets": {
+    "binding": "ASSETS",
+    "run_worker_first": true,
     "directory": ".",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "404-page"
